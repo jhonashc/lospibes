@@ -1,5 +1,6 @@
 package com.example.lospibes.modules.home.home.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,19 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.common.components.CategoryTabList
 import com.example.lospibes.common.components.HorizontalProductList
-import com.example.lospibes.common.components.VerticalProductList
 import com.example.lospibes.utils.Constants.categories
+import com.example.lospibes.utils.Constants.hamburgers
 import com.example.lospibes.utils.Constants.products
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNavigateToDetail: (productId: String) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier
+                .padding(vertical = 20.dp)
+                .clickable { onNavigateToDetail("1") }
         ) {
             Content()
         }
@@ -35,6 +40,8 @@ fun Content() {
     Spacer(modifier = Modifier.height(16.dp))
     PopularSection()
     Spacer(modifier = Modifier.height(26.dp))
+    RecentSection()
+    Spacer(modifier = Modifier.height(26.dp))
     PromotionSection()
 }
 
@@ -43,7 +50,10 @@ fun CategorySection() {
     var selectedCategory by remember { mutableStateOf(categories[0]) }
 
     Text(
-        text = "Categorias",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        text = "Categorías \uD83C\uDFF7️",
         style = MaterialTheme.typography.titleMedium,
     )
 
@@ -61,11 +71,13 @@ fun CategorySection() {
 @Composable
 fun PopularSection() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Popular \uD83D\uDD25",
+            text = "Populares \uD83D\uDD25",
             style = MaterialTheme.typography.titleMedium,
         )
         Text(
@@ -81,9 +93,35 @@ fun PopularSection() {
 }
 
 @Composable
+fun RecentSection() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Hamgurguesas \uD83C\uDF54",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = "See all",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+
+    Spacer(modifier = Modifier.height(22.dp))
+
+    HorizontalProductList(products = hamburgers)
+}
+
+@Composable
 fun PromotionSection() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
@@ -99,5 +137,5 @@ fun PromotionSection() {
 
     Spacer(modifier = Modifier.height(22.dp))
 
-    VerticalProductList(products = products)
+    HorizontalProductList(products = products)
 }

@@ -42,7 +42,7 @@ fun HomeRootScreen() {
                     NavItem(
                         name = stringResource(R.string.account_item),
                         route = HomeDestinations.AccountScreen.route,
-                        icon = Icons.Rounded.Person,
+                        icon = Icons.Rounded.AccountCircle,
                     ),
                 )
             )

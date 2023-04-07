@@ -1,12 +1,8 @@
 package com.example.lospibes.common.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,8 +19,16 @@ fun HorizontalProductList(
             .wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        items(products) { product ->
-            ProductCard(product = product)
+        itemsIndexed(products) { index, product ->
+            Row(
+                modifier = Modifier.padding(
+                    start = if (index == 0) 20.dp else 0.dp,
+                    end = if (product.id == products.last().id) 20.dp else 0.dp
+                )
+            )
+            {
+                ProductCard(product = product)
+            }
         }
     }
 }

@@ -77,7 +77,7 @@ fun ProductCard(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                modifier = Modifier.alpha(0.8f),
+                modifier = Modifier.alpha(0.6f),
                 text = product.description ?: "empty",
                 fontWeight = FontWeight.Normal,
                 style = MaterialTheme.typography.bodySmall,
@@ -90,7 +90,7 @@ fun ProductCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp),
+                    .padding(top = 12.dp, bottom = 18.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -105,7 +105,7 @@ fun ProductCard(
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(color = MaterialTheme.colorScheme.primary)
-                        .padding(4.dp)
+                        .padding(8.dp)
                         .clickable { },
                     contentAlignment = Alignment.Center
                 ) {
@@ -177,7 +177,7 @@ fun ProductCardDetail(
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                        modifier = Modifier.alpha(0.8f),
+                        modifier = Modifier.alpha(0.6f),
                         text = product.description ?: "empty",
                         fontWeight = FontWeight.Normal,
                         style = MaterialTheme.typography.bodySmall,
