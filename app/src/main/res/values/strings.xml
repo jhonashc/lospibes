@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LosPibes</string>
+
+    <!-- Nav items  -->
+    <string name="home_item">Home</string>
+    <string name="explore_item">Explorar</string>
+    <string name="cart_item">Carrito</string>
+    <string name="account_item">Cuenta</string>
 </resources>

@@ -10,6 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.lospibes.navigation.root.RootNavGraph
 import com.example.lospibes.ui.theme.LosPibesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,22 +26,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navHostController: NavHostController = rememberNavController()
+                    RootNavGraph(navController = navHostController)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    LosPibesTheme {
-        Greeting("Android")
     }
 }
