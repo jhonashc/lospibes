@@ -1,13 +1,19 @@
 package com.example.lospibes.modules.home.home.presentation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.common.components.CategoryTabList
 import com.example.lospibes.common.components.HorizontalProductList
@@ -36,6 +42,8 @@ fun HomeScreen(
 
 @Composable
 fun Content() {
+    Header()
+    Spacer(modifier = Modifier.height(16.dp))
     CategorySection()
     Spacer(modifier = Modifier.height(16.dp))
     PopularSection()
@@ -43,6 +51,56 @@ fun Content() {
     RecentSection()
     Spacer(modifier = Modifier.height(26.dp))
     PromotionSection()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Header() {
+    var searchedText by remember { mutableStateOf("") }
+
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        shape = RoundedCornerShape(24.dp),
+        singleLine = true,
+        value = searchedText,
+        onValueChange = { newSearch ->
+            searchedText = newSearch
+        },
+        placeholder = {
+            Text(
+                text = "Buscar",
+                color = MaterialTheme.colorScheme.outline
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search",
+                tint = MaterialTheme.colorScheme.outline
+            )
+        },
+        trailingIcon = {
+            Box(
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primary)
+            ) {
+                IconButton(
+                    onClick = { /* TODO */ }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
+                        contentDescription = "Filter",
+                        tint = MaterialTheme.colorScheme.background
+                    )
+                }
+            }
+        },
+    )
 }
 
 @Composable
@@ -125,7 +183,7 @@ fun PromotionSection() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Promociones ⏳",
+            text = "Promociones ⏱️",
             style = MaterialTheme.typography.titleMedium,
         )
         Text(
