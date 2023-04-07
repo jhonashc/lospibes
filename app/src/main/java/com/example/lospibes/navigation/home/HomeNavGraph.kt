@@ -5,9 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.modules.home.account.presentation.AccountScreen
-import com.example.lospibes.modules.home.cart.presentation.CartScreen
-import com.example.lospibes.modules.home.explore.presentation.ExploreScreen
+import com.example.lospibes.modules.home.favorite.presentation.FavoriteScreen
 import com.example.lospibes.modules.home.home.presentation.HomeScreen
+import com.example.lospibes.modules.home.order.presentation.OrderScreen
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 
 @Composable
@@ -26,15 +26,15 @@ fun HomeNavGraph(
         }
 
         composable(
-            route = HomeDestinations.CartScreen.route
+            route = HomeDestinations.OrderScreen.route
         ) {
-            CartScreen()
+            OrderScreen()
         }
 
         composable(
-            route = HomeDestinations.ExploreScreen.route
+            route = HomeDestinations.FavoriteScreen.route
         ) {
-            ExploreScreen()
+            FavoriteScreen()
         }
 
         composable(

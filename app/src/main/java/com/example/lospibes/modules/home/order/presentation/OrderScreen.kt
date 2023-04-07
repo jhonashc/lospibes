@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.cart.presentation
+package com.example.lospibes.modules.home.order.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,12 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CartScreen() {
+fun OrderScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Cart")
+        Text(text = "Orden")
     }
 }
