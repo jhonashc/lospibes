@@ -42,42 +42,55 @@ object Constants {
         Category(
             id = "100",
             name = "All",
+            code = "\uD83D\uDECE️",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "1",
             name = "Hamburger",
+            code = "\uD83C\uDF54",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "2",
             name = "Drinks",
+             code = "\uD83E\uDD64",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "3",
             name = "Pizza",
+             code = "\uD83C\uDF55",
             createdAt = date,
             updatedAt = date
-        ),
-        Category(
+        ),Category(
             id = "4",
-            name = "Hot dogs",
+            name = "Cocktail",
+             code = "\uD83C\uDF79",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "5",
+            name = "Hot dogs",
+             code = "\uD83C\uDF2D",
+            createdAt = date,
+            updatedAt = date
+        ),
+        Category(
+            id = "6",
             name = "Tacos",
+             code = "\uD83C\uDF2E",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "46",
             name = "Wings",
+             code = "\uD83C\uDF57",
             createdAt = date,
             updatedAt = date
         )
