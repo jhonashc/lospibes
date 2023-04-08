@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.detail.presentation
+package com.example.lospibes.modules.home.details.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,7 @@ import com.example.lospibes.utils.Constants.hamburgers
 import com.example.lospibes.utils.Constants.products
 
 @Composable
-fun DetailScreen(
+fun DetailsScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
@@ -105,14 +105,21 @@ fun Body(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Button(
-                    onClick = { /*TODO*/ },
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowLeft,
-                        contentDescription = "Subtract",
-                        tint = MaterialTheme.colorScheme.background
-                    )
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowLeft,
+                            contentDescription = "Subtract",
+                            tint = MaterialTheme.colorScheme.background
+                        )
+                    }
                 }
 
                 Text(
@@ -121,14 +128,21 @@ fun Body(
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                Button(
-                    onClick = { /*TODO*/ },
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowRight,
-                        contentDescription = "Subtract",
-                        tint = MaterialTheme.colorScheme.background
-                    )
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowRight,
+                            contentDescription = "Add",
+                            tint = MaterialTheme.colorScheme.background
+                        )
+                    }
                 }
             }
         }
@@ -146,7 +160,8 @@ fun Body(
         CategoryTabList(
             categories = products[0].categories,
             selectedCategory = products[0].categories[0],
-            onCategorySelected = {}
+            onCategorySelected = {},
+            onNavigateToSearch = {}
         )
 
         Spacer(modifier = Modifier.height(18.dp))

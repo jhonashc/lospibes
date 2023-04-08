@@ -75,7 +75,9 @@ fun SearchTextField(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                onSubmit(value)
+                if (value.isNotEmpty()) {
+                    onSubmit(value)
+                }
             }
         )
     )

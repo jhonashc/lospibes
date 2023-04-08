@@ -6,13 +6,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.common.domain.model.Product
+import com.example.lospibes.common.domain.model.Combo
 
 @Composable
-fun ProductList(
-    products: List<Product>,
-    favoriteProducts: List<Product> = listOf(),
-    onNavigateToProductDetails: (productId: String) -> Unit
+fun ComboList(
+    combos: List<Combo>,
+    onNavigateToComboDetails: (comboId: String) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -20,18 +19,18 @@ fun ProductList(
             .wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        itemsIndexed(products) { index, product ->
+        itemsIndexed(combos) { index, combo ->
             Row(
                 modifier = Modifier.padding(
                     start = if (index == 0) 20.dp else 0.dp,
-                    end = if (product.id == products.last().id) 20.dp else 0.dp
+                    end = if (combo.id == combos.last().id) 20.dp else 0.dp
                 )
             )
             {
-                ProductCard(
-                    product = product,
+                ComboCard(
+                    combo = combo,
                     onClick = {
-                        onNavigateToProductDetails(product.id)
+                        onNavigateToComboDetails(combo.id)
                     }
                 )
             }

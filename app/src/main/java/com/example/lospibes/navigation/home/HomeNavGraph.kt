@@ -11,7 +11,6 @@ import com.example.lospibes.modules.home.order.presentation.OrderScreen
 import com.example.lospibes.navigation.home.screens.ScreensDestinations
 import com.example.lospibes.navigation.home.screens.screensNavGraph
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
-import com.example.lospibes.utils.Constants.HOME_SCREENS_GRAPH_ROUTE
 
 @Composable
 fun HomeNavGraph(
@@ -37,15 +36,19 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.FavoriteScreen.route
         ) {
-            FavoriteScreen()
+            FavoriteScreen(
+                onNavigateToProductDetails = { productId ->
+                    navController.navigate("${ScreensDestinations.DetailsScreen.route}/${productId}")
+                }
+            )
         }
 
         composable(
             route = HomeDestinations.HomeScreen.route
         ) {
             HomeScreen(
-                onNavigateToDetail = {
-                    navController.navigate(ScreensDestinations.DetailScreen.route)
+                onNavigateToProductDetails = { productId ->
+                    navController.navigate("${ScreensDestinations.DetailsScreen.route}/${productId}")
                 },
                 onNavigateToSearch = { query ->
                     navController.navigate("${ScreensDestinations.SearchScreen.route}?q=${query}")

@@ -19,12 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.lospibes.common.domain.model.Product
+import com.example.lospibes.common.domain.model.Combo
 
 @Composable
-fun ProductCard(
-    product: Product,
-    onClick: () -> Unit,
+fun ComboCard(
+    combo: Combo,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -44,8 +44,8 @@ fun ProductCard(
         ) {
             AsyncImage(
                 modifier = Modifier.size(140.dp),
-                model = product.imageUrl,
-                contentDescription = product.name,
+                model = combo.imageUrl,
+                contentDescription = combo.name,
                 contentScale = ContentScale.Fit,
             )
 
@@ -68,7 +68,7 @@ fun ProductCard(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = product.name,
+                text = combo.name,
                 style = MaterialTheme.typography.titleMedium,
                 overflow = TextOverflow.Ellipsis,
                 color = MaterialTheme.colorScheme.primary,
@@ -79,7 +79,7 @@ fun ProductCard(
 
             Text(
                 modifier = Modifier.alpha(0.6f),
-                text = product.description ?: "empty",
+                text = combo.description ?: "empty",
                 fontWeight = FontWeight.Normal,
                 style = MaterialTheme.typography.bodySmall,
                 overflow = TextOverflow.Ellipsis,
@@ -96,7 +96,7 @@ fun ProductCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$${product.price}",
+                    text = "$${combo.price}",
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary

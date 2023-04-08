@@ -1,10 +1,8 @@
 package com.example.lospibes.modules.home.root
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -46,8 +44,7 @@ fun HomeRootScreen() {
                     ),
                 )
             )
-        },
-        modifier = Modifier.fillMaxSize()
+        }
     ) {
         HomeNavGraph(navController = navController)
     }

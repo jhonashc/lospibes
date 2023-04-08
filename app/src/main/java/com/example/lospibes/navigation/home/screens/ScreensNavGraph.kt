@@ -2,19 +2,32 @@ package com.example.lospibes.navigation.home.screens
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.example.lospibes.modules.home.detail.presentation.DetailScreen
+import com.example.lospibes.modules.home.details.presentation.DetailsScreen
 import com.example.lospibes.modules.home.search.SearchScreen
 import com.example.lospibes.utils.Constants.HOME_SCREENS_GRAPH_ROUTE
 
 fun NavGraphBuilder.screensNavGraph(navController: NavHostController) {
     navigation(
         route = HOME_SCREENS_GRAPH_ROUTE,
-        startDestination = ScreensDestinations.DetailScreen.route
+        startDestination = ScreensDestinations.DetailsScreen.route
     ) {
         composable(
-            route = ScreensDestinations.DetailScreen.route
+            route = "${ScreensDestinations.DetailsScreen.route}/{productId}",
+            arguments = listOf(
+                navArgument("productId") {
+                    defaultValue = ""
+                    type = NavType.StringType
+                }
+            )
         ) {
-            DetailScreen(productId = "1")
+            DetailsScreen(
+                onNavigateToHome = {
+                    navController.popBackStack()
+                },
+                onNavigateToProductDetails = { productId ->
+                    navController.navigate("${ScreensDestinations.DetailsScreen.route}/${productId}")
+                }
+            )
         }
 
         composable(
@@ -26,7 +39,11 @@ fun NavGraphBuilder.screensNavGraph(navController: NavHostController) {
                 }
             )
         ) {
-            SearchScreen()
+            SearchScreen(
+                onNavigateToHome = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

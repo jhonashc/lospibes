@@ -12,7 +12,8 @@ import com.example.lospibes.common.domain.model.Category
 fun CategoryTabList(
     categories: List<Category>,
     selectedCategory: Category,
-    onCategorySelected: (Category) -> Unit
+    onCategorySelected: (Category) -> Unit,
+    onNavigateToSearch: (category: String) -> Unit
 ) {
     ScrollableTabRow(
         selectedTabIndex = categories.indexOf(selectedCategory),
@@ -25,7 +26,10 @@ fun CategoryTabList(
             CategoryTab(
                 category = category,
                 isSelected = category.id == selectedCategory.id,
-                onClick = { onCategorySelected(category) },
+                onClick = {
+                    onCategorySelected(category)
+                    onNavigateToSearch(category.name)
+                },
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)
             )
         }
