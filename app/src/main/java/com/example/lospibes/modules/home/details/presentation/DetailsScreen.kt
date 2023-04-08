@@ -17,30 +17,45 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.lospibes.common.components.CategoryTabList
-import com.example.lospibes.common.components.HorizontalProductList
+import com.example.lospibes.common.components.*
 import com.example.lospibes.utils.Constants.hamburgers
 import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun DetailScreen(
-    productId: String
+    onNavigateToHome: () -> Unit,
+    onNavigateToProductDetails: (productId: String) -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    StandardScaffold(
+        topAppBar = {
+            StandardTopAppBar(
+                title = "Detalles",
+                onNavigateToHome = onNavigateToHome
+            )
+        },
     ) {
-        Column {
-            Content()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Column {
+                Content(
+                    onNavigateToProductDetails = onNavigateToProductDetails
+                )
+            }
         }
     }
 }
 
 @Composable
-fun Content() {
+fun Content(
+    onNavigateToProductDetails: (productId: String) -> Unit
+) {
     Header()
-    Body()
+    Body(
+        onNavigateToProductDetails = onNavigateToProductDetails
+    )
 }
 
 @Composable
@@ -56,7 +71,9 @@ fun Header() {
 }
 
 @Composable
-fun Body() {
+fun Body(
+    onNavigateToProductDetails: (productId: String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,9 +174,12 @@ fun Body() {
 
         Spacer(modifier = Modifier.height(22.dp))
 
-        HorizontalProductList(products = hamburgers)
+        ProductList(
+            products = hamburgers,
+            onNavigateToProductDetails = onNavigateToProductDetails
+        )
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(46.dp))
 
         Row(
             modifier = Modifier
