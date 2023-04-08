@@ -1,29 +1,25 @@
 package com.example.lospibes.modules.home.home.presentation
 
-import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.common.components.CategoryTabList
 import com.example.lospibes.common.components.HorizontalProductList
+import com.example.lospibes.common.components.SearchTextField
 import com.example.lospibes.utils.Constants.categories
 import com.example.lospibes.utils.Constants.hamburgers
 import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun HomeScreen(
-    onNavigateToDetail: (productId: String) -> Unit
+    onNavigateToDetail: (productId: String) -> Unit,
+    onNavigateToSearch: (value: String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -35,15 +31,17 @@ fun HomeScreen(
                 .padding(vertical = 20.dp)
                 .clickable { onNavigateToDetail("1") }
         ) {
-            Content()
+            Content(onNavigateToSearch = onNavigateToSearch)
         }
     }
 }
 
 @Composable
-fun Content() {
-    Header()
-    Spacer(modifier = Modifier.height(16.dp))
+fun Content(
+    onNavigateToSearch: (value: String) -> Unit
+) {
+    Header(onNavigateToSearch = onNavigateToSearch)
+    Spacer(modifier = Modifier.height(26.dp))
     CategorySection()
     Spacer(modifier = Modifier.height(16.dp))
     PopularSection()
@@ -53,53 +51,14 @@ fun Content() {
     PromotionSection()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header() {
-    var searchedText by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(24.dp),
-        singleLine = true,
-        value = searchedText,
-        onValueChange = { newSearch ->
-            searchedText = newSearch
-        },
-        placeholder = {
-            Text(
-                text = "Buscar",
-                color = MaterialTheme.colorScheme.outline
-            )
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = "Search",
-                tint = MaterialTheme.colorScheme.outline
-            )
-        },
-        trailingIcon = {
-            Box(
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-            ) {
-                IconButton(
-                    onClick = { /* TODO */ }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = "Filter",
-                        tint = MaterialTheme.colorScheme.background
-                    )
-                }
-            }
-        },
+fun Header(
+    onNavigateToSearch: (value: String) -> Unit
+) {
+    SearchTextField(
+        onSubmit = { value ->
+            onNavigateToSearch(value)
+        }
     )
 }
 

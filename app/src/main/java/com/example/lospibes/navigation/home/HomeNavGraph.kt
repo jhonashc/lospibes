@@ -8,9 +8,10 @@ import com.example.lospibes.modules.home.account.presentation.AccountScreen
 import com.example.lospibes.modules.home.favorite.presentation.FavoriteScreen
 import com.example.lospibes.modules.home.home.presentation.HomeScreen
 import com.example.lospibes.modules.home.order.presentation.OrderScreen
-import com.example.lospibes.navigation.detail.detailNavGraph
-import com.example.lospibes.utils.Constants.DETAIL_GRAPH_ROUTE
+import com.example.lospibes.navigation.home.screens.ScreensDestinations
+import com.example.lospibes.navigation.home.screens.screensNavGraph
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
+import com.example.lospibes.utils.Constants.HOME_SCREENS_GRAPH_ROUTE
 
 @Composable
 fun HomeNavGraph(
@@ -44,11 +45,14 @@ fun HomeNavGraph(
         ) {
             HomeScreen(
                 onNavigateToDetail = {
-                    navController.navigate(DETAIL_GRAPH_ROUTE)
+                    navController.navigate(ScreensDestinations.DetailScreen.route)
+                },
+                onNavigateToSearch = { query ->
+                    navController.navigate("${ScreensDestinations.SearchScreen.route}?q=${query}")
                 }
             )
         }
 
-        detailNavGraph(navController = navController)
+        screensNavGraph(navController = navController)
     }
 }
