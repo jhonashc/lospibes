@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.root
+package com.example.lospibes.features.home.root
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*

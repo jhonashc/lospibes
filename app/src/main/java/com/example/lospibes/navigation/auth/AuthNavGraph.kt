@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.lospibes.modules.auth.presentation.login.LoginScreen
-import com.example.lospibes.modules.auth.presentation.register.RegisterScreen
+import com.example.lospibes.features.auth.presentation.login.LoginScreen
+import com.example.lospibes.features.auth.presentation.register.RegisterScreen
 import com.example.lospibes.utils.Constants.AUTH_GRAPH_ROUTE
 
 fun NavGraphBuilder.authNavGraph(

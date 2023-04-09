@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.home.presentation
+package com.example.lospibes.features.home.home.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +14,7 @@ import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun HomeScreen(
+    onNavigateToComboDetails: (comboId: String) -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit,
     onNavigateToSearch: (value: String) -> Unit,
 ) {
@@ -26,6 +27,7 @@ fun HomeScreen(
             modifier = Modifier.padding(vertical = 20.dp)
         ) {
             Content(
+                onNavigateToComboDetails = onNavigateToComboDetails,
                 onNavigateToProductDetails = onNavigateToProductDetails,
                 onNavigateToSearch = onNavigateToSearch
             )
@@ -34,7 +36,8 @@ fun HomeScreen(
 }
 
 @Composable
-fun Content(
+private fun Content(
+    onNavigateToComboDetails: (comboId: String) -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit,
     onNavigateToSearch: (value: String) -> Unit
 ) {
@@ -54,11 +57,13 @@ fun Content(
 
     Spacer(modifier = Modifier.height(26.dp))
 
-    CombosSection()
+    CombosSection(
+        onNavigateToComboDetails = onNavigateToComboDetails
+    )
 }
 
 @Composable
-fun Header(
+private fun Header(
     onNavigateToSearch: (value: String) -> Unit
 ) {
     SearchTextField(
@@ -69,7 +74,7 @@ fun Header(
 }
 
 @Composable
-fun CategorySection(
+private fun CategorySection(
     onNavigateToSearch: (category: String) -> Unit
 ) {
     var selectedCategory by remember { mutableStateOf(categories[0]) }
@@ -105,7 +110,7 @@ fun CategorySection(
 }
 
 @Composable
-fun PopularSection(
+private fun PopularSection(
     onNavigateToProductDetails: (productId: String) -> Unit,
 ) {
     Row(
@@ -130,12 +135,15 @@ fun PopularSection(
 
     ProductList(
         products = products,
+        favoriteProducts = products.subList(0, 2),
         onNavigateToProductDetails = onNavigateToProductDetails
     )
 }
 
 @Composable
-fun CombosSection() {
+private fun CombosSection(
+    onNavigateToComboDetails: (comboId: String) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -158,6 +166,7 @@ fun CombosSection() {
 
     ComboList(
         combos = combos,
-        onNavigateToComboDetails = {}
+        favoriteCombos = combos.subList(0, 2),
+        onNavigateToComboDetails = onNavigateToComboDetails
     )
 }

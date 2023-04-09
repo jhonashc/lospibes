@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.order.presentation
+package com.example.lospibes.features.home.order.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.search
+package com.example.lospibes.features.home.details.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,7 +12,7 @@ import com.example.lospibes.common.components.ProductList
 import com.example.lospibes.common.components.SearchTextField
 import com.example.lospibes.common.components.StandardScaffold
 import com.example.lospibes.common.components.StandardTopAppBar
-import com.example.lospibes.utils.Constants
+import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun SearchScreen(
@@ -41,21 +41,21 @@ fun SearchScreen(
 }
 
 @Composable
-fun Content() {
+private fun Content() {
     Header()
     Spacer(modifier = Modifier.height(26.dp))
     RecentSection()
 }
 
 @Composable
-fun Header() {
+private fun Header() {
     SearchTextField(
         onSubmit = {}
     )
 }
 
 @Composable
-fun RecentSection() {
+private fun RecentSection() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,7 +76,8 @@ fun RecentSection() {
     Spacer(modifier = Modifier.height(22.dp))
 
     ProductList(
-        products = Constants.products,
+        products = products,
+        favoriteProducts = products.subList(0, 2),
         onNavigateToProductDetails = {}
     )
 }

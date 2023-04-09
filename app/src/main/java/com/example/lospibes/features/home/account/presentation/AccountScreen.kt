@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.auth.presentation.login
+package com.example.lospibes.features.home.account.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,12 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LoginScreen() {
+fun AccountScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Login")
+        Text(text = "Account")
     }
 }

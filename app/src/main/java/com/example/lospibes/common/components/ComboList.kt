@@ -11,6 +11,7 @@ import com.example.lospibes.common.domain.model.Combo
 @Composable
 fun ComboList(
     combos: List<Combo>,
+    favoriteCombos: List<Combo> = listOf(),
     onNavigateToComboDetails: (comboId: String) -> Unit
 ) {
     LazyRow(
@@ -29,6 +30,7 @@ fun ComboList(
             {
                 ComboCard(
                     combo = combo,
+                    isFavorite = favoriteCombos.contains(combo),
                     onClick = {
                         onNavigateToComboDetails(combo.id)
                     }

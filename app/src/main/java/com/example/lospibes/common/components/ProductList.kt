@@ -30,6 +30,7 @@ fun ProductList(
             {
                 ProductCard(
                     product = product,
+                    isFavorite = favoriteProducts.contains(product),
                     onClick = {
                         onNavigateToProductDetails(product.id)
                     }

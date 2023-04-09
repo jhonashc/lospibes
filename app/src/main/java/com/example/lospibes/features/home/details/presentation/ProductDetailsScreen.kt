@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.details.presentation
+package com.example.lospibes.features.home.details.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,7 @@ import com.example.lospibes.utils.Constants.hamburgers
 import com.example.lospibes.utils.Constants.products
 
 @Composable
-fun DetailsScreen(
+fun ProductDetailsScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
@@ -49,7 +49,7 @@ fun DetailsScreen(
 }
 
 @Composable
-fun Content(
+private fun Content(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
     Header()
@@ -59,7 +59,7 @@ fun Content(
 }
 
 @Composable
-fun Header() {
+private fun Header() {
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,7 +71,7 @@ fun Header() {
 }
 
 @Composable
-fun Body(
+private fun Body(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
     Column(
@@ -191,6 +191,7 @@ fun Body(
 
         ProductList(
             products = hamburgers,
+            favoriteProducts = hamburgers.subList(0, 1),
             onNavigateToProductDetails = onNavigateToProductDetails
         )
 

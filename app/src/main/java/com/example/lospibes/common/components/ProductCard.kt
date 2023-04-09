@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@ import com.example.lospibes.common.domain.model.Product
 @Composable
 fun ProductCard(
     product: Product,
+    isFavorite: Boolean = false,
     onClick: () -> Unit,
 ) {
     Card(
@@ -54,7 +56,7 @@ fun ProductCard(
                     .padding(15.dp)
                     .size(25.dp)
                     .align(Alignment.TopEnd),
-                imageVector = Icons.Filled.Favorite,
+                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                 contentDescription = "Favorite",
                 tint = MaterialTheme.colorScheme.primary
             )

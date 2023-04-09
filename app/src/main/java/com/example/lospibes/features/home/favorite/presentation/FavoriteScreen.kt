@@ -1,4 +1,4 @@
-package com.example.lospibes.modules.home.favorite.presentation
+package com.example.lospibes.features.home.favorite.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -26,7 +26,7 @@ fun FavoriteScreen(
 }
 
 @Composable
-fun Content(
+private fun Content(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
     FavoriteList(
@@ -35,7 +35,7 @@ fun Content(
 }
 
 @Composable
-fun FavoriteList(
+private fun FavoriteList(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
     LazyVerticalGrid(
@@ -47,6 +47,7 @@ fun FavoriteList(
         items(products) { product ->
             ProductCard(
                 product = product,
+                isFavorite = true,
                 onClick = {
                     onNavigateToProductDetails(product.id)
                 }

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.lospibes.modules.home.root.MainScreen
+import com.example.lospibes.features.home.root.MainScreen
 import com.example.lospibes.navigation.auth.authNavGraph
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 import com.example.lospibes.utils.Constants.ROOT_GRAPH_ROUTE
