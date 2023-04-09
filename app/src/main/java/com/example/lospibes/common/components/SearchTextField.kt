@@ -23,21 +23,22 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(
+    value: String = "",
+    isEnable: Boolean = true,
     showFilter: Boolean = false,
+    onValueChange: (newValue: String) -> Unit,
+    onClick: () -> Unit = {},
     onSubmit: (String) -> Unit
 ) {
-    var value by remember { mutableStateOf("") }
-
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(24.dp),
         singleLine = true,
+        enabled = isEnable,
         value = value,
-        onValueChange = {
-            value = it
-        },
+        onValueChange = onValueChange,
         placeholder = {
             Text(
                 text = "Buscar",
@@ -61,7 +62,7 @@ fun SearchTextField(
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
                     IconButton(
-                        onClick = {}
+                        onClick = onClick
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Settings,
