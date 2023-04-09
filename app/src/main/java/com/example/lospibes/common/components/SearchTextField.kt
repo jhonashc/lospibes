@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(
+    showFilter: Boolean = false,
     onSubmit: (String) -> Unit
 ) {
     var value by remember { mutableStateOf("") }
@@ -51,21 +52,23 @@ fun SearchTextField(
             )
         },
         trailingIcon = {
-            Box(
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-            ) {
-                IconButton(
-                    onClick = {}
+            if (showFilter) {
+                Box(
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = "Filter",
-                        tint = MaterialTheme.colorScheme.background
-                    )
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Filter",
+                            tint = MaterialTheme.colorScheme.background
+                        )
+                    }
                 }
             }
         },

@@ -9,19 +9,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.common.components.ProductCard
+import com.example.lospibes.common.components.StandardScaffold
+import com.example.lospibes.common.components.StandardTopAppBar
 import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun FavoriteScreen(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    StandardScaffold(
+        topAppBar = {
+            StandardTopAppBar(title = "Favoritos")
+        },
     ) {
-        Content(
-            onNavigateToProductDetails = onNavigateToProductDetails
-        )
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Content(
+                onNavigateToProductDetails = onNavigateToProductDetails
+            )
+        }
     }
 }
 

@@ -18,7 +18,7 @@ fun BottomAppBar(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) {
-        navItems.forEachIndexed() { index, screen ->
+        navItems.forEachIndexed { index, screen ->
             NavigationBarItem(
                 enabled = true,
                 selected = selectedItem == index,

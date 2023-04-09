@@ -36,7 +36,8 @@ fun ComboDetailsScreen(
         topAppBar = {
             StandardTopAppBar(
                 title = "Detalles",
-                onNavigateToHome = onNavigateToHome
+                showNavigationIcon = true,
+                onNavigateTo = onNavigateToHome
             )
         },
     ) {

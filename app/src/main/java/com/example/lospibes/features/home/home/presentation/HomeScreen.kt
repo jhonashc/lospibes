@@ -18,19 +18,25 @@ fun HomeScreen(
     onNavigateToProductDetails: (productId: String) -> Unit,
     onNavigateToSearch: (value: String) -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    StandardScaffold(
+        topAppBar = {
+            StandardTopAppBar(title = "Home")
+        },
     ) {
-        Column(
-            modifier = Modifier.padding(vertical = 20.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Content(
-                onNavigateToComboDetails = onNavigateToComboDetails,
-                onNavigateToProductDetails = onNavigateToProductDetails,
-                onNavigateToSearch = onNavigateToSearch
-            )
+            Column(
+                modifier = Modifier.padding(vertical = 20.dp)
+            ) {
+                Content(
+                    onNavigateToComboDetails = onNavigateToComboDetails,
+                    onNavigateToProductDetails = onNavigateToProductDetails,
+                    onNavigateToSearch = onNavigateToSearch
+                )
+            }
         }
     }
 }

@@ -28,9 +28,14 @@ fun MainScreen() {
                         icon = Icons.Rounded.Home,
                     ),
                     NavItem(
-                        name = stringResource(R.string.order_item),
-                        route = HomeDestinations.OrderScreen.route,
-                        icon = Icons.Rounded.List,
+                        name = stringResource(R.string.search_item),
+                        route = HomeDestinations.SearchScreen.route,
+                        icon = Icons.Rounded.Search,
+                    ),
+                    NavItem(
+                        name = stringResource(R.string.cart_item),
+                        route = HomeDestinations.CartScreen.route,
+                        icon = Icons.Rounded.ShoppingCart,
                     ),
                     NavItem(
                         name = stringResource(R.string.favorite_item),
@@ -39,7 +44,7 @@ fun MainScreen() {
                     ),
                     NavItem(
                         name = stringResource(R.string.account_item),
-                        route = HomeDestinations.AccountScreen.route,
+                        route = HomeDestinations.ProfileScreen.route,
                         icon = Icons.Rounded.AccountCircle,
                     ),
                 )

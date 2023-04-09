@@ -9,7 +9,8 @@ import androidx.compose.runtime.Composable
 @Composable
 fun StandardTopAppBar(
     title: String,
-    onNavigateToHome: () -> Unit
+    showNavigationIcon: Boolean = false,
+    onNavigateTo: () -> Unit = {}
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.largeTopAppBarColors(
@@ -24,15 +25,17 @@ fun StandardTopAppBar(
             )
         },
         navigationIcon = {
-            IconButton(
-                onClick = {
-                    onNavigateToHome()
+            if (showNavigationIcon) {
+                IconButton(
+                    onClick = {
+                        onNavigateTo()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back"
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back"
-                )
             }
         }
     )

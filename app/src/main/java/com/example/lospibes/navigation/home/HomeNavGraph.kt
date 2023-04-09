@@ -4,13 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.lospibes.features.home.account.presentation.AccountScreen
+import com.example.lospibes.features.home.cart.presentation.CartScreen
 import com.example.lospibes.features.home.details.presentation.ComboDetailsScreen
 import com.example.lospibes.features.home.details.presentation.ProductDetailsScreen
-import com.example.lospibes.features.home.details.presentation.SearchScreen
 import com.example.lospibes.features.home.favorite.presentation.FavoriteScreen
 import com.example.lospibes.features.home.home.presentation.HomeScreen
-import com.example.lospibes.features.home.order.presentation.OrderScreen
+import com.example.lospibes.features.home.profile.presentation.ProfileScreen
+import com.example.lospibes.features.home.search.presentation.SearchScreen
 import com.example.lospibes.utils.Constants.DETAIL_GRAPH_ROUTE
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 
@@ -24,15 +24,15 @@ fun HomeNavGraph(
         route = HOME_GRAPH_ROUTE
     ) {
         composable(
-            route = HomeDestinations.AccountScreen.route
+            route = HomeDestinations.ProfileScreen.route
         ) {
-            AccountScreen()
+            ProfileScreen()
         }
 
         composable(
-            route = HomeDestinations.OrderScreen.route
+            route = HomeDestinations.CartScreen.route
         ) {
-            OrderScreen()
+            CartScreen()
         }
 
         composable(
@@ -56,9 +56,21 @@ fun HomeNavGraph(
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
                 },
                 onNavigateToSearch = { query ->
-                    navController.navigate("${DetailsDestinations.SearchScreen.route}?q=${query}")
+                    navController.navigate("${HomeDestinations.SearchScreen.route}?q=${query}")
                 }
             )
+        }
+
+        composable(
+            route = "${HomeDestinations.SearchScreen.route}?q={q}",
+            arguments = listOf(
+                navArgument("q") {
+                    defaultValue = ""
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            SearchScreen()
         }
 
         detailsNavGraph(navController = navController)
@@ -104,22 +116,6 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
                 },
                 onNavigateToProductDetails = { productId ->
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
-                }
-            )
-        }
-
-        composable(
-            route = "${DetailsDestinations.SearchScreen.route}?q={q}",
-            arguments = listOf(
-                navArgument("q") {
-                    defaultValue = ""
-                    type = NavType.StringType
-                }
-            )
-        ) {
-            SearchScreen(
-                onNavigateToHome = {
-                    navController.popBackStack()
                 }
             )
         }
