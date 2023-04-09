@@ -14,7 +14,7 @@ import com.example.lospibes.common.domain.model.NavItem
 import com.example.lospibes.R
 
 @Composable
-fun HomeRootScreen() {
+fun MainScreen() {
     val navController: NavHostController = rememberNavController()
 
     StandardScaffold(

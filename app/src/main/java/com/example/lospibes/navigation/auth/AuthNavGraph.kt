@@ -20,6 +20,7 @@ fun NavGraphBuilder.authNavGraph(
         ) {
             LoginScreen()
         }
+
         composable(
             route = AuthDestinations.RegisterScreen.route
         ) {
