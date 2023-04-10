@@ -2,7 +2,6 @@ package com.example.lospibes.features.home.details.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -96,7 +95,7 @@ private fun Body(
             fontWeight = FontWeight.SemiBold
         )
 
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         Row(
             modifier = Modifier
@@ -116,8 +115,8 @@ private fun Body(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
+                        .size(35.dp)
+                        .clip(MaterialTheme.shapes.extraLarge)
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
                     IconButton(
@@ -139,8 +138,8 @@ private fun Body(
 
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
+                        .size(35.dp)
+                        .clip(MaterialTheme.shapes.extraLarge)
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
                     IconButton(
@@ -184,7 +183,7 @@ private fun Body(
         ProductList(
             products = hamburgers,
             favoriteProducts = hamburgers.subList(0, 1),
-            onNavigateToProductDetails = onNavigateToProductDetails
+            onNavigateTo = onNavigateToProductDetails
         )
 
         Spacer(modifier = Modifier.height(46.dp))
@@ -198,7 +197,7 @@ private fun Body(
             Button(
                 modifier = Modifier
                     .weight(1f)
-                    .clip(CircleShape)
+                    .clip(MaterialTheme.shapes.extraLarge)
                     .background(color = MaterialTheme.colorScheme.primary),
                 onClick = { /*TODO*/ }
             ) {
@@ -220,7 +219,7 @@ private fun Body(
             OutlinedButton(
                 modifier = Modifier
                     .weight(0.3f)
-                    .clip(CircleShape),
+                    .clip(MaterialTheme.shapes.extraLarge),
                 onClick = { /*TODO*/ }
             ) {
                 Icon(

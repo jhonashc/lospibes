@@ -22,7 +22,7 @@ fun FavoriteScreen(
             StandardTopAppBar(
                 title = "Favoritos"
             )
-        },
+        }
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

@@ -17,14 +17,14 @@ import com.example.lospibes.utils.Constants.products
 fun HomeScreen(
     onNavigateToComboDetails: (comboId: String) -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit,
-    onNavigateToExplore: (value: String) -> Unit,
+    onNavigateToExplore: (query: String) -> Unit,
 ) {
     StandardScaffold(
         topAppBar = {
             StandardTopAppBar(
                 title = "Home"
             )
-        },
+        }
     ) {
         Box(
             modifier = Modifier
@@ -48,7 +48,7 @@ fun HomeScreen(
 private fun Content(
     onNavigateToComboDetails: (comboId: String) -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit,
-    onNavigateToExplore: (value: String) -> Unit
+    onNavigateToExplore: (query: String) -> Unit
 ) {
     Header(onNavigateToExplore = onNavigateToExplore)
 
@@ -73,7 +73,7 @@ private fun Content(
 
 @Composable
 private fun Header(
-    onNavigateToExplore: (value: String) -> Unit
+    onNavigateToExplore: (query: String) -> Unit
 ) {
     var value by remember { mutableStateOf("") }
     val onValueChange = { newValue: String -> value = newValue }
@@ -95,7 +95,7 @@ private fun Header(
 
 @Composable
 private fun CategorySection(
-    onNavigateToExplore: (categoryName: String) -> Unit
+    onNavigateToExplore: (query: String) -> Unit
 ) {
     val tabList = categories.map { category ->
         TabItem(name = category.name, icon = category.code)
@@ -167,7 +167,7 @@ private fun PopularSection(
     ProductList(
         products = products,
         favoriteProducts = products.subList(0, 1),
-        onNavigateToProductDetails = onNavigateToProductDetails
+        onNavigateTo = onNavigateToProductDetails
     )
 }
 
@@ -198,6 +198,6 @@ private fun CombosSection(
     ComboList(
         combos = combos,
         favoriteCombos = combos.subList(0, 2),
-        onNavigateToComboDetails = onNavigateToComboDetails
+        onNavigateTo = onNavigateToComboDetails
     )
 }

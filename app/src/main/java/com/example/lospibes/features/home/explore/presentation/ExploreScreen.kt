@@ -23,7 +23,7 @@ fun ExploreScreen(
             StandardTopAppBar(
                 title = "Explorar"
             )
-        },
+        }
     ) {
         Box(
             modifier = Modifier
@@ -106,7 +106,7 @@ private fun RecentSection() {
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 20.dp),
-            text = "Recientes ⏱️",
+            text = "Recientes ⏱",
             style = MaterialTheme.typography.titleMedium,
         )
 
@@ -136,7 +136,7 @@ private fun Results() {
         DetailedProductList(
             products = products,
             favoriteProducts = products.subList(0, 2),
-            onNavigateToProductDetails = {}
+            onNavigateTo = {}
         )
     }
 }

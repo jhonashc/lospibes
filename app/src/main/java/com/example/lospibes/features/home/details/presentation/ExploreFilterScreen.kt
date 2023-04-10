@@ -57,7 +57,7 @@ fun ExploreFilterScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.background
                 ),
-                onClick = { /*TODO*/ }
+                onClick = { onNavigateToExplore() }
             ) {
                 Text(
                     modifier = Modifier.padding(6.dp),
@@ -78,42 +78,52 @@ private fun Content() {
 
 @Composable
 private fun PriceRangeSection() {
-    Text(
-        modifier = Modifier.padding(horizontal = 20.dp),
-        text = "Rango de precio",
-        style = MaterialTheme.typography.titleMedium,
-    )
-
-    Spacer(modifier = Modifier.height(10.dp))
-
     val itemList = listOf("$5", "$10", "$20", "$40")
     var selectedItem by remember { mutableStateOf(itemList[0]) }
     val onItemSelected = { price: String -> selectedItem = price }
 
-    StandardFlowRow(
-        itemList = itemList,
-        selectedItem = selectedItem,
-        onItemSelected = onItemSelected
-    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+    ) {
+        Text(
+            text = "Rango de precio",
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        StandardFlowRow(
+            itemList = itemList,
+            selectedItem = selectedItem,
+            onItemSelected = onItemSelected
+        )
+    }
 }
 
 @Composable
 private fun CategorySection() {
-    Text(
-        modifier = Modifier.padding(horizontal = 20.dp),
-        text = "Categorías",
-        style = MaterialTheme.typography.titleMedium,
-    )
-
-    Spacer(modifier = Modifier.height(10.dp))
-
     val itemList = categories.map { category: Category -> category.name }
     var selectedItem by remember { mutableStateOf(itemList[0]) }
     val onItemSelected = { categoryName: String -> selectedItem = categoryName }
 
-    StandardFlowRow(
-        itemList = itemList,
-        selectedItem = selectedItem,
-        onItemSelected = onItemSelected
-    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+    ) {
+        Text(
+            text = "Categorías",
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        StandardFlowRow(
+            itemList = itemList,
+            selectedItem = selectedItem,
+            onItemSelected = onItemSelected
+        )
+    }
 }
