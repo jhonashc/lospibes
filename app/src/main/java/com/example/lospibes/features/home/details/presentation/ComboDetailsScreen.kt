@@ -6,10 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,8 +33,16 @@ fun ComboDetailsScreen(
         topAppBar = {
             StandardTopAppBar(
                 title = "Detalles",
-                showNavigationIcon = true,
-                onNavigateTo = onNavigateToHome
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigateToHome
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
             )
         },
     ) {
@@ -71,8 +76,8 @@ private fun Header() {
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
-        model = combos[0].imageUrl,
-        contentDescription = combos[0].name,
+        model = combos[1].imageUrl,
+        contentDescription = combos[1].name,
         contentScale = ContentScale.Fit
     )
 }
@@ -88,7 +93,7 @@ private fun Body(
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 20.dp),
-            text = combos[0].name,
+            text = combos[1].name,
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.SemiBold
@@ -104,8 +109,8 @@ private fun Body(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "$${combos[0].price}",
-                style = MaterialTheme.typography.titleMedium,
+                text = "$${combos[1].price}",
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
 
@@ -158,9 +163,9 @@ private fun Body(
 
         Text(
             modifier = Modifier
-                .alpha(0.6f)
+                .alpha(0.8f)
                 .padding(horizontal = 20.dp),
-            text = combos[0].description ?: "empty",
+            text = combos[1].description ?: "empty",
             fontWeight = FontWeight.Normal,
             style = MaterialTheme.typography.bodyLarge,
             overflow = TextOverflow.Ellipsis,
@@ -181,7 +186,7 @@ private fun Body(
 
         ComboList(
             combos = combos,
-            favoriteCombos = combos.subList(0, 1),
+            favoriteCombos = combos.subList(0, 2),
             onNavigateToComboDetails = onNavigateToComboDetails
         )
 

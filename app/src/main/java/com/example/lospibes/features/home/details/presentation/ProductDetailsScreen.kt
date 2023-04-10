@@ -30,8 +30,16 @@ fun ProductDetailsScreen(
         topAppBar = {
             StandardTopAppBar(
                 title = "Detalles",
-                showNavigationIcon = true,
-                onNavigateTo = onNavigateToHome
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigateToHome
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
             )
         },
     ) {
@@ -99,7 +107,7 @@ private fun Body(
         ) {
             Text(
                 text = "$${products[0].price}",
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
 
@@ -151,25 +159,8 @@ private fun Body(
         Spacer(modifier = Modifier.height(26.dp))
 
         Text(
-            modifier = Modifier.padding(horizontal = 20.dp),
-            text = "Categorías \uD83C\uDFF7️",
-            style = MaterialTheme.typography.titleMedium,
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        CategoryTabList(
-            categories = products[0].categories,
-            selectedCategory = products[0].categories[0],
-            onCategorySelected = {},
-            onNavigateToSearch = {}
-        )
-
-        Spacer(modifier = Modifier.height(18.dp))
-
-        Text(
             modifier = Modifier
-                .alpha(0.6f)
+                .alpha(0.8f)
                 .padding(horizontal = 20.dp),
             text = products[0].description ?: "empty",
             fontWeight = FontWeight.Normal,

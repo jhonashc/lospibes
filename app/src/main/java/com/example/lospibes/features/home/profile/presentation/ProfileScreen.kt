@@ -14,7 +14,9 @@ import com.example.lospibes.common.components.StandardTopAppBar
 fun ProfileScreen() {
     StandardScaffold(
         topAppBar = {
-            StandardTopAppBar(title = "Profile")
+            StandardTopAppBar(
+                title = "Profile"
+            )
         },
     ) {
         Box(

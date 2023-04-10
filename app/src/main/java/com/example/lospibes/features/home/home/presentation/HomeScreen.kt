@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.common.components.*
+import com.example.lospibes.common.domain.model.TabItem
 import com.example.lospibes.utils.Constants.categories
 import com.example.lospibes.utils.Constants.combos
 import com.example.lospibes.utils.Constants.products
@@ -16,11 +17,13 @@ import com.example.lospibes.utils.Constants.products
 fun HomeScreen(
     onNavigateToComboDetails: (comboId: String) -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit,
-    onNavigateToSearch: (value: String) -> Unit,
+    onNavigateToExplore: (value: String) -> Unit,
 ) {
     StandardScaffold(
         topAppBar = {
-            StandardTopAppBar(title = "Home")
+            StandardTopAppBar(
+                title = "Home"
+            )
         },
     ) {
         Box(
@@ -34,7 +37,7 @@ fun HomeScreen(
                 Content(
                     onNavigateToComboDetails = onNavigateToComboDetails,
                     onNavigateToProductDetails = onNavigateToProductDetails,
-                    onNavigateToSearch = onNavigateToSearch
+                    onNavigateToExplore = onNavigateToExplore
                 )
             }
         }
@@ -45,14 +48,14 @@ fun HomeScreen(
 private fun Content(
     onNavigateToComboDetails: (comboId: String) -> Unit,
     onNavigateToProductDetails: (productId: String) -> Unit,
-    onNavigateToSearch: (value: String) -> Unit
+    onNavigateToExplore: (value: String) -> Unit
 ) {
-    Header(onNavigateToSearch = onNavigateToSearch)
+    Header(onNavigateToExplore = onNavigateToExplore)
 
     Spacer(modifier = Modifier.height(26.dp))
 
     CategorySection(
-        onNavigateToSearch = onNavigateToSearch
+        onNavigateToExplore = onNavigateToExplore
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -70,20 +73,36 @@ private fun Content(
 
 @Composable
 private fun Header(
-    onNavigateToSearch: (value: String) -> Unit
+    onNavigateToExplore: (value: String) -> Unit
 ) {
-    SearchTextField(
-        onSubmit = { value ->
-            onNavigateToSearch(value)
-        }
-    )
+    var value by remember { mutableStateOf("") }
+    val onValueChange = { newValue: String -> value = newValue }
+    val onSubmit = { submittedValue: String -> onNavigateToExplore(submittedValue) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+    ) {
+        SearchTextField(
+            value = value,
+            onValueChange = onValueChange,
+            onClick = {},
+            onSubmit = onSubmit
+        )
+    }
 }
 
 @Composable
 private fun CategorySection(
-    onNavigateToSearch: (category: String) -> Unit
+    onNavigateToExplore: (categoryName: String) -> Unit
 ) {
-    var selectedCategory by remember { mutableStateOf(categories[0]) }
+    val tabList = categories.map { category ->
+        TabItem(name = category.name, icon = category.code)
+    }
+
+    var selectedTab by remember { mutableStateOf(tabList[0]) }
+    val onTabSelected = { tabItem: TabItem -> selectedTab = tabItem }
 
     Row(
         modifier = Modifier
@@ -92,7 +111,7 @@ private fun CategorySection(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Categorías \uD83C\uDFF7",
+            text = "Categorías",
             style = MaterialTheme.typography.titleMedium,
         )
 
@@ -105,14 +124,20 @@ private fun CategorySection(
 
     Spacer(modifier = Modifier.height(6.dp))
 
-    CategoryTabList(
-        categories = categories,
-        selectedCategory = selectedCategory,
-        onCategorySelected = { currentCategory ->
-            selectedCategory = currentCategory
-        },
-        onNavigateToSearch = onNavigateToSearch
-    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 12.dp)
+    ) {
+        StandardTabList(
+            tabList = tabList,
+            selectedTab = selectedTab,
+            onTabSelected = onTabSelected,
+            onNavigateTo = {
+                onNavigateToExplore(selectedTab.name)
+            }
+        )
+    }
 }
 
 @Composable
@@ -141,7 +166,7 @@ private fun PopularSection(
 
     ProductList(
         products = products,
-        favoriteProducts = products.subList(0, 2),
+        favoriteProducts = products.subList(0, 1),
         onNavigateToProductDetails = onNavigateToProductDetails
     )
 }

@@ -19,7 +19,9 @@ fun FavoriteScreen(
 ) {
     StandardScaffold(
         topAppBar = {
-            StandardTopAppBar(title = "Favoritos")
+            StandardTopAppBar(
+                title = "Favoritos"
+            )
         },
     ) {
         Column(
@@ -37,13 +39,13 @@ fun FavoriteScreen(
 private fun Content(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
-    FavoriteList(
+    ProductFavoriteList(
         onNavigateToProductDetails = onNavigateToProductDetails
     )
 }
 
 @Composable
-private fun FavoriteList(
+private fun ProductFavoriteList(
     onNavigateToProductDetails: (productId: String) -> Unit
 ) {
     LazyVerticalGrid(
