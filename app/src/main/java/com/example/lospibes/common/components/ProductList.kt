@@ -12,7 +12,7 @@ import com.example.lospibes.common.domain.model.Product
 fun ProductList(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
-    onNavigateToProductDetails: (productId: String) -> Unit
+    onNavigateTo: (productId: String) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -31,9 +31,7 @@ fun ProductList(
                 ProductCard(
                     product = product,
                     isFavorite = favoriteProducts.contains(product),
-                    onClick = {
-                        onNavigateToProductDetails(product.id)
-                    }
+                    onClick = { onNavigateTo(product.id) }
                 )
             }
         }
@@ -44,7 +42,7 @@ fun ProductList(
 fun DetailedProductList(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
-    onNavigateToProductDetails: (productId: String) -> Unit
+    onNavigateTo: (productId: String) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -55,7 +53,7 @@ fun DetailedProductList(
                 product = product,
                 isFavorite = favoriteProducts.contains(product),
                 onClick = {
-                    onNavigateToProductDetails(product.id)
+                    onNavigateTo(product.id)
                 }
             )
         }

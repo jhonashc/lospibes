@@ -1,5 +1,6 @@
 package com.example.lospibes.common.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 
@@ -8,7 +9,7 @@ import androidx.compose.runtime.Composable
 fun StandardTopAppBar(
     title: String,
     navigationIcon: @Composable () -> Unit = {},
-    actions: @Composable () -> Unit = {},
+    actions: @Composable() (RowScope.() -> Unit) = {},
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.largeTopAppBarColors(
@@ -23,11 +24,7 @@ fun StandardTopAppBar(
                 style = MaterialTheme.typography.titleLarge
             )
         },
-        navigationIcon = {
-            navigationIcon()
-        },
-        actions = {
-            actions()
-        }
+        navigationIcon = navigationIcon,
+        actions = actions
     )
 }

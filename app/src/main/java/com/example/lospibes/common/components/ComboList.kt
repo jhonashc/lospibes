@@ -12,7 +12,7 @@ import com.example.lospibes.common.domain.model.Combo
 fun ComboList(
     combos: List<Combo>,
     favoriteCombos: List<Combo> = listOf(),
-    onNavigateToComboDetails: (comboId: String) -> Unit
+    onNavigateTo: (comboId: String) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -32,7 +32,7 @@ fun ComboList(
                     combo = combo,
                     isFavorite = favoriteCombos.contains(combo),
                     onClick = {
-                        onNavigateToComboDetails(combo.id)
+                        onNavigateTo(combo.id)
                     }
                 )
             }

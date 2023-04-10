@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -43,7 +41,7 @@ fun SearchTextField(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Search
         ),
-        shape = RoundedCornerShape(24.dp),
+        shape = MaterialTheme.shapes.extraLarge,
         placeholder = {
             Text(
                 text = "Buscar",
@@ -63,7 +61,7 @@ fun SearchTextField(
                     modifier = Modifier
                         .padding(end = 10.dp)
                         .size(40.dp)
-                        .clip(CircleShape)
+                        .clip(MaterialTheme.shapes.extraLarge)
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
                     IconButton(

@@ -9,12 +9,13 @@ import com.example.lospibes.common.domain.model.ChipItem
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun StandardFlowRow(
+    modifier: Modifier = Modifier,
     itemList: List<String>,
     selectedItem: String,
-    onItemSelected: (String) -> Unit
+    onItemSelected: (item: String) -> Unit
 ) {
     FlowRow(
-        modifier = Modifier.padding(horizontal = 20.dp),
+        modifier = modifier,
         maxItemsInEachRow = 5,
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {

@@ -2,7 +2,6 @@ package com.example.lospibes.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -29,7 +28,7 @@ fun StandardTab(
 
     Tab(
         modifier = Modifier
-            .clip(RoundedCornerShape(24.dp))
+            .clip(MaterialTheme.shapes.extraLarge)
             .background(tabColor),
         selected = isSelected,
         onClick = onClick,
