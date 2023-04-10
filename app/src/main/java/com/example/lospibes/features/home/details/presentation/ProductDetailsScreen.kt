@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -19,6 +20,7 @@ import coil.compose.AsyncImage
 import com.example.lospibes.common.components.*
 import com.example.lospibes.utils.Constants.hamburgers
 import com.example.lospibes.utils.Constants.products
+import com.example.lospibes.R
 
 @Composable
 fun ProductDetailsScreen(
@@ -115,7 +117,7 @@ private fun Body(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(35.dp)
+                        .size(40.dp)
                         .clip(MaterialTheme.shapes.extraLarge)
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
@@ -123,7 +125,9 @@ private fun Body(
                         onClick = {}
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.KeyboardArrowLeft,
+                            painter = painterResource(
+                                id = R.drawable.baseline_horizontal_rule_24
+                            ),
                             contentDescription = "Subtract",
                             tint = MaterialTheme.colorScheme.background
                         )
@@ -138,7 +142,7 @@ private fun Body(
 
                 Box(
                     modifier = Modifier
-                        .size(35.dp)
+                        .size(40.dp)
                         .clip(MaterialTheme.shapes.extraLarge)
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
@@ -146,7 +150,9 @@ private fun Body(
                         onClick = {}
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.KeyboardArrowRight,
+                            painter = painterResource(
+                                id = R.drawable.baseline_add_24
+                            ),
                             contentDescription = "Add",
                             tint = MaterialTheme.colorScheme.background
                         )

@@ -1,8 +1,7 @@
 package com.example.lospibes.features.home.root
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -21,28 +20,36 @@ fun MainScreen() {
         NavItem(
             name = stringResource(R.string.home_item),
             route = HomeDestinations.HomeScreen.route,
-            icon = Icons.Rounded.Home,
+            icon = painterResource(id = R.drawable.baseline_home_24)
         ),
         NavItem(
             name = stringResource(R.string.explore_item),
             route = HomeDestinations.ExploreScreen.route,
-            icon = Icons.Rounded.Search,
+            icon = painterResource(
+                id = R.drawable.baseline_explore_24
+            )
         ),
         NavItem(
             name = stringResource(R.string.cart_item),
             route = HomeDestinations.CartScreen.route,
-            icon = Icons.Rounded.ShoppingCart,
+            icon = painterResource(
+                id = R.drawable.baseline_shopping_bag_24
+            )
         ),
         NavItem(
             name = stringResource(R.string.favorite_item),
             route = HomeDestinations.FavoriteScreen.route,
-            icon = Icons.Rounded.Favorite,
+            icon = painterResource(
+                id = R.drawable.baseline_favorite_24
+            )
         ),
         NavItem(
             name = stringResource(R.string.account_item),
             route = HomeDestinations.ProfileScreen.route,
-            icon = Icons.Rounded.AccountCircle,
-        ),
+            icon = painterResource(
+                id = R.drawable.baseline_account_circle_24
+            )
+        )
     )
 
     StandardScaffold(
