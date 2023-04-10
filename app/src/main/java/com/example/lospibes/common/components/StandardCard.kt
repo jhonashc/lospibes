@@ -33,7 +33,7 @@ fun StandardCard(
 
     Card(
         modifier = Modifier
-            .width(170.dp)
+            .width(180.dp)
             .wrapContentHeight()
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(
@@ -53,7 +53,7 @@ fun StandardCard(
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(
-                    modifier = Modifier.size(110.dp),
+                    modifier = Modifier.size(120.dp),
                     model = cardItem.imageUrl,
                     contentDescription = cardItem.name,
                     contentScale = ContentScale.Fit,

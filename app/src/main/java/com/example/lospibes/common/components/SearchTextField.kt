@@ -9,14 +9,15 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.lospibes.R
 
 @Composable
 fun SearchTextField(
@@ -68,7 +69,9 @@ fun SearchTextField(
                         onClick = onClick
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Settings,
+                            painter = painterResource(
+                                id = R.drawable.baseline_filter_alt_24
+                            ),
                             contentDescription = "Filter",
                             tint = MaterialTheme.colorScheme.background
                         )
