@@ -39,3 +39,25 @@ fun ProductList(
         }
     }
 }
+
+@Composable
+fun DetailedProductList(
+    products: List<Product>,
+    favoriteProducts: List<Product> = listOf(),
+    onNavigateToProductDetails: (productId: String) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        products.forEach { product ->
+            DetailedProductCard(
+                product = product,
+                isFavorite = favoriteProducts.contains(product),
+                onClick = {
+                    onNavigateToProductDetails(product.id)
+                }
+            )
+        }
+    }
+}
