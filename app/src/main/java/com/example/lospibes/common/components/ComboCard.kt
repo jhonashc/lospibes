@@ -28,13 +28,17 @@ fun ComboCard(
     isFavorite: Boolean = false,
     onClick: () -> Unit
 ) {
+    val favoriteIcon = if (isFavorite)
+        Icons.Filled.Favorite else
+        Icons.Filled.FavoriteBorder
+
     Card(
         modifier = Modifier
             .width(200.dp)
             .wrapContentHeight()
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
+            defaultElevation = 1.dp
         ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
@@ -56,7 +60,7 @@ fun ComboCard(
                     .padding(15.dp)
                     .size(25.dp)
                     .align(Alignment.TopEnd),
-                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                imageVector = favoriteIcon,
                 contentDescription = "Favorite",
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -80,8 +84,8 @@ fun ComboCard(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                modifier = Modifier.alpha(0.6f),
-                text = combo.description ?: "empty",
+                modifier = Modifier.alpha(0.8f),
+                text = combo.description ?: "",
                 fontWeight = FontWeight.Normal,
                 style = MaterialTheme.typography.bodySmall,
                 overflow = TextOverflow.Ellipsis,
@@ -106,18 +110,19 @@ fun ComboCard(
 
                 Box(
                     modifier = Modifier
+                        .size(40.dp)
                         .clip(CircleShape)
-                        .background(color = MaterialTheme.colorScheme.primary)
-                        .padding(8.dp)
-                        .clickable { },
-                    contentAlignment = Alignment.Center
+                        .background(MaterialTheme.colorScheme.primary)
                 ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Add",
-                        tint = MaterialTheme.colorScheme.background
-                    )
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = "Add",
+                            tint = MaterialTheme.colorScheme.background
+                        )
+                    }
                 }
             }
         }
