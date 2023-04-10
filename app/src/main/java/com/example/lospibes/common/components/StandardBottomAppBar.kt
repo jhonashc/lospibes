@@ -39,7 +39,7 @@ fun StandardBottomAppBar(
                 },
                 icon = {
                     Icon(
-                        imageVector = navItem.icon,
+                        painter = navItem.icon,
                         contentDescription = navItem.name
                     )
                 },
