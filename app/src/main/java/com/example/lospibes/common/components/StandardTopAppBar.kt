@@ -1,7 +1,5 @@
 package com.example.lospibes.common.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 
@@ -9,14 +7,15 @@ import androidx.compose.runtime.Composable
 @Composable
 fun StandardTopAppBar(
     title: String,
-    showNavigationIcon: Boolean = false,
-    onNavigateTo: () -> Unit = {}
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable () -> Unit = {},
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.background,
-            navigationIconContentColor = MaterialTheme.colorScheme.background
+            navigationIconContentColor = MaterialTheme.colorScheme.background,
+            actionIconContentColor = MaterialTheme.colorScheme.background
         ),
         title = {
             Text(
@@ -25,18 +24,10 @@ fun StandardTopAppBar(
             )
         },
         navigationIcon = {
-            if (showNavigationIcon) {
-                IconButton(
-                    onClick = {
-                        onNavigateTo()
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back"
-                    )
-                }
-            }
+            navigationIcon()
+        },
+        actions = {
+            actions()
         }
     )
 }
