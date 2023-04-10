@@ -3,12 +3,15 @@ package com.example.lospibes.features.home.explore.presentation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.common.components.*
+import com.example.lospibes.common.domain.model.ChipItem
 import com.example.lospibes.utils.Constants.products
 
 @Composable
@@ -75,6 +78,29 @@ private fun Header(
 
 @Composable
 private fun RecentSection() {
+    val chipList: List<ChipItem> = listOf(
+        ChipItem(
+            name = "Hamburger",
+            icon = Icons.Filled.Close
+        ),
+        ChipItem(
+            name = "Pizza",
+            icon = Icons.Filled.Close
+        ),
+        ChipItem(
+            name = "Double Cheese Burger",
+            icon = Icons.Filled.Close
+        ),
+        ChipItem(
+            name = "Chicken wings",
+            icon = Icons.Filled.Close
+        ),
+        ChipItem(
+            name = "Chili Hot Dog",
+            icon = Icons.Filled.Close
+        )
+    )
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -87,14 +113,7 @@ private fun RecentSection() {
         Spacer(modifier = Modifier.height(10.dp))
 
         StandardChipList(
-            shipList = listOf(
-                "Hamburger",
-                "Pizza",
-                "Double Cheese Burger",
-                "Chicken wings",
-                "Chili Hot Dog"
-            ),
-            showTrailingIcon = true,
+            chipList = chipList,
             onClick = {}
         )
     }

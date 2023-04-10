@@ -1,17 +1,15 @@
 package com.example.lospibes.common.components
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.lospibes.common.domain.model.ChipItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardChip(
-    text: String = "",
-    showTrailingIcon: Boolean = false,
+    chipItem: ChipItem,
     isSelected: Boolean = false,
     onClick: () -> Unit
 ) {
@@ -32,22 +30,22 @@ fun StandardChip(
             containerColor = containerColor,
             labelColor = labelColor
         ),
-        onClick = onClick,
         label = {
             Text(
-                text = text,
+                text = chipItem.name,
                 style = MaterialTheme.typography.bodyMedium
             )
         },
         trailingIcon = {
-            if (showTrailingIcon) {
+            chipItem.icon?.let {
                 Icon(
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
-                    imageVector = Icons.Filled.Close,
+                    imageVector = it,
                     contentDescription = "Remove",
                     tint = iconTint
                 )
             }
-        }
+        },
+        onClick = onClick
     )
 }
