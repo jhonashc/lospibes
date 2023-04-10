@@ -3,7 +3,7 @@
 
     <!-- Nav items  -->
     <string name="home_item">Home</string>
-    <string name="search_item">Buscar</string>
+    <string name="explore_item">Explorar</string>
     <string name="cart_item">Cart</string>
     <string name="favorite_item">Favoritos</string>
     <string name="account_item">Perfil</string>
