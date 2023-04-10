@@ -20,25 +20,30 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchTextField(
     value: String = "",
-    isEnable: Boolean = true,
     showFilter: Boolean = false,
+    onClick: () -> Unit,
     onValueChange: (newValue: String) -> Unit,
-    onClick: () -> Unit = {},
     onSubmit: (String) -> Unit
 ) {
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(24.dp),
-        singleLine = true,
-        enabled = isEnable,
+    StandardTextField(
+        modifier = Modifier.fillMaxWidth(),
         value = value,
-        onValueChange = onValueChange,
+        singleLine = true,
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                if (value.isNotEmpty()) {
+                    onSubmit(value)
+                }
+            }
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
+        shape = RoundedCornerShape(24.dp),
         placeholder = {
             Text(
                 text = "Buscar",
@@ -73,16 +78,6 @@ fun SearchTextField(
                 }
             }
         },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                if (value.isNotEmpty()) {
-                    onSubmit(value)
-                }
-            }
-        )
+        onValueChange = onValueChange,
     )
 }
