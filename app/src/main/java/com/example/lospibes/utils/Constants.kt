@@ -18,7 +18,7 @@ object Constants {
         Category(
             id = "100",
             name = "All",
-            code = "\uD83D\uDECE️",
+            code = "\uD83D\uDCCC",
             createdAt = date,
             updatedAt = date
         ),
