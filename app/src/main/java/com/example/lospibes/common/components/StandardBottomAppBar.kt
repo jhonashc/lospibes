@@ -4,35 +4,43 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.lospibes.common.domain.model.NavItem
 
 @Composable
-fun BottomAppBar(
+fun StandardBottomAppBar(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     navItems: List<NavItem>
 ) {
-    var selectedItem by remember { mutableStateOf(0) }
+    val backStackEntry = navController.currentBackStackEntryAsState()
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) {
-        navItems.forEachIndexed { index, screen ->
+        navItems.forEach { navItem ->
+            val currentRoute = backStackEntry.value?.destination?.route
+            val selected = navItem.route == currentRoute
+
             NavigationBarItem(
                 enabled = true,
-                selected = selectedItem == index,
+                selected = selected,
                 onClick = {
-                    selectedItem = index
-                    navController.navigate(screen.route)
+                    if (navItem.route != currentRoute) {
+                        navController.navigate(navItem.route)
+                    }
                 },
                 label = {
-                    Text(text = screen.name)
+                    Text(
+                        text = navItem.name,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 },
                 icon = {
                     Icon(
-                        imageVector = screen.icon,
-                        contentDescription = screen.name
+                        imageVector = navItem.icon,
+                        contentDescription = navItem.name
                     )
                 },
                 alwaysShowLabel = true
