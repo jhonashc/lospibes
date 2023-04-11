@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.presentation.details.presentation
+package com.example.lospibes.features.home.presentation.details.product_details.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

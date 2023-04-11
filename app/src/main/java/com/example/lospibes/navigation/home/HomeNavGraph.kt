@@ -5,9 +5,9 @@ import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.features.home.presentation.cart.presentation.CartScreen
-import com.example.lospibes.features.home.presentation.details.presentation.ComboDetailsScreen
-import com.example.lospibes.features.home.presentation.details.presentation.ExploreFilterScreen
-import com.example.lospibes.features.home.presentation.details.presentation.ProductDetailsScreen
+import com.example.lospibes.features.home.presentation.details.combo_details.presentation.ComboDetailsScreen
+import com.example.lospibes.features.home.presentation.details.explore_filter.presentation.ExploreFilterScreen
+import com.example.lospibes.features.home.presentation.details.product_details.presentation.ProductDetailsScreen
 import com.example.lospibes.features.home.presentation.explore.presentation.ExploreScreen
 import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
 import com.example.lospibes.features.home.presentation.home.presentation.HomeScreen

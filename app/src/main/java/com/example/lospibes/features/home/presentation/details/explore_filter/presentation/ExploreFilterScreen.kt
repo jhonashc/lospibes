@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.presentation.details.presentation
+package com.example.lospibes.features.home.presentation.details.explore_filter.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
