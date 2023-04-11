@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.lospibes.features.home.cart.presentation.CartScreen
-import com.example.lospibes.features.home.details.presentation.ComboDetailsScreen
-import com.example.lospibes.features.home.details.presentation.ExploreFilterScreen
-import com.example.lospibes.features.home.details.presentation.ProductDetailsScreen
-import com.example.lospibes.features.home.explore.presentation.ExploreScreen
-import com.example.lospibes.features.home.favorite.presentation.FavoriteScreen
-import com.example.lospibes.features.home.home.presentation.HomeScreen
-import com.example.lospibes.features.home.profile.presentation.ProfileScreen
+import com.example.lospibes.features.home.presentation.cart.presentation.CartScreen
+import com.example.lospibes.features.home.presentation.details.presentation.ComboDetailsScreen
+import com.example.lospibes.features.home.presentation.details.presentation.ExploreFilterScreen
+import com.example.lospibes.features.home.presentation.details.presentation.ProductDetailsScreen
+import com.example.lospibes.features.home.presentation.explore.presentation.ExploreScreen
+import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
+import com.example.lospibes.features.home.presentation.home.presentation.HomeScreen
+import com.example.lospibes.features.home.presentation.profile.presentation.ProfileScreen
 import com.example.lospibes.utils.Constants.DETAIL_GRAPH_ROUTE
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 
@@ -74,6 +74,12 @@ fun HomeNavGraph(
             ExploreScreen(
                 onNavigateToExploreFilter = {
                     navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
+                },
+                onNavigateToComboDetails = { comboId ->
+                    navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${comboId}")
+                },
+                onNavigateToProductDetails = { productId ->
+                    navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
                 }
             )
         }

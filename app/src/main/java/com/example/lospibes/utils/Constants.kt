@@ -1,8 +1,8 @@
 package com.example.lospibes.utils
 
-import com.example.lospibes.common.domain.model.Category
-import com.example.lospibes.common.domain.model.Combo
-import com.example.lospibes.common.domain.model.Product
+import com.example.lospibes.features.home.domain.model.Category
+import com.example.lospibes.features.home.domain.model.Combo
+import com.example.lospibes.features.home.domain.model.Product
 import java.util.*
 
 object Constants {
