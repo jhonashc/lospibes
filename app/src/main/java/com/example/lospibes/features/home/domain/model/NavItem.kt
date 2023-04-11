@@ -1,4 +1,4 @@
-package com.example.lospibes.common.domain.model
+package com.example.lospibes.features.home.domain.model
 
 import androidx.compose.ui.graphics.painter.Painter
 
