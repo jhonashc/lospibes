@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.ChipItem
@@ -30,6 +31,10 @@ fun StandardChip(
         MaterialTheme.colorScheme.background else
         MaterialTheme.colorScheme.outline
 
+    val fontWeight = if (isSelected)
+        FontWeight.Bold else
+        FontWeight.Normal
+
     AssistChip(
         colors = AssistChipDefaults.assistChipColors(
             containerColor = containerColor,
@@ -39,7 +44,8 @@ fun StandardChip(
             Text(
                 modifier = Modifier.padding(vertical = 7.dp),
                 text = chipItem.name,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = fontWeight
             )
         },
         trailingIcon = {

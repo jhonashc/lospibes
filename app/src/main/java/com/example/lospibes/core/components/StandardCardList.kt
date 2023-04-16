@@ -15,7 +15,7 @@ import com.example.lospibes.features.home.domain.model.CardItem
 fun StandardCardListRow(
     cardItemList: List<CardItem>,
     favoriteCardItemList: List<CardItem> = listOf(),
-    onCardItemSelected: (listItem: CardItem) -> Unit
+    onCardItemSelected: (selectedCardItem: CardItem) -> Unit
 ) {
     LazyRow(
         modifier = Modifier

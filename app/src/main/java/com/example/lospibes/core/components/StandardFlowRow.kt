@@ -16,7 +16,7 @@ fun StandardFlowRow(
 ) {
     FlowRow(
         modifier = modifier,
-        maxItemsInEachRow = 5,
+        maxItemsInEachRow = 3,
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         itemList.forEach { item ->
