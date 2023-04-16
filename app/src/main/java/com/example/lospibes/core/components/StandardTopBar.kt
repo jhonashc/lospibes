@@ -10,12 +10,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.R
 
 @Composable
 fun StandardTopBar(
@@ -57,9 +55,9 @@ fun StandardTopBar(
 @Composable
 fun SearchTopBar(
     value: String = "",
+    filterIcon: (@Composable () -> Unit)? = null,
     onClose: () -> Unit,
     onSubmit: (value: String) -> Unit,
-    onFilterClick: () -> Unit,
     onValueChange: (newValue: String) -> Unit
 ) {
 
@@ -71,7 +69,7 @@ fun SearchTopBar(
                 .fillMaxWidth()
                 .height(70.dp)
                 .align(Alignment.CenterStart)
-                .padding(end = 40.dp),
+                .padding(end = if (filterIcon != null) 40.dp else 0.dp),
             value = value,
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -114,15 +112,12 @@ fun SearchTopBar(
             onValueChange = onValueChange
         )
 
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            onClick = onFilterClick
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_filter_list_24),
-                contentDescription = "Filter Icon",
-                tint = MaterialTheme.colorScheme.outline
-            )
+        filterIcon?.let { icon ->
+            Column(
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                icon()
+            }
         }
     }
 }
@@ -134,7 +129,6 @@ fun SearchTopBarPreview() {
         value = "",
         onSubmit = {},
         onClose = {},
-        onFilterClick = {},
         onValueChange = {}
     )
 }
