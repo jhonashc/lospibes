@@ -23,19 +23,20 @@ fun ExploreScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Header(
-            onNavigateToHome = onNavigateToHome
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToFilter = onNavigateToFilter
         )
 
         Body(
-            onNavigateToDetails = onNavigateToDetails,
-            onNavigateToFilter = onNavigateToFilter
+            onNavigateToDetails = onNavigateToDetails
         )
     }
 }
 
 @Composable
 private fun Header(
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToFilter: () -> Unit
 ) {
     var value by remember { mutableStateOf("") }
     val onValueChange = { newValue: String -> value = newValue }
@@ -73,6 +74,7 @@ private fun Header(
                 value = ""
                 isVisibleSearchBar = false
             },
+            onFilterClick = onNavigateToFilter,
             onValueChange = onValueChange
         )
     }
@@ -80,12 +82,9 @@ private fun Header(
 
 @Composable
 private fun Body(
-    onNavigateToFilter: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    CategorySection(
-        onNavigateToFilter = onNavigateToFilter
-    )
+    CategorySection()
 
     ResultSection(
         onNavigateToDetails = onNavigateToDetails
@@ -93,9 +92,7 @@ private fun Body(
 }
 
 @Composable
-private fun CategorySection(
-    onNavigateToFilter: () -> Unit
-) {
+private fun CategorySection() {
     val tabList = categories.map { category ->
         TabItem(
             name = category.name,
@@ -114,9 +111,7 @@ private fun CategorySection(
         StandardTabList(
             tabList = tabList,
             selectedTab = selectedTab,
-            onTabSelected = {
-                onNavigateToFilter()
-            }
+            onTabSelected = onTabSelected
         )
     }
 }
