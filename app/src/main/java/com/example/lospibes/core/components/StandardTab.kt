@@ -40,12 +40,11 @@ fun StandardTab(
             ) {
                 tabItem.icon?.let {
                     Text(
+                        modifier = Modifier.padding(end = 6.dp),
                         text = it,
                         fontWeight = tabFontWeight,
                         style = MaterialTheme.typography.titleMedium
                     )
-
-                    Spacer(modifier = Modifier.padding(end = 8.dp))
                 }
 
                 Text(

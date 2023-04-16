@@ -36,11 +36,11 @@ fun StandardCard(
             .width(180.dp)
             .wrapContentHeight()
             .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 1.dp
-        ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 1.dp
         )
     ) {
         Column(
@@ -64,7 +64,7 @@ fun StandardCard(
                         .size(25.dp)
                         .align(Alignment.TopEnd),
                     imageVector = favoriteIcon,
-                    contentDescription = "Favorite",
+                    contentDescription = "Favorite Icon",
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
@@ -80,7 +80,6 @@ fun StandardCard(
                     text = cardItem.name,
                     style = MaterialTheme.typography.titleMedium,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.primary,
                     maxLines = 1
                 )
 
@@ -104,12 +103,23 @@ fun StandardCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "$${cardItem.price}",
-                        fontWeight = FontWeight.SemiBold,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "$",
+                            fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+
+                        Text(
+                            text = "${cardItem.price}",
+                            fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
 
                     Box(
                         modifier = Modifier
@@ -122,7 +132,7 @@ fun StandardCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Add,
-                                contentDescription = "Add",
+                                contentDescription = "Add Icon",
                                 tint = MaterialTheme.colorScheme.background
                             )
                         }
@@ -191,7 +201,7 @@ fun StandardDetailedCard(
                     Icon(
                         modifier = Modifier.size(25.dp),
                         imageVector = favoriteIcon,
-                        contentDescription = "Favorite",
+                        contentDescription = "Favorite Icon",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }

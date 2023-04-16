@@ -1,9 +1,14 @@
 package com.example.lospibes.core.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.ChipItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,8 +37,9 @@ fun StandardChip(
         ),
         label = {
             Text(
+                modifier = Modifier.padding(vertical = 7.dp),
                 text = chipItem.name,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyLarge
             )
         },
         trailingIcon = {
@@ -41,11 +47,23 @@ fun StandardChip(
                 Icon(
                     modifier = Modifier.size(AssistChipDefaults.IconSize),
                     imageVector = it,
-                    contentDescription = "Remove",
+                    contentDescription = "Remove Icon",
                     tint = iconTint
                 )
             }
         },
         onClick = onClick
+    )
+}
+
+@Preview
+@Composable
+fun StandardChipPreview() {
+    StandardChip(
+        chipItem = ChipItem(
+            name = "Chip 1",
+            icon = Icons.Filled.Favorite
+        ),
+        onClick = {}
     )
 }

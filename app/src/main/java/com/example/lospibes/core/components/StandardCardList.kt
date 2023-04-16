@@ -15,7 +15,7 @@ import com.example.lospibes.features.home.domain.model.CardItem
 fun StandardCardListRow(
     cardItemList: List<CardItem>,
     favoriteCardItemList: List<CardItem> = listOf(),
-    onSelectCardItem: (listItem: CardItem) -> Unit
+    onCardItemSelected: (listItem: CardItem) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -39,7 +39,7 @@ fun StandardCardListRow(
                         price = cardItem.price,
                     ),
                     isFavorite = favoriteCardItemList.contains(cardItem),
-                    onClick = { onSelectCardItem(cardItem) }
+                    onClick = { onCardItemSelected(cardItem) }
                 )
             }
         }
@@ -50,7 +50,7 @@ fun StandardCardListRow(
 fun StandardCardDetailedListColumn(
     cardItemList: List<CardItem>,
     favoriteCardItemList: List<CardItem> = listOf(),
-    onSelectCardItem: (listItem: CardItem) -> Unit
+    onCardItemSelected: (listItem: CardItem) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -60,7 +60,7 @@ fun StandardCardDetailedListColumn(
             StandardDetailedCard(
                 cardItem = cardItem,
                 isFavorite = favoriteCardItemList.contains(cardItem),
-                onClick = { onSelectCardItem(cardItem) }
+                onClick = { onCardItemSelected(cardItem) }
             )
         }
     }
@@ -71,7 +71,7 @@ fun StandardCardListGrid(
     columns: Int = 2,
     cardItemList: List<CardItem>,
     favoriteCardItemList: List<CardItem> = listOf(),
-    onSelectCardItem: (listItem: CardItem) -> Unit
+    onCardItemSelected: (listItem: CardItem) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
@@ -89,7 +89,7 @@ fun StandardCardListGrid(
                     price = cardItem.price,
                 ),
                 isFavorite = favoriteCardItemList.contains(cardItem),
-                onClick = { onSelectCardItem(cardItem) }
+                onClick = { onCardItemSelected(cardItem) }
             )
         }
     }
