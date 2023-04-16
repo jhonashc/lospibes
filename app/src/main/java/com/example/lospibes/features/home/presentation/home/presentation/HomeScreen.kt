@@ -3,10 +3,18 @@ package com.example.lospibes.features.home.presentation.home.presentation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.lospibes.core.components.*
 import com.example.lospibes.features.home.domain.model.TabItem
 import com.example.lospibes.utils.Constants.categories
@@ -15,82 +23,123 @@ import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun HomeScreen(
-    onNavigateToComboDetails: (comboId: String) -> Unit,
-    onNavigateToProductDetails: (productId: String) -> Unit,
     onNavigateToExplore: (query: String) -> Unit,
+    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    StandardScaffold(
-        topAppBar = {
-            StandardTopAppBar(
-                title = "Home"
-            )
-        }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+        Column(
+            modifier = Modifier.padding(vertical = 20.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(vertical = 20.dp)
-            ) {
-                Content(
-                    onNavigateToComboDetails = onNavigateToComboDetails,
-                    onNavigateToProductDetails = onNavigateToProductDetails,
-                    onNavigateToExplore = onNavigateToExplore
-                )
-            }
+            Header()
+
+            Spacer(modifier = Modifier.height(26.dp))
+
+            Body(
+                onNavigateToExplore = onNavigateToExplore,
+                onNavigateToDetails = onNavigateToDetails
+            )
         }
     }
 }
 
 @Composable
-private fun Content(
-    onNavigateToComboDetails: (comboId: String) -> Unit,
-    onNavigateToProductDetails: (productId: String) -> Unit,
-    onNavigateToExplore: (query: String) -> Unit
+private fun Header() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 15.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 5.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Tu ubicación",
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1
+                )
+
+                IconButton(
+                    modifier = Modifier.size(25.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.outline,
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    onClick = {}
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.KeyboardArrowDown,
+                        contentDescription = "KeyboardArrowDown",
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.LocationOn,
+                    contentDescription = "Location",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+
+                Text(
+                    text = "2009, Robert Browning St, Mosaic at Monastery",
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.outline,
+                    style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1
+                )
+            }
+        }
+
+        AsyncImage(
+            modifier = Modifier
+                .size(45.dp)
+                .clip(MaterialTheme.shapes.extraLarge),
+            model = "https://images.pexels.com/photos/3778361/pexels-photo-3778361.jpeg",
+            contentDescription = "Profile",
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+@Composable
+private fun Body(
+    onNavigateToExplore: (query: String) -> Unit,
+    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    Header(onNavigateToExplore = onNavigateToExplore)
-
-    Spacer(modifier = Modifier.height(26.dp))
-
     CategorySection(
         onNavigateToExplore = onNavigateToExplore
     )
 
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(26.dp))
 
     PopularSection(
-        onNavigateToProductDetails = onNavigateToProductDetails
+        onNavigateToDetails = onNavigateToDetails
     )
 
     Spacer(modifier = Modifier.height(26.dp))
 
     CombosSection(
-        onNavigateToComboDetails = onNavigateToComboDetails
+        onNavigateToDetails = onNavigateToDetails
     )
-}
-
-@Composable
-private fun Header(
-    onNavigateToExplore: (query: String) -> Unit
-) {
-    var value by remember { mutableStateOf("") }
-    val onValueChange = { newValue: String -> value = newValue }
-    val onSubmit = { submittedValue: String -> onNavigateToExplore(submittedValue) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-    ) {
-        SearchTextField(
-            value = value,
-            onValueChange = onValueChange,
-            onClick = {},
-            onSubmit = onSubmit
-        )
-    }
 }
 
 @Composable
@@ -141,7 +190,7 @@ private fun CategorySection(
 
 @Composable
 private fun PopularSection(
-    onNavigateToProductDetails: (productId: String) -> Unit,
+    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -166,15 +215,15 @@ private fun PopularSection(
     ProductListRow(
         products = products,
         favoriteProducts = products.subList(0, 1),
-        onSelectProduct = { selectedProduct ->
-            onNavigateToProductDetails(selectedProduct.id)
+        onProductSelected = { selectedProduct ->
+            onNavigateToDetails(false, selectedProduct.id)
         }
     )
 }
 
 @Composable
 private fun CombosSection(
-    onNavigateToComboDetails: (comboId: String) -> Unit
+    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -199,8 +248,8 @@ private fun CombosSection(
     ComboListRow(
         combos = combos,
         favoriteCombos = combos.subList(0, 2),
-        onSelectCombo = { selectedCombo ->
-            onNavigateToComboDetails(selectedCombo.id)
+        onComboSelected = { selectedCombo ->
+            onNavigateToDetails(true, selectedCombo.id)
         }
     )
 }

@@ -5,9 +5,9 @@ import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.features.home.presentation.cart.presentation.CartScreen
-import com.example.lospibes.features.home.presentation.details.combo_details.presentation.ComboDetailsScreen
-import com.example.lospibes.features.home.presentation.details.explore_filter.presentation.ExploreFilterScreen
-import com.example.lospibes.features.home.presentation.details.product_details.presentation.ProductDetailsScreen
+import com.example.lospibes.features.home.presentation.combo.presentation.ComboScreen
+import com.example.lospibes.features.home.presentation.filter.presentation.FilterScreen
+import com.example.lospibes.features.home.presentation.product.presentation.ProductScreen
 import com.example.lospibes.features.home.presentation.explore.presentation.ExploreScreen
 import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
 import com.example.lospibes.features.home.presentation.home.presentation.HomeScreen
@@ -33,15 +33,32 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.CartScreen.route
         ) {
-            CartScreen()
+            CartScreen(
+                onNavigateToHome = {
+                    navController.popBackStack(
+                        route = HomeDestinations.HomeScreen.route,
+                        inclusive = false
+                    )
+                }
+            )
         }
 
         composable(
             route = HomeDestinations.FavoriteScreen.route
         ) {
             FavoriteScreen(
-                onNavigateToProductDetails = { productId ->
-                    navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
+                onNavigateToHome = {
+                    navController.popBackStack(
+                        route = HomeDestinations.HomeScreen.route,
+                        inclusive = false
+                    )
+                },
+                onNavigateToDetails = { isCombo, id ->
+                    if (isCombo) {
+                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
+                    } else {
+                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
+                    }
                 }
             )
         }
@@ -50,14 +67,15 @@ fun HomeNavGraph(
             route = HomeDestinations.HomeScreen.route
         ) {
             HomeScreen(
-                onNavigateToComboDetails = { comboId ->
-                    navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${comboId}")
-                },
-                onNavigateToProductDetails = { productId ->
-                    navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
-                },
                 onNavigateToExplore = { query ->
                     navController.navigate("${HomeDestinations.ExploreScreen.route}?q=${query}")
+                },
+                onNavigateToDetails = { isCombo, id ->
+                    if (isCombo) {
+                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
+                    } else {
+                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
+                    }
                 }
             )
         }
@@ -72,14 +90,11 @@ fun HomeNavGraph(
             )
         ) {
             ExploreScreen(
-                onNavigateToExploreFilter = {
-                    navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
-                },
-                onNavigateToComboDetails = { comboId ->
-                    navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${comboId}")
-                },
-                onNavigateToProductDetails = { productId ->
-                    navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
+                onNavigateToHome = {
+                    navController.popBackStack(
+                        route = HomeDestinations.HomeScreen.route,
+                        inclusive = false
+                    )
                 }
             )
         }
@@ -102,12 +117,17 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
                 }
             )
         ) {
-            ComboDetailsScreen(
+            ComboScreen(
                 onNavigateToHome = {
-                    navController.popBackStack()
+                    navController.popBackStack(
+                        route = HomeDestinations.HomeScreen.route,
+                        inclusive = false
+                    )
                 },
-                onNavigateToComboDetails = { comboId ->
-                    navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${comboId}")
+                onNavigateToDetails = { isCombo, id ->
+                    if (isCombo) {
+                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
+                    }
                 }
             )
         }
@@ -121,12 +141,17 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
                 }
             )
         ) {
-            ProductDetailsScreen(
+            ProductScreen(
                 onNavigateToHome = {
-                    navController.popBackStack()
+                    navController.popBackStack(
+                        route = HomeDestinations.HomeScreen.route,
+                        inclusive = false
+                    )
                 },
-                onNavigateToProductDetails = { productId ->
-                    navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
+                onNavigateToDetails = { isCombo, id ->
+                    if (!isCombo) {
+                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
+                    }
                 }
             )
         }
@@ -134,7 +159,7 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
         composable(
             route = DetailsDestinations.ExploreFilterScreen.route
         ) {
-            ExploreFilterScreen(
+            FilterScreen(
                 onNavigateToExplore = {
                     navController.popBackStack()
                 }

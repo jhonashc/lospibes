@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.lospibes.navigation.home.HomeDestinations
 import com.example.lospibes.navigation.home.HomeNavGraph
 import com.example.lospibes.core.components.StandardScaffold
-import com.example.lospibes.core.components.StandardBottomAppBar
+import com.example.lospibes.core.components.StandardBottomBar
 import com.example.lospibes.features.home.domain.model.NavItem
 import com.example.lospibes.R
 
@@ -54,7 +54,7 @@ fun MainScreen() {
 
     StandardScaffold(
         bottomAppBar = {
-            StandardBottomAppBar(
+            StandardBottomBar(
                 navController = navController,
                 navItems = homeNavItems
             )

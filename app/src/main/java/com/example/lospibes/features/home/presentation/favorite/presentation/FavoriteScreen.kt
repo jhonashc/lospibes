@@ -1,54 +1,41 @@
 package com.example.lospibes.features.home.presentation.favorite.presentation
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.lospibes.core.components.ProductListGrid
-import com.example.lospibes.core.components.StandardScaffold
-import com.example.lospibes.core.components.StandardTopAppBar
-import com.example.lospibes.utils.Constants.products
+import androidx.compose.ui.unit.dp
+import com.example.lospibes.core.components.StandardTopBar
 
 @Composable
 fun FavoriteScreen(
-    onNavigateToProductDetails: (productId: String) -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    StandardScaffold(
-        topAppBar = {
-            StandardTopAppBar(
-                title = "Favoritos"
-            )
-        }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.padding(bottom = 20.dp)
         ) {
-            Content(
-                onNavigateToProductDetails = onNavigateToProductDetails
+            Header(
+                onNavigateToHome = onNavigateToHome
             )
         }
     }
 }
 
 @Composable
-private fun Content(
-    onNavigateToProductDetails: (productId: String) -> Unit
+private fun Header(
+    onNavigateToHome: () -> Unit,
 ) {
-    ProductFavoriteList(
-        onNavigateToProductDetails = onNavigateToProductDetails
-    )
-}
-
-@Composable
-private fun ProductFavoriteList(
-    onNavigateToProductDetails: (productId: String) -> Unit
-) {
-    ProductListGrid(
-        products = products,
-        favoriteProducts = products.subList(0, 2),
-        onSelectProduct = { selectedProduct ->
-            onNavigateToProductDetails(selectedProduct.id)
-        }
+    StandardTopBar(
+        onBackTo = onNavigateToHome
     )
 }
