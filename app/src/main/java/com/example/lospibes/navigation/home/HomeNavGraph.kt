@@ -95,6 +95,13 @@ fun HomeNavGraph(
                         route = HomeDestinations.HomeScreen.route,
                         inclusive = false
                     )
+                },
+                onNavigateToDetails = { isCombo, id ->
+                    if (isCombo) {
+                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
+                    } else {
+                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
+                    }
                 }
             )
         }

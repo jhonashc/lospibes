@@ -91,19 +91,19 @@ fun CartListItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedIconButton(
-                        shape = MaterialTheme.shapes.extraSmall,
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.background
                         ),
                         border = BorderStroke(
                             width = 1.dp,
-                            color = MaterialTheme.colorScheme.background
+                            color = MaterialTheme.colorScheme.primary
                         ),
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            modifier = Modifier.size(18.dp),
+                            modifier = Modifier.size(20.dp),
                             painter = painterResource(
                                 id = R.drawable.baseline_remove_24
                             ),
@@ -118,19 +118,19 @@ fun CartListItem(
                     )
 
                     OutlinedIconButton(
-                        shape = MaterialTheme.shapes.extraSmall,
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.background
                         ),
                         border = BorderStroke(
                             width = 1.dp,
-                            color = MaterialTheme.colorScheme.background
+                            color = MaterialTheme.colorScheme.primary
                         ),
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            modifier = Modifier.size(18.dp),
+                            modifier = Modifier.size(20.dp),
                             painter = painterResource(
                                 id = R.drawable.baseline_add_24
                             ),

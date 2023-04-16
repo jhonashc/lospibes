@@ -18,7 +18,9 @@ import com.example.lospibes.utils.Constants.products
 fun CartScreen(
     onNavigateToHome: () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Row(
             modifier = Modifier.weight(0.3f, true)
         ) {
@@ -163,7 +165,7 @@ private fun TotalSection() {
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.extraSmall,
+                shape = MaterialTheme.shapes.extraLarge,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.background

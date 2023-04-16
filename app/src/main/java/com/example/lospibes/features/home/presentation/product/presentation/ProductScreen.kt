@@ -191,7 +191,7 @@ private fun FooterSection() {
     ) {
         Button(
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraSmall,
+            shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background

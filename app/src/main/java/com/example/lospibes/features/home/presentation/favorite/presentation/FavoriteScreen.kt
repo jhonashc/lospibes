@@ -36,6 +36,7 @@ private fun Header(
     onNavigateToHome: () -> Unit,
 ) {
     StandardTopBar(
+        title = "Favoritos",
         onBackTo = onNavigateToHome
     )
 }

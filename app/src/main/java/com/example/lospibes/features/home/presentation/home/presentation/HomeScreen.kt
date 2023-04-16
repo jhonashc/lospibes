@@ -147,7 +147,10 @@ private fun CategorySection(
     onNavigateToExplore: (query: String) -> Unit
 ) {
     val tabList = categories.map { category ->
-        TabItem(name = category.name, icon = category.code)
+        TabItem(
+            name = category.name,
+            icon = category.code
+        )
     }
 
     var selectedTab by remember { mutableStateOf(tabList[0]) }
