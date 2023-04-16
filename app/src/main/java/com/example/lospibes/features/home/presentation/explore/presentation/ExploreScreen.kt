@@ -3,6 +3,7 @@ package com.example.lospibes.features.home.presentation.explore.presentation
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -15,6 +16,7 @@ import com.example.lospibes.utils.Constants.products
 @Composable
 fun ExploreScreen(
     onNavigateToHome: () -> Unit,
+    onNavigateToFilter: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     Column(
@@ -25,7 +27,8 @@ fun ExploreScreen(
         )
 
         Body(
-            onNavigateToDetails = onNavigateToDetails
+            onNavigateToDetails = onNavigateToDetails,
+            onNavigateToFilter = onNavigateToFilter
         )
     }
 }
@@ -43,7 +46,12 @@ private fun Header(
     if (!isVisibleSearchBar) {
         StandardTopBar(
             title = "Explorar",
-            onBackTo = onNavigateToHome,
+            navigationIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.ArrowBack,
+                    contentDescription = "Back Icon"
+                )
+            },
             actions = {
                 IconButton(
                     modifier = Modifier.padding(end = 5.dp),
@@ -54,7 +62,8 @@ private fun Header(
                         contentDescription = "Search Icon"
                     )
                 }
-            }
+            },
+            onBackTo = onNavigateToHome
         )
     } else {
         SearchTopBar(
@@ -71,9 +80,12 @@ private fun Header(
 
 @Composable
 private fun Body(
+    onNavigateToFilter: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    CategorySection()
+    CategorySection(
+        onNavigateToFilter = onNavigateToFilter
+    )
 
     ResultSection(
         onNavigateToDetails = onNavigateToDetails
@@ -81,7 +93,9 @@ private fun Body(
 }
 
 @Composable
-private fun CategorySection() {
+private fun CategorySection(
+    onNavigateToFilter: () -> Unit
+) {
     val tabList = categories.map { category ->
         TabItem(
             name = category.name,
@@ -100,7 +114,9 @@ private fun CategorySection() {
         StandardTabList(
             tabList = tabList,
             selectedTab = selectedTab,
-            onTabSelected = onTabSelected
+            onTabSelected = {
+                onNavigateToFilter()
+            }
         )
     }
 }

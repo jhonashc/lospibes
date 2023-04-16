@@ -96,6 +96,9 @@ fun HomeNavGraph(
                         inclusive = false
                     )
                 },
+                onNavigateToFilter = {
+                    navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
+                },
                 onNavigateToDetails = { isCombo, id ->
                     if (isCombo) {
                         navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")

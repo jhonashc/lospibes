@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -37,6 +40,12 @@ private fun Header(
 ) {
     StandardTopBar(
         title = "Favoritos",
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.Outlined.ArrowBack,
+                contentDescription = "Back Icon"
+            )
+        },
         onBackTo = onNavigateToHome
     )
 }

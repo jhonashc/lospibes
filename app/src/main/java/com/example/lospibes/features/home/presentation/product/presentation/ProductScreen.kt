@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,7 +53,12 @@ private fun Header(
     onNavigateToHome: () -> Unit
 ) {
     StandardTopBar(
-        onBackTo = onNavigateToHome,
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.Outlined.ArrowBack,
+                contentDescription = "Back Icon"
+            )
+        },
         actions = {
             IconButton(
                 colors = IconButtonDefaults.iconButtonColors(
@@ -65,7 +71,8 @@ private fun Header(
                     contentDescription = "Favorite Icon"
                 )
             }
-        }
+        },
+        onBackTo = onNavigateToHome
     )
 }
 
