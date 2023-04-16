@@ -17,34 +17,34 @@ object Constants {
     val categories: List<Category> = listOf(
         Category(
             id = "100",
-            name = "All",
+            name = "Todas",
             code = "\uD83D\uDCCC",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "1",
-            name = "Hamburger",
+            name = "Hamburguesas",
             code = "\uD83C\uDF54",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "2",
-            name = "Drinks",
+            name = "Bebidas",
             code = "\uD83E\uDD64",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "3",
-            name = "Pizza",
+            name = "Pizzas",
             code = "\uD83C\uDF55",
             createdAt = date,
             updatedAt = date
         ), Category(
             id = "4",
-            name = "Cocktail",
+            name = "Cócteles",
             code = "\uD83C\uDF79",
             createdAt = date,
             updatedAt = date
@@ -65,7 +65,7 @@ object Constants {
         ),
         Category(
             id = "46",
-            name = "Wings",
+            name = "Alitas",
             code = "\uD83C\uDF57",
             createdAt = date,
             updatedAt = date
