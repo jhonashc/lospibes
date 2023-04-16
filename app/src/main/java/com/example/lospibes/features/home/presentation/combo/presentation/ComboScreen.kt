@@ -37,6 +37,7 @@ fun ComboScreen(
                 .padding(bottom = 20.dp)
         ) {
             Header(
+                isFavorite = false,
                 onNavigateToHome = onNavigateToHome
             )
 
@@ -51,8 +52,13 @@ fun ComboScreen(
 
 @Composable
 private fun Header(
+    isFavorite: Boolean,
     onNavigateToHome: () -> Unit
 ) {
+    val favoriteIcon = if (isFavorite)
+        Icons.Filled.Favorite else
+        Icons.Filled.FavoriteBorder
+
     StandardTopBar(
         navigationIcon = {
             Icon(
@@ -68,7 +74,7 @@ private fun Header(
                 onClick = { /* TODO */ }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Favorite,
+                    imageVector = favoriteIcon,
                     contentDescription = "Favorite Icon"
                 )
             }
