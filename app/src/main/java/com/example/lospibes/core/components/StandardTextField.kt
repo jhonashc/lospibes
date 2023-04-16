@@ -17,14 +17,22 @@ fun StandardTextField(
     isEnable: Boolean = true,
     singleLine: Boolean = false,
     readOnly: Boolean = false,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    shape: Shape = RoundedCornerShape(0.dp),
     placeholder: @Composable () -> Unit = {},
     leadingIcon: @Composable () -> Unit = {},
     trailingIcon: @Composable () -> Unit = {},
-    onValueChange: (newValue: String) -> Unit,
+    onValueChange: (newValue: String) -> Unit
 ) {
+    val colors = TextFieldDefaults.outlinedTextFieldColors(
+        textColor = MaterialTheme.colorScheme.onBackground,
+        containerColor = MaterialTheme.colorScheme.background,
+        placeholderColor = MaterialTheme.colorScheme.outline,
+        focusedBorderColor = MaterialTheme.colorScheme.background,
+        unfocusedBorderColor = MaterialTheme.colorScheme.background
+    )
+
     TextField(
         modifier = modifier,
         value = value,
@@ -34,6 +42,7 @@ fun StandardTextField(
         colors = colors,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
+        shape = shape,
         placeholder = placeholder,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
@@ -49,15 +58,20 @@ fun StandardOutlinedTextField(
     isEnable: Boolean = true,
     singleLine: Boolean = false,
     readOnly: Boolean = false,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(0.dp),
     placeholder: @Composable () -> Unit = {},
     leadingIcon: @Composable () -> Unit = {},
     trailingIcon: @Composable () -> Unit = {},
-    onValueChange: (newValue: String) -> Unit,
+    onValueChange: (newValue: String) -> Unit
 ) {
+    val colors = TextFieldDefaults.outlinedTextFieldColors(
+        textColor = MaterialTheme.colorScheme.onBackground,
+        containerColor = MaterialTheme.colorScheme.background,
+        placeholderColor = MaterialTheme.colorScheme.outline
+    )
+
     OutlinedTextField(
         modifier = modifier,
         value = value,

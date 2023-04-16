@@ -10,6 +10,7 @@ import com.example.lospibes.features.home.domain.model.TabItem
 fun StandardTabList(
     tabList: List<TabItem>,
     selectedTab: TabItem,
+    showIcon: Boolean = false,
     onTabSelected: (tabItem: TabItem) -> Unit,
 ) {
     ScrollableTabRow(
@@ -23,6 +24,7 @@ fun StandardTabList(
             StandardTab(
                 tabItem = tab,
                 isSelected = selectedTab.name == tab.name,
+                showIcon = showIcon,
                 onClick = { onTabSelected(tab) }
             )
         }

@@ -47,26 +47,6 @@ fun StandardCardListRow(
 }
 
 @Composable
-fun StandardCardDetailedListColumn(
-    cardItemList: List<CardItem>,
-    favoriteCardItemList: List<CardItem> = listOf(),
-    onCardItemSelected: (listItem: CardItem) -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        cardItemList.forEach { cardItem ->
-            StandardDetailedCard(
-                cardItem = cardItem,
-                isFavorite = favoriteCardItemList.contains(cardItem),
-                onClick = { onCardItemSelected(cardItem) }
-            )
-        }
-    }
-}
-
-@Composable
 fun StandardCardListGrid(
     columns: Int = 2,
     cardItemList: List<CardItem>,

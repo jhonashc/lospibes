@@ -43,3 +43,43 @@ fun ComboListRow(
         }
     )
 }
+
+@Composable
+fun ComboListGrid(
+    combos: List<Combo>,
+    favoriteCombos: List<Combo> = listOf(),
+    onComboSelected: (combo: Combo) -> Unit
+) {
+    val cardItemList: List<CardItem> = combos.map { combo ->
+        CardItem(
+            id = combo.id,
+            name = combo.name,
+            description = combo.description,
+            imageUrl = combo.imageUrl,
+            price = combo.price
+        )
+    }
+
+    val favoriteCardItemList: List<CardItem> = favoriteCombos.map { product ->
+        CardItem(
+            id = product.id,
+            name = product.name,
+            description = product.description,
+            imageUrl = product.imageUrl,
+            price = product.price
+        )
+    }
+
+    val getSelectedComboById = { comboId: String ->
+        combos.find { combo -> combo.id == comboId }
+    }
+
+    StandardCardListGrid(
+        cardItemList = cardItemList,
+        favoriteCardItemList = favoriteCardItemList,
+        onCardItemSelected = { selectedCardItem ->
+            val selectedCombo: Combo? = getSelectedComboById(selectedCardItem.id)
+            selectedCombo?.let(onComboSelected)
+        }
+    )
+}

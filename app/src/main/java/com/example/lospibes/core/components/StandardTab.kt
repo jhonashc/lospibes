@@ -16,6 +16,7 @@ import com.example.lospibes.features.home.domain.model.TabItem
 fun StandardTab(
     tabItem: TabItem,
     isSelected: Boolean = false,
+    showIcon: Boolean = false,
     onClick: () -> Unit
 ) {
     val tabColor = if (isSelected)
@@ -38,13 +39,15 @@ fun StandardTab(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                tabItem.icon?.let {
-                    Text(
-                        modifier = Modifier.padding(end = 6.dp),
-                        text = it,
-                        fontWeight = tabFontWeight,
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                if (showIcon) {
+                    tabItem.icon?.let {
+                        Text(
+                            modifier = Modifier.padding(end = 6.dp),
+                            text = it,
+                            fontWeight = tabFontWeight,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
                 }
 
                 Text(
