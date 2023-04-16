@@ -18,13 +18,24 @@ fun NavGraphBuilder.authNavGraph(
         composable(
             route = AuthDestinations.LoginScreen.route
         ) {
-            LoginScreen()
+            LoginScreen(
+                onNavigateToRegister = {
+                    navController.navigate(AuthDestinations.RegisterScreen.route)
+                }
+            )
         }
 
         composable(
             route = AuthDestinations.RegisterScreen.route
         ) {
-            RegisterScreen()
+            RegisterScreen(
+                onNavigateToLogin = {
+                    navController.popBackStack(
+                        route = AuthDestinations.LoginScreen.route,
+                        inclusive = false
+                    )
+                }
+            )
         }
     }
 }
