@@ -2,23 +2,18 @@ package com.example.lospibes.core.components
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.lospibes.features.home.domain.model.NavItem
 
 @Composable
-fun StandardBottomAppBar(
+fun StandardBottomBar(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
     navItems: List<NavItem>
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
 
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.background,
-        modifier = modifier
-    ) {
+    NavigationBar {
         navItems.forEach { navItem ->
             val currentRoute = backStackEntry.value?.destination?.route
             val selected = navItem.route == currentRoute
