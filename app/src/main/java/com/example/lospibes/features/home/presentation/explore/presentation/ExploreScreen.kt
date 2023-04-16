@@ -72,12 +72,17 @@ private fun Header(
             value = value,
             filterIcon = {
                 IconButton(
-                    onClick = onNavigateToFilter
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.outline
+                    ),
+                    onClick = {
+                        onNavigateToFilter()
+                        isVisibleSearchBar = true
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_filter_list_24),
-                        contentDescription = "Filter Icon",
-                        tint = MaterialTheme.colorScheme.outline
+                        contentDescription = "Filter Icon"
                     )
                 }
             },

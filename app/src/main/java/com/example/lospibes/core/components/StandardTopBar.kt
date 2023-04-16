@@ -10,6 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +63,8 @@ fun SearchTopBar(
     onSubmit: (value: String) -> Unit,
     onValueChange: (newValue: String) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -69,7 +74,8 @@ fun SearchTopBar(
                 .fillMaxWidth()
                 .height(70.dp)
                 .align(Alignment.CenterStart)
-                .padding(end = if (filterIcon != null) 40.dp else 0.dp),
+                .padding(end = if (filterIcon != null) 40.dp else 0.dp)
+                .focusRequester(focusRequester),
             value = value,
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -80,7 +86,7 @@ fun SearchTopBar(
                 onSearch = {
                     if (value.isNotEmpty()) {
                         onSubmit(value)
-                        onClose()
+                        focusManager.clearFocus()
                     }
                 }
             ),
@@ -100,12 +106,14 @@ fun SearchTopBar(
             trailingIcon = {
                 IconButton(
                     modifier = Modifier.padding(end = 5.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.outline
+                    ),
                     onClick = onClose
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = "Close Icon",
-                        tint = MaterialTheme.colorScheme.outline
+                        contentDescription = "Close Icon"
                     )
                 }
             },
@@ -113,12 +121,17 @@ fun SearchTopBar(
         )
 
         filterIcon?.let { icon ->
-            Column(
-                modifier = Modifier.align(Alignment.CenterEnd)
+            IconButton(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                onClick = { /*TODO*/ }
             ) {
                 icon()
             }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
 

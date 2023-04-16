@@ -90,7 +90,7 @@ private fun Body() {
             .padding(horizontal = 20.dp),
     )
 
-    Spacer(modifier = Modifier.height(18.dp))
+    Spacer(modifier = Modifier.height(26.dp))
 
     RecentSection()
 }
