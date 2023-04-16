@@ -6,7 +6,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,22 +18,22 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun StandardTopBar(
     title: String? = null,
-    onBackTo: () -> Unit,
-    actions: @Composable () -> Unit = {}
+    navigationIcon: (@Composable () -> Unit)? = null,
+    actions: @Composable () -> Unit = {},
+    onBackTo: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
     ) {
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterStart),
-            onClick = onBackTo
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
-            )
+        navigationIcon?.let { navIcon ->
+            IconButton(
+                modifier = Modifier.align(Alignment.CenterStart),
+                onClick = onBackTo
+            ) {
+                navIcon()
+            }
         }
 
         title?.let {
