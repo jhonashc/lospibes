@@ -7,7 +7,9 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.lospibes.R
 import com.example.lospibes.core.components.*
 import com.example.lospibes.features.home.domain.model.TabItem
 import com.example.lospibes.utils.Constants.categories
@@ -43,7 +45,6 @@ private fun Header(
 
     var isVisibleSearchBar by remember { mutableStateOf(false) }
 
-
     if (!isVisibleSearchBar) {
         StandardTopBar(
             title = "Explorar",
@@ -69,12 +70,22 @@ private fun Header(
     } else {
         SearchTopBar(
             value = value,
+            filterIcon = {
+                IconButton(
+                    onClick = onNavigateToFilter
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_filter_list_24),
+                        contentDescription = "Filter Icon",
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                }
+            },
             onSubmit = {},
             onClose = {
                 value = ""
                 isVisibleSearchBar = false
             },
-            onFilterClick = onNavigateToFilter,
             onValueChange = onValueChange
         )
     }
