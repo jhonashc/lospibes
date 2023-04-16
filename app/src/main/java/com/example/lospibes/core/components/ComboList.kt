@@ -8,7 +8,7 @@ import com.example.lospibes.features.home.domain.model.Combo
 fun ComboListRow(
     combos: List<Combo>,
     favoriteCombos: List<Combo> = listOf(),
-    onSelectCombo: (combo: Combo) -> Unit
+    onComboSelected: (combo: Combo) -> Unit
 ) {
     val cardItemList: List<CardItem> = combos.map { combo ->
         CardItem(
@@ -37,9 +37,9 @@ fun ComboListRow(
     StandardCardListRow(
         cardItemList = cardItemList,
         favoriteCardItemList = favoriteCardItemList,
-        onSelectCardItem = { selectedCardItem ->
+        onCardItemSelected = { selectedCardItem ->
             val selectedCombo: Combo? = getSelectedComboById(selectedCardItem.id)
-            selectedCombo?.let(onSelectCombo)
+            selectedCombo?.let(onComboSelected)
         }
     )
 }

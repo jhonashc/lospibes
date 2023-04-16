@@ -8,7 +8,7 @@ import com.example.lospibes.features.home.domain.model.Product
 fun ProductListRow(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
-    onSelectProduct: (product: Product) -> Unit
+    onProductSelected: (product: Product) -> Unit
 ) {
     val cardItemList: List<CardItem> = products.map { product ->
         CardItem(
@@ -37,9 +37,9 @@ fun ProductListRow(
     StandardCardListRow(
         cardItemList = cardItemList,
         favoriteCardItemList = favoriteCardItemList,
-        onSelectCardItem = { selectedCardItem ->
+        onCardItemSelected = { selectedCardItem ->
             val selectedProduct: Product? = getSelectedProductById(selectedCardItem.id)
-            selectedProduct?.let(onSelectProduct)
+            selectedProduct?.let(onProductSelected)
         }
     )
 }
@@ -48,7 +48,7 @@ fun ProductListRow(
 fun DetailedProductListColumn(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
-    onSelectProduct: (product: Product) -> Unit
+    onProductSelected: (product: Product) -> Unit
 ) {
     val cardItemList: List<CardItem> = products.map { product ->
         CardItem(
@@ -77,9 +77,9 @@ fun DetailedProductListColumn(
     StandardCardDetailedListColumn(
         cardItemList = cardItemList,
         favoriteCardItemList = favoriteCardItemList,
-        onSelectCardItem = { selectedCardItem ->
+        onCardItemSelected = { selectedCardItem ->
             val selectedProduct: Product? = getSelectedProductById(selectedCardItem.id)
-            selectedProduct?.let(onSelectProduct)
+            selectedProduct?.let(onProductSelected)
         }
     )
 }
@@ -88,7 +88,7 @@ fun DetailedProductListColumn(
 fun ProductListGrid(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
-    onSelectProduct: (product: Product) -> Unit
+    onProductSelected: (product: Product) -> Unit
 ) {
     val cardItemList: List<CardItem> = products.map { product ->
         CardItem(
@@ -117,9 +117,9 @@ fun ProductListGrid(
     StandardCardListGrid(
         cardItemList = cardItemList,
         favoriteCardItemList = favoriteCardItemList,
-        onSelectCardItem = { selectedCardItem ->
+        onCardItemSelected = { selectedCardItem ->
             val selectedProduct: Product? = getSelectedProductById(selectedCardItem.id)
-            selectedProduct?.let(onSelectProduct)
+            selectedProduct?.let(onProductSelected)
         }
     )
 }
