@@ -215,7 +215,8 @@ private fun FooterSection() {
             Text(
                 modifier = Modifier.padding(vertical = 8.dp),
                 text = "Agregar",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
             )
         }
     }

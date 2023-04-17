@@ -27,7 +27,14 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.ProfileScreen.route
         ) {
-            ProfileScreen()
+            ProfileScreen(
+                onNavigateToHome = {
+                    navController.popBackStack(
+                        route = HomeDestinations.HomeScreen.route,
+                        inclusive = false
+                    )
+                }
+            )
         }
 
         composable(
