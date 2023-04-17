@@ -1,4 +1,4 @@
-package com.example.lospibes.core.components
+package com.example.lospibes.core.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable

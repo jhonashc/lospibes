@@ -1,4 +1,4 @@
-package com.example.lospibes.core.components
+package com.example.lospibes.core.component
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

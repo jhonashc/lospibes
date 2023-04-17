@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.lospibes.core.components.StandardTopBar
+import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.SectionItem
 import com.example.lospibes.features.home.presentation.profile.component.SectionList
 import com.example.lospibes.R

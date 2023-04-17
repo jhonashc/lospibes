@@ -7,8 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.lospibes.navigation.home.HomeDestinations
 import com.example.lospibes.navigation.home.HomeNavGraph
-import com.example.lospibes.core.components.StandardScaffold
-import com.example.lospibes.core.components.StandardBottomBar
+import com.example.lospibes.core.component.StandardScaffold
+import com.example.lospibes.core.component.StandardBottomBar
 import com.example.lospibes.features.home.domain.model.NavItem
 import com.example.lospibes.R
 

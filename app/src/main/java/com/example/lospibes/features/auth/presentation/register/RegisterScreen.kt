@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.R
-import com.example.lospibes.core.components.StandardOutlinedTextField
-import com.example.lospibes.core.components.StandardTopBar
+import com.example.lospibes.core.component.StandardOutlinedTextField
+import com.example.lospibes.core.component.StandardTopBar
 
 @Composable
 fun RegisterScreen(

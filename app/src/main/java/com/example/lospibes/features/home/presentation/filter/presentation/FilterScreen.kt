@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.core.components.StandardFlowRow
-import com.example.lospibes.core.components.StandardRangeSlider
-import com.example.lospibes.core.components.StandardTopBar
+import com.example.lospibes.core.component.StandardFlowRow
+import com.example.lospibes.core.component.StandardRangeSlider
+import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.presentation.filter.component.RecentList
 import com.example.lospibes.utils.Constants.categories
 

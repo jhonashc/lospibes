@@ -18,8 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.lospibes.utils.Constants.combos
-import com.example.lospibes.core.components.ComboListRow
-import com.example.lospibes.core.components.StandardTopBar
+import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.features.home.component.ComboListRow
 
 @Composable
 fun ComboScreen(

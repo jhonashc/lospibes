@@ -11,9 +11,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.core.components.ProductListGrid
-import com.example.lospibes.core.components.SearchTopBar
-import com.example.lospibes.core.components.StandardTopBar
+import com.example.lospibes.core.component.SearchTopBar
+import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.features.home.component.ProductListGrid
 import com.example.lospibes.utils.Constants.products
 
 @Composable
@@ -91,7 +91,6 @@ private fun Body(
 fun FavoriteSection(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    /* Alternar entre el grid de combos y productos */
     ProductListGrid(
         products = products,
         favoriteProducts = products,

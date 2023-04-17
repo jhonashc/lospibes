@@ -10,7 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.R
-import com.example.lospibes.core.components.*
+import com.example.lospibes.core.component.SearchTopBar
+import com.example.lospibes.core.component.StandardTabList
+import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.features.home.component.ProductListGrid
 import com.example.lospibes.features.home.domain.model.TabItem
 import com.example.lospibes.utils.Constants.categories
 import com.example.lospibes.utils.Constants.products

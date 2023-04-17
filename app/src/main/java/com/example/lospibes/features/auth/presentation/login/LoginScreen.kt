@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.core.components.StandardOutlinedTextField
+import com.example.lospibes.core.component.StandardOutlinedTextField
 import com.example.lospibes.R
 
 @Composable

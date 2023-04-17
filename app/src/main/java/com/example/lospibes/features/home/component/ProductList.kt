@@ -1,6 +1,8 @@
-package com.example.lospibes.core.components
+package com.example.lospibes.features.home.component
 
 import androidx.compose.runtime.Composable
+import com.example.lospibes.core.component.StandardCardListGrid
+import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.Product
 

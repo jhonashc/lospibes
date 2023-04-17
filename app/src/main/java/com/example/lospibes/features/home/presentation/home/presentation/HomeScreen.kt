@@ -15,7 +15,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.lospibes.core.components.*
+import com.example.lospibes.core.component.StandardTabList
+import com.example.lospibes.features.home.component.ComboListRow
+import com.example.lospibes.features.home.component.ProductListRow
 import com.example.lospibes.features.home.domain.model.TabItem
 import com.example.lospibes.utils.Constants.categories
 import com.example.lospibes.utils.Constants.combos
