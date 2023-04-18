@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
@@ -21,13 +22,15 @@ import com.example.lospibes.features.home.component.ProductListRow
 import com.example.lospibes.features.home.domain.model.TabItem
 import com.example.lospibes.utils.Constants.categories
 import com.example.lospibes.utils.Constants.combos
-import com.example.lospibes.utils.Constants.products
 
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
+    val state = viewModel.state.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -41,6 +44,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(26.dp))
 
             Body(
+                state = state,
                 onNavigateToExplore = onNavigateToExplore,
                 onNavigateToDetails = onNavigateToDetails
             )
@@ -124,6 +128,7 @@ private fun Header() {
 
 @Composable
 private fun Body(
+    state: State<HomeState>,
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
@@ -134,6 +139,7 @@ private fun Body(
     Spacer(modifier = Modifier.height(26.dp))
 
     PopularSection(
+        state = state,
         onNavigateToDetails = onNavigateToDetails
     )
 
@@ -195,6 +201,7 @@ private fun CategorySection(
 
 @Composable
 private fun PopularSection(
+    state: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     Row(
@@ -217,13 +224,21 @@ private fun PopularSection(
 
     Spacer(modifier = Modifier.height(22.dp))
 
-    ProductListRow(
-        products = products,
-        favoriteProducts = products.subList(0, 1),
-        onProductSelected = { selectedProduct ->
-            onNavigateToDetails(false, selectedProduct.id)
+    if (state.value.isLoading) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
         }
-    )
+    } else {
+        ProductListRow(
+            products = state.value.productList,
+            onProductSelected = { selectedProduct ->
+                onNavigateToDetails(false, selectedProduct.id)
+            }
+        )
+    }
 }
 
 @Composable
