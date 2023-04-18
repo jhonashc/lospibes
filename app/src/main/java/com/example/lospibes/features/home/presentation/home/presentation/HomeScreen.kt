@@ -19,8 +19,9 @@ import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
 import com.example.lospibes.features.home.component.ProductListRow
+import com.example.lospibes.features.home.domain.model.Category
+import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.TabItem
-import com.example.lospibes.utils.Constants.categories
 import com.example.lospibes.utils.Constants.combos
 
 @Composable
@@ -133,6 +134,7 @@ private fun Body(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     CategorySection(
+        state = state,
         onNavigateToExplore = onNavigateToExplore
     )
 
@@ -142,60 +144,66 @@ private fun Body(
         state = state,
         onNavigateToDetails = onNavigateToDetails
     )
-
-    Spacer(modifier = Modifier.height(26.dp))
-
-    CombosSection(
-        onNavigateToDetails = onNavigateToDetails
-    )
 }
 
 @Composable
 private fun CategorySection(
+    state: State<HomeState>,
     onNavigateToExplore: (query: String) -> Unit
 ) {
-    val tabList = categories.map { category ->
-        TabItem(
-            name = category.name,
-            icon = category.code
-        )
-    }
+    val categoryList: List<Category> = state.value.categoryList
 
-    var selectedTab by remember { mutableStateOf(tabList[0]) }
+    if (state.value.isCategoryLoading) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        val tabList = categoryList.map { category ->
+            TabItem(
+                name = category.name,
+                icon = category.emojiCode
+            )
+        }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = "Categorías",
-            style = MaterialTheme.typography.titleMedium,
-        )
+        var selectedTab by remember { mutableStateOf(tabList[0]) }
 
-        Text(
-            text = "Ver todas",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Categorías",
+                style = MaterialTheme.typography.titleMedium,
+            )
 
-    Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = "Ver todas",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 12.dp)
-    ) {
-        StandardTabList(
-            tabList = tabList,
-            selectedTab = selectedTab,
-            onTabSelected = { newSelectedTab ->
-                selectedTab = newSelectedTab
-                onNavigateToExplore(newSelectedTab.name)
-            },
-        )
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 12.dp)
+        ) {
+            StandardTabList(
+                tabList = tabList,
+                selectedTab = selectedTab,
+                onTabSelected = { newSelectedTab ->
+                    selectedTab = newSelectedTab
+                    onNavigateToExplore(newSelectedTab.name)
+                },
+            )
+        }
     }
 }
 
@@ -204,27 +212,9 @@ private fun PopularSection(
     state: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = "Populares \uD83D\uDD25",
-            style = MaterialTheme.typography.titleMedium,
-        )
+    val productList: List<Product> = state.value.productList
 
-        Text(
-            text = "Ver todas",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
-
-    Spacer(modifier = Modifier.height(22.dp))
-
-    if (state.value.isLoading) {
+    if (state.value.isProductLoading) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -232,8 +222,28 @@ private fun PopularSection(
             CircularProgressIndicator()
         }
     } else {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Populares \uD83D\uDD25",
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            Text(
+                text = "Ver todas",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+
+        Spacer(modifier = Modifier.height(22.dp))
+
         ProductListRow(
-            products = state.value.productList,
+            products = productList,
             onProductSelected = { selectedProduct ->
                 onNavigateToDetails(false, selectedProduct.id)
             }

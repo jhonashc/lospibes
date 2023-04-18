@@ -115,7 +115,7 @@ private fun CategorySection() {
     val tabList = categories.map { category ->
         TabItem(
             name = category.name,
-            icon = category.code
+            icon = category.emojiCode
         )
     }
 

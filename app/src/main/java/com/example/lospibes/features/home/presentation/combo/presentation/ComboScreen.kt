@@ -160,18 +160,18 @@ private fun InfoSection() {
         Spacer(modifier = Modifier.height(26.dp))
 
         /* Description */
-        combos[1].description?.let {
-            Text(
-                modifier = Modifier.alpha(0.8f),
-                text = it,
-                fontWeight = FontWeight.Normal,
-                style = MaterialTheme.typography.bodyLarge,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Justify,
-                color = MaterialTheme.colorScheme.outline,
-                maxLines = 6
-            )
-        }
+//        combos[1].description?.let {
+//            Text(
+//                modifier = Modifier.alpha(0.8f),
+//                text = it,
+//                fontWeight = FontWeight.Normal,
+//                style = MaterialTheme.typography.bodyLarge,
+//                overflow = TextOverflow.Ellipsis,
+//                textAlign = TextAlign.Justify,
+//                color = MaterialTheme.colorScheme.outline,
+//                maxLines = 6
+//            )
+//        }
     }
 }
 

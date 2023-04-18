@@ -22,13 +22,13 @@ fun ComboListRow(
         )
     }
 
-    val favoriteCardItemList: List<CardItem> = favoriteCombos.map { product ->
+    val favoriteCardItemList: List<CardItem> = favoriteCombos.map { combo ->
         CardItem(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            imageUrl = product.imageUrl,
-            price = product.price
+            id = combo.id,
+            name = combo.name,
+            description = combo.description,
+            imageUrl = combo.imageUrl,
+            price = combo.price
         )
     }
 
@@ -62,13 +62,13 @@ fun ComboListGrid(
         )
     }
 
-    val favoriteCardItemList: List<CardItem> = favoriteCombos.map { product ->
+    val favoriteCardItemList: List<CardItem> = favoriteCombos.map { combo ->
         CardItem(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            imageUrl = product.imageUrl,
-            price = product.price
+            id = combo.id,
+            name = combo.name,
+            description = combo.description,
+            imageUrl = combo.imageUrl,
+            price = combo.price
         )
     }
 

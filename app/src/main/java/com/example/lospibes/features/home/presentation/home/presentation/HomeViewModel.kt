@@ -2,9 +2,13 @@ package com.example.lospibes.features.home.presentation.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.lospibes.features.home.data.dto.query.GetCategoriesQueryDto
+import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
+import com.example.lospibes.features.home.domain.use_case.category.CategoryUseCase
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,23 +17,30 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val categoryUseCase: CategoryUseCase,
     private val productUseCase: ProductUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
     init {
+        getCategories()
         getProducts()
     }
 
-    private fun getProducts() {
+    private fun getCategories(
+        getCategoriesQueryDto: GetCategoriesQueryDto? = null
+    ) {
         viewModelScope.launch {
-            productUseCase.getProducts().collect { res ->
+            delay(1000)
+            categoryUseCase.getCategories(
+                getCategoriesQueryDto = getCategoriesQueryDto
+            ).collect { res ->
                 when (res) {
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isLoading = true
+                                isCategoryLoading = true
                             )
                         }
                     }
@@ -37,8 +48,8 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                productList = res.data?.data ?: emptyList(),
-                                isLoading = false
+                                categoryList = res.data?.data ?: emptyList(),
+                                isCategoryLoading = false
                             )
                         }
                     }
@@ -47,7 +58,46 @@ class HomeViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 message = res.message,
-                                isLoading = false
+                                isCategoryLoading = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getProducts(
+        getProductsQueryDto: GetProductsQueryDto? = null
+    ) {
+        viewModelScope.launch {
+            delay(1500)
+            productUseCase.getProducts(
+                getProductsQueryDto = getProductsQueryDto
+            ).collect { res ->
+                when (res) {
+                    is NetworkResult.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isProductLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _state.update {
+                            it.copy(
+                                productList = res.data?.data ?: emptyList(),
+                                isProductLoading = false
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        _state.update {
+                            it.copy(
+                                message = res.message,
+                                isProductLoading = false
                             )
                         }
                     }
