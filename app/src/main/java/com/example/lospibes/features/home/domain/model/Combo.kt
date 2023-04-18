@@ -6,5 +6,5 @@ data class Combo(
     val description: String? = null,
     val price: Number,
     val imageUrl: String? = null,
-    val products: List<Product>
+    val products: List<Product> = emptyList()
 )
