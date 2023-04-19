@@ -1,6 +1,6 @@
 package com.example.lospibes.utils
 
-import com.example.lospibes.core.dto.ErrorResponseDto
+import com.example.lospibes.core.dto.response.ErrorResponse
 import com.google.gson.Gson
 import retrofit2.Response
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +23,7 @@ abstract class BaseApiResponse {
                 )
             } else {
                 val errorResponse =
-                    Gson().fromJson(response.errorBody()?.string(), ErrorResponseDto::class.java)
+                    Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java)
 
                 emit(
                     NetworkResult.Error(
