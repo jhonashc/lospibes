@@ -1,5 +1,6 @@
 package com.example.lospibes.utils
 
+import android.util.Log
 import com.example.lospibes.core.dto.response.ErrorResponse
 import com.google.gson.Gson
 import retrofit2.Response
@@ -32,6 +33,8 @@ abstract class BaseApiResponse {
                 )
             }
         } catch (e: Exception) {
+            Log.e("EXCEPTION: ", e.localizedMessage)
+
             emit(
                 NetworkResult.Error(
                     message = "Algo salió mal"

@@ -1,10 +1,9 @@
 package com.example.lospibes.utils
 
-import com.example.lospibes.BuildConfig
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.Product
-import java.util.*
+import java.util.Date
 
 object Constants {
     const val ROOT_GRAPH_ROUTE = "root_graph"
@@ -12,7 +11,6 @@ object Constants {
     const val HOME_GRAPH_ROUTE = "home_graph"
     const val DETAIL_GRAPH_ROUTE = "detail_graph"
 
-    const val BASE_URL = BuildConfig.BASE_URL
     const val CATEGORIES = "categories"
     const val PRODUCTS = "products"
 

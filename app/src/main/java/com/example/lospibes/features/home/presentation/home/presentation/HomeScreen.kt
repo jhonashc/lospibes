@@ -31,24 +31,37 @@ fun HomeScreen(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val state = viewModel.state.collectAsState()
+    val isLoading = state.value.isCategoryLoading && state.value.isProductLoading
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Column(
-            modifier = Modifier.padding(vertical = 20.dp)
-        ) {
-            Header()
+        if (isLoading) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            Column(
+                modifier = Modifier.padding(vertical = 20.dp)
+            ) {
+                Header()
 
-            Spacer(modifier = Modifier.height(26.dp))
+                Spacer(modifier = Modifier.height(26.dp))
 
-            Body(
-                state = state,
-                onNavigateToExplore = onNavigateToExplore,
-                onNavigateToDetails = onNavigateToDetails
-            )
+                Body(
+                    state = state,
+                    onNavigateToExplore = onNavigateToExplore,
+                    onNavigateToDetails = onNavigateToDetails
+                )
+            }
         }
     }
 }
@@ -153,14 +166,7 @@ private fun CategorySection(
 ) {
     val categoryList: List<Category> = state.value.categoryList
 
-    if (state.value.isCategoryLoading) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
+    if (categoryList.isNotEmpty()) {
         val tabList = categoryList.map { category ->
             TabItem(
                 name = category.name,
@@ -214,41 +220,32 @@ private fun PopularSection(
 ) {
     val productList: List<Product> = state.value.productList
 
-    if (state.value.isProductLoading) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Populares \uD83D\uDD25",
-                style = MaterialTheme.typography.titleMedium,
-            )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Populares \uD83D\uDD25",
+            style = MaterialTheme.typography.titleMedium,
+        )
 
-            Text(
-                text = "Ver todas",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-
-        Spacer(modifier = Modifier.height(22.dp))
-
-        ProductListRow(
-            products = productList,
-            onProductSelected = { selectedProduct ->
-                onNavigateToDetails(false, selectedProduct.id)
-            }
+        Text(
+            text = "Ver todas",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
         )
     }
+
+    Spacer(modifier = Modifier.height(22.dp))
+
+    ProductListRow(
+        products = productList,
+        onProductSelected = { selectedProduct ->
+            onNavigateToDetails(false, selectedProduct.id)
+        }
+    )
 }
 
 @Composable
