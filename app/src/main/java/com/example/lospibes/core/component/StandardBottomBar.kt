@@ -2,6 +2,7 @@ package com.example.lospibes.core.component
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.lospibes.features.home.domain.model.NavItem
@@ -23,7 +24,14 @@ fun StandardBottomBar(
                 selected = selected,
                 onClick = {
                     if (navItem.route != currentRoute) {
-                        navController.navigate(navItem.route)
+                        navController.navigate(navItem.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 },
                 label = {
