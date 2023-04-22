@@ -19,9 +19,9 @@ import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
 import com.example.lospibes.features.home.component.ProductListRow
 import com.example.lospibes.features.home.domain.model.Category
+import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.TabItem
-import com.example.lospibes.utils.Constants.combos
 
 @Composable
 fun HomeScreen(
@@ -32,7 +32,9 @@ fun HomeScreen(
     val state = viewModel.state.collectAsState()
 
     StandardBoxContainer(
-        isLoading = state.value.isCategoryLoading && state.value.isProductLoading,
+        isLoading = state.value.isCategoryLoading &&
+                state.value.isComboLoading &&
+                state.value.isProductLoading,
         message = state.value.message
     ) {
         Column(
@@ -144,6 +146,13 @@ private fun Body(
         state = state,
         onNavigateToDetails = onNavigateToDetails
     )
+
+    Spacer(modifier = Modifier.height(26.dp))
+
+    CombosSection(
+        state = state,
+        onNavigateToDetails = onNavigateToDetails
+    )
 }
 
 @Composable
@@ -237,8 +246,11 @@ private fun PopularSection(
 
 @Composable
 private fun CombosSection(
+    state: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
+    val comboList: List<Combo> = state.value.comboList
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -260,8 +272,7 @@ private fun CombosSection(
     Spacer(modifier = Modifier.height(22.dp))
 
     ComboListRow(
-        combos = combos,
-        favoriteCombos = combos.subList(0, 2),
+        combos = comboList,
         onComboSelected = { selectedCombo ->
             onNavigateToDetails(true, selectedCombo.id)
         }
