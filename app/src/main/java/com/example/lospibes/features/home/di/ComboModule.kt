@@ -4,6 +4,7 @@ import com.example.lospibes.features.home.data.repository.ComboRepositoryImpl
 import com.example.lospibes.features.home.data.source.remote.ComboService
 import com.example.lospibes.features.home.domain.repository.ComboRepository
 import com.example.lospibes.features.home.domain.use_case.combo.ComboUseCase
+import com.example.lospibes.features.home.domain.use_case.combo.GetComboById
 import com.example.lospibes.features.home.domain.use_case.combo.GetCombos
 import dagger.Module
 import dagger.Provides
@@ -31,7 +32,8 @@ object ComboModule {
     @Provides
     fun provideComboUseCase(comboRepository: ComboRepository): ComboUseCase {
         return ComboUseCase(
-            getCombos = GetCombos(comboRepository)
+            getCombos = GetCombos(comboRepository),
+            getComboById = GetComboById(comboRepository)
         )
     }
 }
