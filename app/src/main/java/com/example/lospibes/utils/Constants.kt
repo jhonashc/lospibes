@@ -1,7 +1,6 @@
 package com.example.lospibes.utils
 
 import com.example.lospibes.features.home.domain.model.Category
-import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.Product
 import java.util.Date
 
@@ -140,74 +139,6 @@ object Constants {
             price = 3.0,
             stock = 100,
             categories = categories,
-            createdAt = date,
-            updatedAt = date
-        )
-    )
-
-    val hamburgers: List<Product> = listOf(
-        Product(
-            id = "2",
-            name = "Chicken Burger",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-            imageUrl = "https://www.hungryjacks.com.au/Upload/HJ/Media/UNO/HJ00571_WEB_Jack%CE%93COs-Fried-Chicken-classic_800X600_3.png",
-            price = 3.0,
-            stock = 100,
-            categories = categories,
-            createdAt = date,
-            updatedAt = date
-        ),
-        Product(
-            id = "3",
-            name = "Bacon burger",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-            imageUrl = "https://burgerkingec.com/wp-content/uploads/2020/04/bbq-bacon-king-img.png",
-            price = 3.50,
-            stock = 100,
-            categories = categories,
-            createdAt = date,
-            updatedAt = date
-        ),
-        Product(
-            id = "1",
-            name = "Triple Meat Extra Cheese",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-            imageUrl = "https://olo-images-live.imgix.net/2e/2e44fc9d4ecd447ebb10f0f49810b198.png?auto=format%2Ccompress&q=60&cs=tinysrgb&w=528&h=352&fit=fill&fm=png32&bg=transparent&s=51cb9035dab2ac756a30f53e6b51b449",
-            price = 6.50,
-            stock = 100,
-            categories = categories,
-            createdAt = date,
-            updatedAt = date
-        ),
-    )
-
-    val combos: List<Combo> = listOf(
-        Combo(
-            id = "1",
-            name = "Chicken Popcorn",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-            imageUrl = "https://images.getduna.com/2bb258f4-051d-4a46-9321-b0a7a857cd71/9e9dea90ac64f3a4_domicilio_54927_744x744_1675371715.png?d=300x300&format=webp",
-            price = 5,
-            products = products,
-            createdAt = date,
-            updatedAt = date
-        ),
-        Combo(
-            id = "2",
-            name = "Dynamite Burger Combo",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-            imageUrl = "https://kfcprodnecmsimage.azureedge.net/cmsimages/uae/imagestemp/900537.png",
-            price = 6,
-            products = products,
-            createdAt = date,
-            updatedAt = date
-        ), Combo(
-            id = "3",
-            name = "Chicken wings",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-            imageUrl = "https://images.getduna.com/2bb258f4-051d-4a46-9321-b0a7a857cd71/9e9dea90ac64f3a4_domicilio_499_744x744.png?d=300x300&format=webp",
-            price = 4,
-            products = products,
             createdAt = date,
             updatedAt = date
         )

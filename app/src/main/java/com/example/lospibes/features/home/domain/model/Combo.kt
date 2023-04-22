@@ -8,7 +8,12 @@ data class Combo(
     val description: String? = null,
     val price: Number,
     val imageUrl: String? = null,
-    val products: List<Product>,
+    val products: List<ComboProduct>,
     val createdAt: Date,
     val updatedAt: Date
+)
+
+data class ComboProduct(
+    val product: Product,
+    val quantity: Int
 )
