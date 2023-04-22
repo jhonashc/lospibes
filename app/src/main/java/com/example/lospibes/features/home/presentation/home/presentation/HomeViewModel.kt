@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
         getCategoriesQueryDto: GetCategoriesQueryDto? = null
     ) {
         viewModelScope.launch {
-            delay(1000)
+            delay(2000)
             categoryUseCase.getCategories(
                 getCategoriesQueryDto = getCategoriesQueryDto
             ).collect { res ->
@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 categoryList = res.data?.data ?: emptyList(),
-                                isCategoryLoading = false
+                                isCategoryLoading = false,
                             )
                         }
                     }
@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 message = res.message,
-                                isCategoryLoading = false
+                                isCategoryLoading = true
                             )
                         }
                     }
@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
         getProductsQueryDto: GetProductsQueryDto? = null
     ) {
         viewModelScope.launch {
-            delay(1500)
+            delay(2500)
             productUseCase.getProducts(
                 getProductsQueryDto = getProductsQueryDto
             ).collect { res ->

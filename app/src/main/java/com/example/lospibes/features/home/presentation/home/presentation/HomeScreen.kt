@@ -1,8 +1,6 @@
 package com.example.lospibes.features.home.presentation.home.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.LocationOn
@@ -16,6 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
 import com.example.lospibes.features.home.component.ProductListRow
@@ -31,37 +30,25 @@ fun HomeScreen(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val state = viewModel.state.collectAsState()
-    val isLoading = state.value.isCategoryLoading && state.value.isProductLoading
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    StandardBoxContainer(
+        isLoading = state.value.isCategoryLoading && state.value.isProductLoading,
+        message = state.value.message
     ) {
-        if (isLoading) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            Column(
-                modifier = Modifier.padding(vertical = 20.dp)
-            ) {
-                Header()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 20.dp)
+        ) {
+            Header()
 
-                Spacer(modifier = Modifier.height(26.dp))
+            Spacer(modifier = Modifier.height(26.dp))
 
-                Body(
-                    state = state,
-                    onNavigateToExplore = onNavigateToExplore,
-                    onNavigateToDetails = onNavigateToDetails
-                )
-            }
+            Body(
+                state = state,
+                onNavigateToExplore = onNavigateToExplore,
+                onNavigateToDetails = onNavigateToDetails
+            )
         }
     }
 }

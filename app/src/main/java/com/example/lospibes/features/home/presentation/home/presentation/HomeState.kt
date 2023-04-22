@@ -4,9 +4,9 @@ import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
 
 data class HomeState(
-    val categoryList: List<Category> = emptyList(),
-    val productList: List<Product> = emptyList(),
+    val message: String? = null,
     val isCategoryLoading: Boolean = true,
     val isProductLoading: Boolean = true,
-    val message: Any? = null
+    val categoryList: List<Category> = emptyList(),
+    val productList: List<Product> = emptyList()
 )
