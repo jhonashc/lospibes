@@ -83,16 +83,18 @@ fun StandardCard(
                     maxLines = 1
                 )
 
-                Text(
-                    modifier = Modifier.alpha(0.8f),
-                    text = cardItem.description ?: "",
-                    fontWeight = FontWeight.Normal,
-                    style = MaterialTheme.typography.bodySmall,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Justify,
-                    color = MaterialTheme.colorScheme.outline,
-                    maxLines = 2,
-                )
+                cardItem.description?.let { validDescription ->
+                    Text(
+                        modifier = Modifier.alpha(0.8f),
+                        text = validDescription,
+                        fontWeight = FontWeight.Normal,
+                        style = MaterialTheme.typography.bodySmall,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Justify,
+                        color = MaterialTheme.colorScheme.outline,
+                        maxLines = 2,
+                    )
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),

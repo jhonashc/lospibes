@@ -25,13 +25,7 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
-    init {
-        getCategories()
-        getCombos()
-        getProducts()
-    }
-
-    private fun getCategories(
+    fun getCategories(
         getCategoriesQueryDto: GetCategoriesQueryDto? = null
     ) {
         viewModelScope.launch {
@@ -69,7 +63,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getCombos(
+    fun getCombos(
         getCombosQueryDto: GetCombosQueryDto? = null
     ) {
         viewModelScope.launch {
@@ -107,7 +101,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getProducts(
+    fun getProducts(
         getProductsQueryDto: GetProductsQueryDto? = null
     ) {
         viewModelScope.launch {

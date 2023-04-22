@@ -31,6 +31,12 @@ fun HomeScreen(
 ) {
     val homeState = homeViewModel.state.collectAsState()
 
+    LaunchedEffect(key1 = true) {
+        homeViewModel.getCategories()
+        homeViewModel.getCombos()
+        homeViewModel.getProducts()
+    }
+
     StandardBoxContainer(
         isLoading = homeState.value.isCategoryLoading &&
                 homeState.value.isComboLoading &&

@@ -27,28 +27,30 @@ import com.example.lospibes.features.home.domain.model.Product
 
 @Composable
 fun ProductScreen(
-    viewModel: ProductViewModel = hiltViewModel(),
+    productViewModel: ProductViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    val state = viewModel.state.collectAsState()
+    val productState = productViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = state.value.product) {
-        val categories: List<Category> = state.value.product?.categories ?: emptyList()
+    LaunchedEffect(key1 = productState.value.product) {
+        productState.value.product?.let { validProduct ->
+            val categories: List<Category> = validProduct.categories
 
-        if (categories.isNotEmpty()) {
-            viewModel.getSimilarProducts(
-                getProductsQueryDto = GetProductsQueryDto(
-                    category = categories.first().name
+            if (categories.isNotEmpty()) {
+                productViewModel.getSimilarProducts(
+                    getProductsQueryDto = GetProductsQueryDto(
+                        category = categories.first().name
+                    )
                 )
-            )
+            }
         }
     }
 
     StandardBoxContainer(
-        isLoading = state.value.isProductLoading &&
-                state.value.isSimilarProductLoading,
-        message = state.value.message
+        isLoading = productState.value.isProductLoading &&
+                productState.value.isSimilarProductLoading,
+        message = productState.value.message
     ) {
         Column(
             modifier = Modifier
@@ -61,7 +63,7 @@ fun ProductScreen(
             )
 
             Body(
-                state = state,
+                productState = productState,
                 onNavigateToDetails = onNavigateToDetails
             )
 
@@ -105,37 +107,40 @@ private fun Header(
 
 @Composable
 private fun Body(
-    state: State<ProductState>,
+    productState: State<ProductState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    val product: Product? = state.value.product
+    val product: Product? = productState.value.product
+    val similarProductList: List<Product> = productState.value.similarProductList
 
-    product?.let { validateProduct ->
+    product?.let { validProduct ->
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
             ImageSection(
-                product = validateProduct
+                product = validProduct
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             InfoSection(
-                product = validateProduct
+                product = validProduct
             )
 
             Spacer(modifier = Modifier.height(26.dp))
 
             CategorySection(
-                categoryList = validateProduct.categories
+                categoryList = validProduct.categories
             )
 
-            Spacer(modifier = Modifier.height(26.dp))
+            if (similarProductList.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(26.dp))
 
-            SimilarSection(
-                state = state,
-                onNavigateToDetails = onNavigateToDetails
-            )
+                SimilarSection(
+                    similarProductList = similarProductList,
+                    onNavigateToDetails = onNavigateToDetails
+                )
+            }
 
             Spacer(modifier = Modifier.height(26.dp))
         }
@@ -243,11 +248,9 @@ private fun CategorySection(
 
 @Composable
 private fun SimilarSection(
-    state: State<ProductState>,
+    similarProductList: List<Product>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    val similarProductList: List<Product> = state.value.similarProductList
-
     Text(
         modifier = Modifier.padding(horizontal = 20.dp),
         text = "Similares \uD83D\uDCA3️",
