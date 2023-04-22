@@ -10,7 +10,6 @@ import com.example.lospibes.features.home.domain.use_case.combo.ComboUseCase
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -36,7 +35,6 @@ class HomeViewModel @Inject constructor(
         getCategoriesQueryDto: GetCategoriesQueryDto? = null
     ) {
         viewModelScope.launch {
-            delay(2000)
             categoryUseCase.getCategories(
                 getCategoriesQueryDto = getCategoriesQueryDto
             ).collect { res ->
@@ -62,7 +60,7 @@ class HomeViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 message = res.message,
-                                isCategoryLoading = true
+                                isCategoryLoading = false
                             )
                         }
                     }
@@ -75,7 +73,6 @@ class HomeViewModel @Inject constructor(
         getCombosQueryDto: GetCombosQueryDto? = null
     ) {
         viewModelScope.launch {
-            delay(2500)
             comboUseCase.getCombos(
                 getCombosQueryDto = getCombosQueryDto
             ).collect { res ->
@@ -114,7 +111,6 @@ class HomeViewModel @Inject constructor(
         getProductsQueryDto: GetProductsQueryDto? = null
     ) {
         viewModelScope.launch {
-            delay(3000)
             productUseCase.getProducts(
                 getProductsQueryDto = getProductsQueryDto
             ).collect { res ->

@@ -1,12 +1,12 @@
 package com.example.lospibes.features.home.presentation.product.presentation
 
-import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,21 +15,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.lospibes.core.component.StandardBoxContainer
+import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.component.ProductListRow
-import com.example.lospibes.utils.Constants.hamburgers
-import com.example.lospibes.utils.Constants.products
+import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
+import com.example.lospibes.features.home.domain.model.Category
+import com.example.lospibes.features.home.domain.model.Product
 
 @Composable
 fun ProductScreen(
+    viewModel: ProductViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    val state = viewModel.state.collectAsState()
+
+    LaunchedEffect(key1 = state.value.product) {
+        val categories: List<Category> = state.value.product?.categories ?: emptyList()
+
+        if (categories.isNotEmpty()) {
+            viewModel.getSimilarProducts(
+                getProductsQueryDto = GetProductsQueryDto(
+                    category = categories.first().name
+                )
+            )
+        }
+    }
+
+    StandardBoxContainer(
+        isLoading = state.value.isProductLoading &&
+                state.value.isSimilarProductLoading,
+        message = state.value.message
     ) {
         Column(
             modifier = Modifier
@@ -42,6 +61,7 @@ fun ProductScreen(
             )
 
             Body(
+                state = state,
                 onNavigateToDetails = onNavigateToDetails
             )
 
@@ -85,41 +105,61 @@ private fun Header(
 
 @Composable
 private fun Body(
+    state: State<ProductState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        ImageSection()
+    val product: Product? = state.value.product
 
-        Spacer(modifier = Modifier.height(10.dp))
+    product?.let { validateProduct ->
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            ImageSection(
+                product = validateProduct
+            )
 
-        InfoSection()
+            Spacer(modifier = Modifier.height(10.dp))
 
-        Spacer(modifier = Modifier.height(26.dp))
+            InfoSection(
+                product = validateProduct
+            )
 
-        SimilarSection(
-            onNavigateToDetails = onNavigateToDetails
-        )
+            Spacer(modifier = Modifier.height(26.dp))
 
-        Spacer(modifier = Modifier.height(26.dp))
+            CategorySection(
+                categoryList = validateProduct.categories
+            )
+
+            Spacer(modifier = Modifier.height(26.dp))
+
+            SimilarSection(
+                state = state,
+                onNavigateToDetails = onNavigateToDetails
+            )
+
+            Spacer(modifier = Modifier.height(26.dp))
+        }
     }
 }
 
 @Composable
-private fun ImageSection() {
+private fun ImageSection(
+    product: Product
+) {
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
-        model = products[0].imageUrl,
-        contentDescription = products[0].name,
+        model = product.imageUrl,
+        contentDescription = product.name,
         contentScale = ContentScale.Fit
     )
 }
 
 @Composable
-private fun InfoSection() {
+private fun InfoSection(
+    product: Product
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,7 +173,7 @@ private fun InfoSection() {
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = products[0].name,
+                text = product.name,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -150,7 +190,7 @@ private fun InfoSection() {
                 )
 
                 Text(
-                    text = "${products[0].price}",
+                    text = "${product.price}",
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -160,10 +200,10 @@ private fun InfoSection() {
         Spacer(modifier = Modifier.height(26.dp))
 
         /* Description */
-        products[0].description?.let {
+        product.description?.let { validateDescription ->
             Text(
                 modifier = Modifier.alpha(0.8f),
-                text = it,
+                text = validateDescription,
                 fontWeight = FontWeight.Normal,
                 style = MaterialTheme.typography.bodyLarge,
                 overflow = TextOverflow.Ellipsis,
@@ -176,9 +216,38 @@ private fun InfoSection() {
 }
 
 @Composable
+private fun CategorySection(
+    categoryList: List<Category>
+) {
+    val categoryNames: List<String> = categoryList.map { category -> category.name }
+
+    Column(
+        modifier = Modifier.padding(horizontal = 20.dp)
+    ) {
+        Text(
+            text = "Categorías",
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        StandardFlowRow(
+            itemList = categoryNames,
+            selectedItem = "",
+            onItemSelected = {}
+        )
+    }
+}
+
+@Composable
 private fun SimilarSection(
+    state: State<ProductState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
+    val similarProductList: List<Product> = state.value.similarProductList
+
     Text(
         modifier = Modifier.padding(horizontal = 20.dp),
         text = "Similares \uD83D\uDCA3️",
@@ -188,8 +257,7 @@ private fun SimilarSection(
     Spacer(modifier = Modifier.height(22.dp))
 
     ProductListRow(
-        products = hamburgers,
-        favoriteProducts = hamburgers.subList(0, 1),
+        products = similarProductList,
         onProductSelected = { selectedProduct ->
             onNavigateToDetails(false, selectedProduct.id)
         }

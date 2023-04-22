@@ -25,29 +25,31 @@ import com.example.lospibes.features.home.domain.model.TabItem
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    val state = viewModel.state.collectAsState()
+    val homeState = homeViewModel.state.collectAsState()
 
     StandardBoxContainer(
-        isLoading = state.value.isCategoryLoading &&
-                state.value.isComboLoading &&
-                state.value.isProductLoading,
-        message = state.value.message
+        isLoading = homeState.value.isCategoryLoading &&
+                homeState.value.isComboLoading &&
+                homeState.value.isProductLoading,
+        message = homeState.value.message
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(vertical = 20.dp)
         ) {
-            Header()
+            Header(
+                homeState = homeState
+            )
 
             Spacer(modifier = Modifier.height(26.dp))
 
             Body(
-                state = state,
+                homeState = homeState,
                 onNavigateToExplore = onNavigateToExplore,
                 onNavigateToDetails = onNavigateToDetails
             )
@@ -56,7 +58,9 @@ fun HomeScreen(
 }
 
 @Composable
-private fun Header() {
+private fun Header(
+    homeState: State<HomeState>
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,36 +135,36 @@ private fun Header() {
 
 @Composable
 private fun Body(
-    state: State<HomeState>,
+    homeState: State<HomeState>,
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     CategorySection(
-        state = state,
+        homeState = homeState,
         onNavigateToExplore = onNavigateToExplore
     )
 
     Spacer(modifier = Modifier.height(26.dp))
 
     PopularSection(
-        state = state,
+        homeState = homeState,
         onNavigateToDetails = onNavigateToDetails
     )
 
     Spacer(modifier = Modifier.height(26.dp))
 
     CombosSection(
-        state = state,
+        homeState = homeState,
         onNavigateToDetails = onNavigateToDetails
     )
 }
 
 @Composable
 private fun CategorySection(
-    state: State<HomeState>,
+    homeState: State<HomeState>,
     onNavigateToExplore: (query: String) -> Unit
 ) {
-    val categoryList: List<Category> = state.value.categoryList
+    val categoryList: List<Category> = homeState.value.categoryList
 
     if (categoryList.isNotEmpty()) {
         val tabList = categoryList.map { category ->
@@ -211,10 +215,10 @@ private fun CategorySection(
 
 @Composable
 private fun PopularSection(
-    state: State<HomeState>,
+    homeState: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    val productList: List<Product> = state.value.productList
+    val productList: List<Product> = homeState.value.productList
 
     Row(
         modifier = Modifier
@@ -246,10 +250,10 @@ private fun PopularSection(
 
 @Composable
 private fun CombosSection(
-    state: State<HomeState>,
+    homeState: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    val comboList: List<Combo> = state.value.comboList
+    val comboList: List<Combo> = homeState.value.comboList
 
     Row(
         modifier = Modifier
