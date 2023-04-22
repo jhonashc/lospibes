@@ -12,6 +12,7 @@ object Constants {
     const val DETAIL_GRAPH_ROUTE = "detail_graph"
 
     const val CATEGORIES = "categories"
+    const val COMBOS = "combos"
     const val PRODUCTS = "products"
 
     // Temporal
@@ -184,25 +185,31 @@ object Constants {
         Combo(
             id = "1",
             name = "Chicken Popcorn",
-//            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
             imageUrl = "https://images.getduna.com/2bb258f4-051d-4a46-9321-b0a7a857cd71/9e9dea90ac64f3a4_domicilio_54927_744x744_1675371715.png?d=300x300&format=webp",
             price = 5,
-//            products = products
+            products = products,
+            createdAt = date,
+            updatedAt = date
         ),
         Combo(
             id = "2",
             name = "Dynamite Burger Combo",
-//            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
             imageUrl = "https://kfcprodnecmsimage.azureedge.net/cmsimages/uae/imagestemp/900537.png",
             price = 6,
-//            products = products
+            products = products,
+            createdAt = date,
+            updatedAt = date
         ), Combo(
             id = "3",
             name = "Chicken wings",
-//            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
             imageUrl = "https://images.getduna.com/2bb258f4-051d-4a46-9321-b0a7a857cd71/9e9dea90ac64f3a4_domicilio_499_744x744.png?d=300x300&format=webp",
             price = 4,
-//            products = products
+            products = products,
+            createdAt = date,
+            updatedAt = date
         )
     )
 }
