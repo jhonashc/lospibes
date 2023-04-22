@@ -1,11 +1,12 @@
 package com.example.lospibes.utils
 
-import android.util.Log
 import com.example.lospibes.core.dto.response.ErrorResponse
 import com.google.gson.Gson
 import retrofit2.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 
 abstract class BaseApiResponse {
     fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Flow<NetworkResult<T>> = flow {
@@ -28,13 +29,17 @@ abstract class BaseApiResponse {
 
                 emit(
                     NetworkResult.Error(
-                        message = errorResponse
+                        message = errorResponse.message
                     )
                 )
             }
-        } catch (e: Exception) {
-            Log.e("EXCEPTION: ", e.localizedMessage)
-
+        } catch (e: IOException) {
+            emit(
+                NetworkResult.Error(
+                    message = "Estás desconectado. Comprueba tu conexión"
+                )
+            )
+        } catch (e: HttpException) {
             emit(
                 NetworkResult.Error(
                     message = "Algo salió mal"
