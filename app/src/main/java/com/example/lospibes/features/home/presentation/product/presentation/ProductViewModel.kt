@@ -21,7 +21,7 @@ class ProductViewModel @Inject constructor(
     private val _state = MutableStateFlow(ProductState())
     val state = _state.asStateFlow()
 
-    private val productId: String = savedStateHandle["productId"] ?: ""
+    private val productId: String = savedStateHandle.get<String>("productId") ?: ""
 
     init {
         getProductById(

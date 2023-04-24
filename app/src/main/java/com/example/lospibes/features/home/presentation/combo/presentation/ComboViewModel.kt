@@ -21,7 +21,7 @@ class ComboViewModel @Inject constructor(
     private val _state = MutableStateFlow(ComboState())
     val state = _state.asStateFlow()
 
-    private val comboId: String = savedStateHandle["comboId"] ?: ""
+    private val comboId: String = savedStateHandle.get<String>("comboId") ?: ""
 
     init {
         getComboById(

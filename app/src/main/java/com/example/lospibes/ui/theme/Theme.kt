@@ -79,6 +79,7 @@ private val DarkColorScheme = darkColorScheme(
     outlineVariant = md_theme_dark_outlineVariant,
     scrim = md_theme_dark_scrim,
 )
+
 @Composable
 fun LosPibesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -93,7 +94,9 @@ fun LosPibesTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
+
     if (!view.isInEditMode) {
         SideEffect {
             (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()

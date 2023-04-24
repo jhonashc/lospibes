@@ -99,7 +99,7 @@ fun DetailSection() {
     ) {
         AsyncImage(
             modifier = Modifier
-                .size(180.dp)
+                .size(140.dp)
                 .clip(CircleShape),
             model = "https://images.pexels.com/photos/3778361/pexels-photo-3778361.jpeg",
             contentDescription = "Profile Image",
@@ -110,7 +110,7 @@ fun DetailSection() {
 
         Text(
             text = "SoyMulti",
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleLarge,
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
             maxLines = 1

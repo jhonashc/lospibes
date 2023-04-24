@@ -233,7 +233,7 @@ private fun PopularSection(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Populares \uD83D\uDD25",
+            text = "Populares",
             style = MaterialTheme.typography.titleMedium,
         )
 
@@ -268,7 +268,7 @@ private fun CombosSection(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Combos \uD83D\uDCE6",
+            text = "Combos",
             style = MaterialTheme.typography.titleMedium,
         )
 

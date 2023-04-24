@@ -28,12 +28,7 @@ fun HomeNavGraph(
             route = HomeDestinations.ProfileScreen.route
         ) {
             ProfileScreen(
-                onNavigateToHome = {
-                    navController.popBackStack(
-                        route = HomeDestinations.HomeScreen.route,
-                        inclusive = false
-                    )
-                }
+                onNavigateToHome = {}
             )
         }
 
@@ -41,12 +36,7 @@ fun HomeNavGraph(
             route = HomeDestinations.CartScreen.route
         ) {
             CartScreen(
-                onNavigateToHome = {
-                    navController.popBackStack(
-                        route = HomeDestinations.HomeScreen.route,
-                        inclusive = false
-                    )
-                }
+                onNavigateToHome = {}
             )
         }
 
@@ -74,8 +64,12 @@ fun HomeNavGraph(
             route = HomeDestinations.HomeScreen.route
         ) {
             HomeScreen(
-                onNavigateToExplore = { query ->
-                    navController.navigate("${HomeDestinations.ExploreScreen.route}?q=${query}")
+                onNavigateToExplore = { category ->
+                    navController.navigate("explore_screen?category=${category}") {
+                        popUpTo(HomeDestinations.HomeScreen.route) {
+                            inclusive = true
+                        }
+                    }
                 },
                 onNavigateToDetails = { isCombo, id ->
                     if (isCombo) {
@@ -90,19 +84,26 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.ExploreScreen.route,
             arguments = listOf(
-                navArgument("q") {
+                navArgument("name") {
                     defaultValue = ""
                     type = NavType.StringType
+                },
+                navArgument("category") {
+                    defaultValue = ""
+                    type = NavType.StringType
+                },
+                navArgument("min") {
+                    defaultValue = 0
+                    type = NavType.IntType
+                },
+                navArgument("max") {
+                    defaultValue = 0
+                    type = NavType.IntType
                 }
             )
         ) {
             ExploreScreen(
-                onNavigateToHome = {
-                    navController.popBackStack(
-                        route = HomeDestinations.HomeScreen.route,
-                        inclusive = false
-                    )
-                },
+                onNavigateToHome = {},
                 onNavigateToFilter = {
                     navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
                 },

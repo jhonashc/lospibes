@@ -13,25 +13,25 @@ fun StandardBottomBar(
     navItems: List<NavItem>
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry.value?.destination?.route
 
     NavigationBar {
         navItems.forEach { navItem ->
-            val currentRoute = backStackEntry.value?.destination?.route
             val selected = navItem.route == currentRoute
 
             NavigationBarItem(
                 enabled = true,
                 selected = selected,
                 onClick = {
-                    if (navItem.route != currentRoute) {
-                        navController.navigate(navItem.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-
-                            launchSingleTop = true
-                            restoreState = true
+                    navController.navigate(
+                        route = navItem.route
+                    ) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
+
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 },
                 label = {
