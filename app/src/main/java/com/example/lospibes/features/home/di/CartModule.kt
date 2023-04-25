@@ -2,8 +2,7 @@ package com.example.lospibes.features.home.di
 
 import com.example.lospibes.features.home.data.repository.CartRepositoryImpl
 import com.example.lospibes.features.home.domain.repository.CartRepository
-import com.example.lospibes.features.home.domain.use_case.cart.AddToCart
-import com.example.lospibes.features.home.domain.use_case.cart.CartUseCase
+import com.example.lospibes.features.home.domain.use_case.cart.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +22,11 @@ object CartModule {
     @Provides
     fun provideCartUseCase(cartRepository: CartRepository): CartUseCase {
         return CartUseCase(
-            addToCart = AddToCart(cartRepository)
+            addToCart = AddToCart(cartRepository),
+            removeFromCart = RemoveFromCart(cartRepository),
+            addQuantity = AddQuantity(cartRepository),
+            subtractQuantity = SubtractQuantity(cartRepository),
+            removeAll = RemoveAll(cartRepository)
         )
     }
 }
