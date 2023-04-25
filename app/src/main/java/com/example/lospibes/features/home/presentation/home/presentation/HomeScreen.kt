@@ -18,13 +18,12 @@ import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
 import com.example.lospibes.features.home.component.ProductListRow
-import com.example.lospibes.features.home.domain.model.Category
-import com.example.lospibes.features.home.domain.model.Combo
-import com.example.lospibes.features.home.domain.model.Product
-import com.example.lospibes.features.home.domain.model.TabItem
+import com.example.lospibes.features.home.domain.model.*
+import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
 fun HomeScreen(
+    cartViewModel: CartViewModel,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit

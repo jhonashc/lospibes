@@ -1,6 +1,7 @@
 package com.example.lospibes.navigation.home
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,6 +13,7 @@ import com.example.lospibes.features.home.presentation.explore.presentation.Expl
 import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
 import com.example.lospibes.features.home.presentation.home.presentation.HomeScreen
 import com.example.lospibes.features.home.presentation.profile.presentation.ProfileScreen
+import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 import com.example.lospibes.utils.Constants.DETAIL_GRAPH_ROUTE
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 
@@ -19,6 +21,8 @@ import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 fun HomeNavGraph(
     navController: NavHostController
 ) {
+    val cartViewModel: CartViewModel = hiltViewModel()
+
     NavHost(
         navController = navController,
         startDestination = HomeDestinations.HomeScreen.route,
@@ -64,6 +68,7 @@ fun HomeNavGraph(
             route = HomeDestinations.HomeScreen.route
         ) {
             HomeScreen(
+                cartViewModel = cartViewModel,
                 onNavigateToExplore = { category ->
                     navController.navigate("explore_screen?category=${category}") {
                         popUpTo(HomeDestinations.HomeScreen.route) {
