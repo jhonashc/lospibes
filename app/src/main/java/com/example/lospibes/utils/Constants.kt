@@ -12,6 +12,7 @@ object Constants {
 
     const val CATEGORIES = "categories"
     const val COMBOS = "combos"
+    const val FAVORITES = "favorites"
     const val PRODUCTS = "products"
 
     // Temporal
