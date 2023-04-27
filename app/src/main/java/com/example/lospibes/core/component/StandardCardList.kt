@@ -10,12 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.CardItem
+import com.example.lospibes.features.home.domain.model.CartItem
+import com.example.lospibes.features.home.domain.model.toCartItem
 
 @Composable
 fun StandardCardListRow(
     cardItemList: List<CardItem>,
     favoriteCardItemList: List<CardItem> = listOf(),
-    onCardItemSelected: (selectedCardItem: CardItem) -> Unit
+    cartItemList: List<CartItem> = listOf(),
+    onCardItemSelected: (selectedCardItem: CardItem) -> Unit,
+    onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
     LazyRow(
         modifier = Modifier
@@ -31,15 +35,11 @@ fun StandardCardListRow(
                 )
             ) {
                 StandardCard(
-                    cardItem = CardItem(
-                        id = cardItem.id,
-                        name = cardItem.name,
-                        description = cardItem.description,
-                        imageUrl = cardItem.imageUrl,
-                        price = cardItem.price,
-                    ),
+                    cardItem = cardItem,
                     isFavorite = favoriteCardItemList.contains(cardItem),
-                    onClick = { onCardItemSelected(cardItem) }
+                    isOnTheCart = cartItemList.contains(cardItem.toCartItem()),
+                    onCardClick = { onCardItemSelected(cardItem) },
+                    onAddOrRemoveClick = onAddOrRemoveClick
                 )
             }
         }
@@ -50,8 +50,10 @@ fun StandardCardListRow(
 fun StandardCardListGrid(
     columns: Int = 2,
     cardItemList: List<CardItem>,
+    cartItemList: List<CartItem> = listOf(),
     favoriteCardItemList: List<CardItem> = listOf(),
-    onCardItemSelected: (listItem: CardItem) -> Unit
+    onCardItemSelected: (listItem: CardItem) -> Unit,
+    onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
@@ -61,15 +63,11 @@ fun StandardCardListGrid(
     ) {
         items(cardItemList) { cardItem ->
             StandardCard(
-                cardItem = CardItem(
-                    id = cardItem.id,
-                    name = cardItem.name,
-                    description = cardItem.description,
-                    imageUrl = cardItem.imageUrl,
-                    price = cardItem.price,
-                ),
+                cardItem = cardItem,
                 isFavorite = favoriteCardItemList.contains(cardItem),
-                onClick = { onCardItemSelected(cardItem) }
+                isOnTheCart = cartItemList.contains(cardItem.toCartItem()),
+                onCardClick = { onCardItemSelected(cardItem) },
+                onAddOrRemoveClick = onAddOrRemoveClick
             )
         }
     }

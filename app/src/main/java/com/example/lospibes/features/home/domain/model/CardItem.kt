@@ -7,3 +7,11 @@ data class CardItem(
     val imageUrl: String? = null,
     val price: Number
 )
+
+fun CardItem.toCartItem() = CartItem(
+    id = id,
+    name = name,
+    imageUrl = imageUrl,
+    price = price,
+    quantity = 1
+)

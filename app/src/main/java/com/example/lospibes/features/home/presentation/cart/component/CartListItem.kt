@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -98,7 +99,7 @@ fun CartListItem(
                         ),
                         border = BorderStroke(
                             width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary
+                            color = Color.Transparent
                         ),
                         onClick = { /*TODO*/ }
                     ) {
@@ -125,7 +126,7 @@ fun CartListItem(
                         ),
                         border = BorderStroke(
                             width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary
+                            color = Color.Transparent
                         ),
                         onClick = { /*TODO*/ }
                     ) {
@@ -139,98 +140,6 @@ fun CartListItem(
                     }
                 }
             }
-
-            /* Body section */
-//            Column(
-//                modifier = Modifier.fillMaxSize(),
-//                verticalArrangement = Arrangement.Center
-//            ) {
-//                /* Info section */
-//                Text(
-//                    text = "${cartItem.name} ${cartItem.name} ${cartItem.name}",
-//                    style = MaterialTheme.typography.titleMedium,
-//                    overflow = TextOverflow.Ellipsis,
-//                    maxLines = 2
-//                )
-//
-//                Spacer(modifier = Modifier.height(8.dp))
-//
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-//                ) {
-//                    Text(
-//                        text = "$",
-//                        fontWeight = FontWeight.SemiBold,
-//                        style = MaterialTheme.typography.titleMedium,
-//                        color = MaterialTheme.colorScheme.primary,
-//                        maxLines = 1
-//                    )
-//
-//                    Text(
-//                        text = "${cartItem.price}",
-//                        fontWeight = FontWeight.SemiBold,
-//                        style = MaterialTheme.typography.titleMedium,
-//                        maxLines = 1
-//                    )
-//                }
-//
-//                Spacer(modifier = Modifier.height(10.dp))
-//
-//                /* Button section */
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    OutlinedIconButton(
-//                        shape = MaterialTheme.shapes.extraSmall,
-//                        colors = IconButtonDefaults.outlinedIconButtonColors(
-//                            containerColor = MaterialTheme.colorScheme.primary,
-//                            contentColor = MaterialTheme.colorScheme.background
-//                        ),
-//                        border = BorderStroke(
-//                            width = 1.dp,
-//                            color = MaterialTheme.colorScheme.background
-//                        ),
-//                        onClick = { /*TODO*/ }
-//                    ) {
-//                        Icon(
-//                            modifier = Modifier.size(18.dp),
-//                            painter = painterResource(
-//                                id = R.drawable.baseline_remove_24
-//                            ),
-//                            contentDescription = "Subtract Icon"
-//                        )
-//                    }
-//
-//                    Text(
-//                        modifier = Modifier.padding(horizontal = 20.dp),
-//                        text = "1",
-//                        style = MaterialTheme.typography.titleMedium
-//                    )
-//
-//                    OutlinedIconButton(
-//                        shape = MaterialTheme.shapes.extraSmall,
-//                        colors = IconButtonDefaults.outlinedIconButtonColors(
-//                            containerColor = MaterialTheme.colorScheme.primary,
-//                            contentColor = MaterialTheme.colorScheme.background
-//                        ),
-//                        border = BorderStroke(
-//                            width = 1.dp,
-//                            color = MaterialTheme.colorScheme.background
-//                        ),
-//                        onClick = { /*TODO*/ }
-//                    ) {
-//                        Icon(
-//                            modifier = Modifier.size(18.dp),
-//                            painter = painterResource(
-//                                id = R.drawable.baseline_add_24
-//                            ),
-//                            contentDescription = "Add Icon"
-//                        )
-//                    }
-//                }
-//            }
         }
     }
 }

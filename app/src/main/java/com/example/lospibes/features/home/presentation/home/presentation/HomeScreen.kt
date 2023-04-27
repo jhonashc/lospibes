@@ -230,6 +230,8 @@ private fun PopularSection(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
     val productList: List<Product> = homeState.value.productList
 
     Row(
@@ -254,19 +256,22 @@ private fun PopularSection(
 
     ProductListRow(
         products = productList,
+        cartItemList = cartItemList,
         onProductSelected = { selectedProduct ->
-            cartViewModel.onEvent(
-                CartEvent.AddToCart(
-                    value = CartItem(
-                        id = selectedProduct.id,
-                        name = selectedProduct.name,
-                        imageUrl = selectedProduct.imageUrl,
-                        price = selectedProduct.price,
-                        quantity = 1
-                    )
-                )
-            )
             onNavigateToDetails(false, selectedProduct.id)
+        },
+        onAddOrRemoveClick = { selectedCardItem ->
+            val cartItem = selectedCardItem.toCartItem()
+
+            if (cartItemList.contains(cartItem)) {
+                cartViewModel.onEvent(
+                    CartEvent.RemoveFromCart(cartItem)
+                )
+            } else {
+                cartViewModel.onEvent(
+                    CartEvent.AddToCart(cartItem)
+                )
+            }
         }
     )
 }
