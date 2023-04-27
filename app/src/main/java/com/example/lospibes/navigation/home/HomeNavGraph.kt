@@ -40,6 +40,7 @@ fun HomeNavGraph(
             route = HomeDestinations.CartScreen.route
         ) {
             CartScreen(
+                cartViewModel = cartViewModel,
                 onNavigateToHome = {}
             )
         }

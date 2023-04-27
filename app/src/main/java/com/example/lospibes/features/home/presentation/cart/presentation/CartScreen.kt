@@ -8,48 +8,44 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.presentation.cart.component.CartList
-import com.example.lospibes.utils.Constants.products
+import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
 fun CartScreen(
+    cartViewModel: CartViewModel,
     onNavigateToHome: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        Row(
-            modifier = Modifier.weight(0.3f, true)
+        Column(
+            modifier = Modifier.weight(1f)
         ) {
+            Header(
+                onNavigateToHome = onNavigateToHome
+            )
+
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
             ) {
-                Header(
-                    onNavigateToHome = onNavigateToHome
+                Body(
+                    cartViewModel = cartViewModel
                 )
             }
         }
-        Row(
-            modifier = Modifier.weight(2f, true)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Body()
-            }
-        }
-        Row(
-            modifier = Modifier.weight(1f, true)
-        ) {
-            Footer()
-        }
+
+        Footer()
     }
 }
 
@@ -70,31 +66,41 @@ private fun Header(
 }
 
 @Composable
-private fun Body() {
-    CartListSection()
+private fun Body(
+    cartViewModel: CartViewModel
+) {
+    CartListSection(
+        cartViewModel = cartViewModel
+    )
 }
 
 @Composable
-private fun CartListSection() {
+private fun CartListSection(
+    cartViewModel: CartViewModel
+) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
     ) {
-        CartList(cartItemList = products.subList(0, 2).map { product ->
-            CartItem(
-                id = product.id,
-                name = product.name,
-                imageUrl = product.imageUrl,
-                price = product.price,
-                quantity = 1
-            )
-        })
+        CartList(
+            cartItemList = cartItemList
+        )
     }
 }
 
 @Composable
+private fun Footer() {
+    TotalSection()
+}
+
+@Composable
 private fun TotalSection() {
+
     Card(
         modifier = Modifier.fillMaxSize(),
         shape = RoundedCornerShape(
@@ -188,9 +194,4 @@ private fun TotalSection() {
             }
         }
     }
-}
-
-@Composable
-private fun Footer() {
-    TotalSection()
 }

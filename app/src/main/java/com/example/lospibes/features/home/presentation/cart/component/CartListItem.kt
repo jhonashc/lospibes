@@ -41,7 +41,7 @@ fun CartListItem(
         ) {
             /* Image section */
             AsyncImage(
-                modifier = Modifier.size(80.dp),
+                modifier = Modifier.size(70.dp),
                 model = cartItem.imageUrl,
                 contentDescription = cartItem.name,
                 contentScale = ContentScale.Fit,

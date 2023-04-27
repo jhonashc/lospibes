@@ -53,14 +53,11 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(26.dp))
 
             Body(
+                cartViewModel = cartViewModel,
                 homeState = homeState,
                 onNavigateToExplore = onNavigateToExplore,
                 onNavigateToDetails = onNavigateToDetails
             )
-
-            Button(onClick = { cartViewModel.onEvent(CartEvent.AddToCart("1")) }) {
-                Text(text = "Add")
-            }
         }
     }
 }
@@ -141,6 +138,7 @@ private fun Header() {
 
 @Composable
 private fun Body(
+    cartViewModel: CartViewModel,
     homeState: State<HomeState>,
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
@@ -160,6 +158,7 @@ private fun Body(
         Spacer(modifier = Modifier.height(26.dp))
 
         PopularSection(
+            cartViewModel = cartViewModel,
             homeState = homeState,
             onNavigateToDetails = onNavigateToDetails
         )
@@ -226,9 +225,11 @@ private fun CategorySection(
 
 @Composable
 private fun PopularSection(
+    cartViewModel: CartViewModel,
     homeState: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
+    val cartState = cartViewModel.state.collectAsState()
     val productList: List<Product> = homeState.value.productList
 
     Row(
@@ -254,6 +255,17 @@ private fun PopularSection(
     ProductListRow(
         products = productList,
         onProductSelected = { selectedProduct ->
+            cartViewModel.onEvent(
+                CartEvent.AddToCart(
+                    value = CartItem(
+                        id = selectedProduct.id,
+                        name = selectedProduct.name,
+                        imageUrl = selectedProduct.imageUrl,
+                        price = selectedProduct.price,
+                        quantity = 1
+                    )
+                )
+            )
             onNavigateToDetails(false, selectedProduct.id)
         }
     )

@@ -1,13 +1,15 @@
 package com.example.lospibes.features.home.domain.repository
 
+import com.example.lospibes.features.home.domain.model.CartItem
+
 interface CartRepository {
-    fun addToCart(cartItemId: String): List<String>
+    fun addToCart(cartItem: CartItem): List<CartItem>
 
-    fun removeFromCart(cartItemId: String): List<String>
+    fun removeFromCart(cartItem: CartItem): List<CartItem>
 
-    fun addQuantity(cartItemId: String): List<String>
+    fun addQuantity(cartItem: CartItem): List<CartItem>
 
-    fun subtractQuantity(cartItemId: String): List<String>
+    fun subtractQuantity(cartItem: CartItem): List<CartItem>
 
-    fun removeAll(): List<String>
+    fun removeAll(): List<CartItem>
 }
