@@ -20,7 +20,7 @@ class CartViewModel @Inject constructor(
             is CartEvent.AddToCart -> {
                 _state.update {
                     it.copy(
-                        cartItemList = cartUseCase.addToCart(event.cartItem)
+                        cartItemList = cartUseCase.addToCart(event.value)
                     )
                 }
             }
@@ -28,7 +28,7 @@ class CartViewModel @Inject constructor(
             is CartEvent.RemoveFromCart -> {
                 _state.update {
                     it.copy(
-                        cartItemList = cartUseCase.removeFromCart(event.cartItem)
+                        cartItemList = cartUseCase.removeFromCart(event.value)
                     )
                 }
             }
@@ -36,7 +36,7 @@ class CartViewModel @Inject constructor(
             is CartEvent.AddQuantity -> {
                 _state.update {
                     it.copy(
-                        cartItemList = cartUseCase.addQuantity(event.cartItem)
+                        cartItemList = cartUseCase.addQuantity(event.value)
                     )
                 }
             }
@@ -44,7 +44,7 @@ class CartViewModel @Inject constructor(
             is CartEvent.SubtractQuantity -> {
                 _state.update {
                     it.copy(
-                        cartItemList = cartUseCase.subtractQuantity(event.cartItem)
+                        cartItemList = cartUseCase.subtractQuantity(event.value)
                     )
                 }
             }

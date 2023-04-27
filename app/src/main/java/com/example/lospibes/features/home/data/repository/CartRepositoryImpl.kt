@@ -1,52 +1,31 @@
 package com.example.lospibes.features.home.data.repository
 
-import com.example.lospibes.features.home.domain.model.CartItem
+import androidx.compose.runtime.mutableStateListOf
 import com.example.lospibes.features.home.domain.repository.CartRepository
 
 class CartRepositoryImpl : CartRepository {
-    private val cartList: MutableList<CartItem> = mutableListOf()
+    private val _cartItemList = mutableStateListOf<String>()
 
-    override fun addToCart(cartItem: CartItem): List<CartItem> {
-        cartList.add(cartItem)
-        return cartList
+    override fun addToCart(cartItemId: String): List<String> {
+        _cartItemList.add(cartItemId)
+        return _cartItemList
     }
 
-    override fun removeFromCart(cartItem: CartItem): List<CartItem> {
-        return cartList.filter { item -> item.id != cartItem.id }
+    override fun removeFromCart(cartItemId: String): List<String> {
+        _cartItemList.remove(cartItemId)
+        return _cartItemList
     }
 
-    override fun addQuantity(cartItem: CartItem): List<CartItem> {
-        return cartList.map { item ->
-            if (item.id == cartItem.id) {
-                return@map CartItem(
-                    id = item.id,
-                    name = item.name,
-                    imageUrl = item.imageUrl,
-                    price = item.price,
-                    quantity = item.quantity + 1
-                )
-            }
-            return@map item
-        }
+    override fun addQuantity(cartItemId: String): List<String> {
+        TODO("Not yet implemented")
     }
 
-    override fun subtractQuantity(cartItem: CartItem): List<CartItem> {
-        return cartList.map { item ->
-            if (item.id == cartItem.id) {
-                return@map CartItem(
-                    id = item.id,
-                    name = item.name,
-                    imageUrl = item.imageUrl,
-                    price = item.price,
-                    quantity = item.quantity - 1
-                )
-            }
-            return@map item
-        }.filter { item -> item.quantity > 0 }
+    override fun subtractQuantity(cartItemId: String): List<String> {
+        TODO("Not yet implemented")
     }
 
-    override fun removeAll(): List<CartItem> {
-        cartList.clear()
-        return cartList
+    override fun removeAll(): List<String> {
+        _cartItemList.clear()
+        return _cartItemList
     }
 }

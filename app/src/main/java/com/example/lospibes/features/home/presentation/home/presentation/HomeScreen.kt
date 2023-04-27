@@ -19,6 +19,7 @@ import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
 import com.example.lospibes.features.home.component.ProductListRow
 import com.example.lospibes.features.home.domain.model.*
+import com.example.lospibes.features.home.viewmodel.cart.CartEvent
 import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
@@ -30,7 +31,7 @@ fun HomeScreen(
 ) {
     val homeState = homeViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
         homeViewModel.getCombos()
         homeViewModel.getProducts()
@@ -47,9 +48,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(vertical = 20.dp)
         ) {
-            Header(
-                homeState = homeState
-            )
+            Header()
 
             Spacer(modifier = Modifier.height(26.dp))
 
@@ -58,14 +57,16 @@ fun HomeScreen(
                 onNavigateToExplore = onNavigateToExplore,
                 onNavigateToDetails = onNavigateToDetails
             )
+
+            Button(onClick = { cartViewModel.onEvent(CartEvent.AddToCart("1")) }) {
+                Text(text = "Add")
+            }
         }
     }
 }
 
 @Composable
-private fun Header(
-    homeState: State<HomeState>
-) {
+private fun Header() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,76 +145,82 @@ private fun Body(
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
-    CategorySection(
-        homeState = homeState,
-        onNavigateToExplore = onNavigateToExplore
-    )
+    val categoryList: List<Category> = homeState.value.categoryList
+    val popularList: List<Product> = homeState.value.productList
+    val comboList: List<Combo> = homeState.value.comboList
 
-    Spacer(modifier = Modifier.height(26.dp))
+    if (categoryList.isNotEmpty()) {
+        CategorySection(
+            categoryList = categoryList,
+            onNavigateToExplore = onNavigateToExplore
+        )
+    }
 
-    PopularSection(
-        homeState = homeState,
-        onNavigateToDetails = onNavigateToDetails
-    )
+    if (popularList.isNotEmpty()) {
+        Spacer(modifier = Modifier.height(26.dp))
 
-    Spacer(modifier = Modifier.height(26.dp))
+        PopularSection(
+            homeState = homeState,
+            onNavigateToDetails = onNavigateToDetails
+        )
+    }
 
-    CombosSection(
-        homeState = homeState,
-        onNavigateToDetails = onNavigateToDetails
-    )
+    if (comboList.isNotEmpty()) {
+        Spacer(modifier = Modifier.height(26.dp))
+
+        CombosSection(
+            homeState = homeState,
+            onNavigateToDetails = onNavigateToDetails
+        )
+    }
 }
 
 @Composable
 private fun CategorySection(
-    homeState: State<HomeState>,
+    categoryList: List<Category>,
     onNavigateToExplore: (query: String) -> Unit
 ) {
-    val categoryList: List<Category> = homeState.value.categoryList
+    val tabList = categoryList.map { category ->
+        TabItem(
+            name = category.name
+        )
+    }
 
-    if (categoryList.isNotEmpty()) {
-        val tabList = categoryList.map { category ->
-            TabItem(
-                name = category.name
-            )
-        }
+    var selectedTab by remember { mutableStateOf(tabList[0]) }
 
-        var selectedTab by remember { mutableStateOf(tabList[0]) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Categorías",
+            style = MaterialTheme.typography.titleMedium,
+        )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Categorías",
-                style = MaterialTheme.typography.titleMedium,
-            )
+        Text(
+            text = "Ver todas",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
 
-            Text(
-                text = "Ver todas",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+    Spacer(modifier = Modifier.height(6.dp))
 
-        Spacer(modifier = Modifier.height(6.dp))
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp)
-        ) {
-            StandardTabList(
-                tabList = tabList,
-                selectedTab = selectedTab,
-                onTabSelected = { newSelectedTab ->
-                    selectedTab = newSelectedTab
-                    onNavigateToExplore(newSelectedTab.name)
-                },
-            )
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 12.dp)
+    ) {
+        StandardTabList(
+            tabList = tabList,
+            selectedTab = selectedTab,
+            onTabSelected = { newSelectedTab ->
+                selectedTab = newSelectedTab
+                onNavigateToExplore(newSelectedTab.name)
+            },
+        )
     }
 }
 
