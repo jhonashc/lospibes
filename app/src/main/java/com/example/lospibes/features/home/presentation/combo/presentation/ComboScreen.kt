@@ -23,23 +23,30 @@ import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.component.ComboListRow
 import com.example.lospibes.features.home.data.dto.query.GetCombosQueryDto
+import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.ComboProduct
+import com.example.lospibes.features.home.domain.model.toCartItem
 import com.example.lospibes.features.home.presentation.combo.component.ComboProductList
+import com.example.lospibes.features.home.viewmodel.cart.CartEvent
+import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
 fun ComboScreen(
+    cartViewModel: CartViewModel,
     comboViewModel: ComboViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val comboState = comboViewModel.state.collectAsState()
 
+    val combo: Combo? = comboState.value.combo
+
     LaunchedEffect(key1 = comboState.value.combo) {
-        comboState.value.combo?.let { validCombo ->
+        if (combo != null) {
             comboViewModel.getSimilarCombos(
                 getCombosQueryDto = GetCombosQueryDto(
-                    name = validCombo.name
+                    name = combo.name
                 )
             )
         }
@@ -65,7 +72,10 @@ fun ComboScreen(
                 onNavigateToDetails = onNavigateToDetails
             )
 
-            FooterSection()
+            FooterSection(
+                cartViewModel = cartViewModel,
+                comboState = comboState
+            )
         }
     }
 }
@@ -109,27 +119,30 @@ private fun Body(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val combo: Combo? = comboState.value.combo
-    val similarComboList: List<Combo> = comboState.value.similarComboList
 
-    combo?.let { validCombo ->
+    val similarComboList: List<Combo> = comboState.value.similarComboList.filter {
+        it.id != combo?.id
+    }
+
+    if (combo != null) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
             ImageSection(
-                combo = validCombo
+                combo = combo
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             InfoSection(
-                combo = validCombo
+                combo = combo
             )
 
-            if (validCombo.products.isNotEmpty()) {
+            if (combo.products.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(26.dp))
 
                 ComboProductSection(
-                    comboProductList = validCombo.products
+                    comboProductList = combo.products
                 )
             }
 
@@ -249,7 +262,7 @@ private fun SimilarSection(
 ) {
     Text(
         modifier = Modifier.padding(horizontal = 20.dp),
-        text = "Similares \uD83D\uDCA3",
+        text = "Similares",
         style = MaterialTheme.typography.titleMedium,
     )
 
@@ -264,7 +277,26 @@ private fun SimilarSection(
 }
 
 @Composable
-private fun FooterSection() {
+private fun FooterSection(
+    cartViewModel: CartViewModel,
+    comboState: State<ComboState>
+) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
+
+    val combo: Combo? = comboState.value.combo
+
+    val isOnTheCart = cartItemList.indexOfFirst { it.id == combo?.id }
+
+    val buttonContainerColor = if (isOnTheCart != -1)
+        MaterialTheme.colorScheme.error else
+        MaterialTheme.colorScheme.primary
+
+    val buttonText = if (isOnTheCart != -1)
+        "Remover" else
+        "Agregar"
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -274,14 +306,26 @@ private fun FooterSection() {
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = buttonContainerColor,
                 contentColor = MaterialTheme.colorScheme.background
             ),
-            onClick = { /*TODO*/ }
+            onClick = {
+                if (combo != null) {
+                    if (isOnTheCart != -1) {
+                        cartViewModel.onEvent(
+                            CartEvent.RemoveFromCart(combo.toCartItem())
+                        )
+                    } else {
+                        cartViewModel.onEvent(
+                            CartEvent.AddToCart(combo.toCartItem())
+                        )
+                    }
+                }
+            }
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 8.dp),
-                text = "Agregar",
+                text = buttonText,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )

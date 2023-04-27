@@ -123,11 +123,17 @@ fun HomeNavGraph(
             )
         }
 
-        detailsNavGraph(navController = navController)
+        detailsNavGraph(
+            navController = navController,
+            cartViewModel =cartViewModel
+        )
     }
 }
 
-fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.detailsNavGraph(
+    navController: NavHostController,
+    cartViewModel: CartViewModel
+) {
     navigation(
         route = DETAIL_GRAPH_ROUTE,
         startDestination = DetailsDestinations.ProductDetailsScreen.route
@@ -142,6 +148,7 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
             )
         ) {
             ComboScreen(
+                cartViewModel = cartViewModel,
                 onNavigateToHome = {
                     navController.popBackStack(
                         route = HomeDestinations.HomeScreen.route,
@@ -166,6 +173,7 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
             )
         ) {
             ProductScreen(
+                cartViewModel = cartViewModel,
                 onNavigateToHome = {
                     navController.popBackStack(
                         route = HomeDestinations.HomeScreen.route,

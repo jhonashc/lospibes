@@ -26,3 +26,12 @@ fun Combo.toCardItem() = CardItem(
     price = price,
     isCombo = true
 )
+
+fun Combo.toCartItem() = CartItem(
+    id = id,
+    name = name,
+    imageUrl = imageUrl,
+    price = price,
+    quantity = 1,
+    isCombo = true
+)

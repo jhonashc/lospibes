@@ -22,3 +22,12 @@ fun Product.toCardItem() = CardItem(
     price = price,
     isCombo = false
 )
+
+fun Product.toCartItem() = CartItem(
+    id = id,
+    name = name,
+    imageUrl = imageUrl,
+    price = price,
+    quantity = 1,
+    isCombo = false
+)

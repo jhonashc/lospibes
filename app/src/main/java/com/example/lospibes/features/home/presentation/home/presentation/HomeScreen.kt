@@ -31,7 +31,7 @@ fun HomeScreen(
 ) {
     val homeState = homeViewModel.state.collectAsState()
 
-    val cartState =cartViewModel.state.collectAsState()
+    val cartState = cartViewModel.state.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
@@ -264,15 +264,15 @@ private fun PopularSection(
             onNavigateToDetails(false, selectedProduct.id)
         },
         onAddOrRemoveClick = { selectedCardItem ->
-            val cartItem = selectedCardItem.toCartItem()
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
 
-            if (cartItemList.contains(cartItem)) {
+            if (isOnTheCart != -1) {
                 cartViewModel.onEvent(
-                    CartEvent.RemoveFromCart(cartItem)
+                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
                 )
             } else {
                 cartViewModel.onEvent(
-                    CartEvent.AddToCart(cartItem)
+                    CartEvent.AddToCart(selectedCardItem.toCartItem())
                 )
             }
         }

@@ -22,20 +22,27 @@ import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.component.ProductListRow
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
+import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
+import com.example.lospibes.features.home.domain.model.toCartItem
+import com.example.lospibes.features.home.viewmodel.cart.CartEvent
+import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
 fun ProductScreen(
+    cartViewModel: CartViewModel,
     productViewModel: ProductViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val productState = productViewModel.state.collectAsState()
 
+    val product: Product? = productState.value.product
+
     LaunchedEffect(key1 = productState.value.product) {
-        productState.value.product?.let { validProduct ->
-            val categories: List<Category> = validProduct.categories
+        if (product != null) {
+            val categories: List<Category> = product.categories
 
             if (categories.isNotEmpty()) {
                 productViewModel.getSimilarProducts(
@@ -67,7 +74,10 @@ fun ProductScreen(
                 onNavigateToDetails = onNavigateToDetails
             )
 
-            FooterSection()
+            FooterSection(
+                productState = productState,
+                cartViewModel = cartViewModel
+            )
         }
     }
 }
@@ -111,26 +121,29 @@ private fun Body(
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
     val product: Product? = productState.value.product
-    val similarProductList: List<Product> = productState.value.similarProductList
 
-    product?.let { validProduct ->
+    val similarProductList: List<Product> = productState.value.similarProductList.filter {
+        it.id != product?.id
+    }
+
+    if (product != null) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
             ImageSection(
-                product = validProduct
+                product = product
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             InfoSection(
-                product = validProduct
+                product = product
             )
 
             Spacer(modifier = Modifier.height(26.dp))
 
             CategorySection(
-                categoryList = validProduct.categories
+                categoryList = product.categories
             )
 
             if (similarProductList.isNotEmpty()) {
@@ -253,7 +266,7 @@ private fun SimilarSection(
 ) {
     Text(
         modifier = Modifier.padding(horizontal = 20.dp),
-        text = "Similares \uD83D\uDCA3️",
+        text = "Similares",
         style = MaterialTheme.typography.titleMedium,
     )
 
@@ -268,7 +281,27 @@ private fun SimilarSection(
 }
 
 @Composable
-private fun FooterSection() {
+private fun FooterSection(
+    cartViewModel: CartViewModel,
+    productState: State<ProductState>
+) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
+
+    val product: Product? = productState.value.product
+
+    val isOnTheCart = cartItemList.indexOfFirst { it.id == product?.id }
+
+    val buttonContainerColor = if (isOnTheCart != -1)
+        MaterialTheme.colorScheme.error else
+        MaterialTheme.colorScheme.primary
+
+    val buttonText = if (isOnTheCart != -1)
+        "Remover" else
+        "Agregar"
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -278,14 +311,26 @@ private fun FooterSection() {
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = buttonContainerColor,
                 contentColor = MaterialTheme.colorScheme.background
             ),
-            onClick = { /*TODO*/ }
+            onClick = {
+                    if (product != null) {
+                        if (isOnTheCart != -1) {
+                            cartViewModel.onEvent(
+                                CartEvent.RemoveFromCart(product.toCartItem())
+                            )
+                        } else {
+                            cartViewModel.onEvent(
+                                CartEvent.AddToCart(product.toCartItem())
+                            )
+                        }
+                    }
+            }
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 8.dp),
-                text = "Agregar",
+                text = buttonText,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )

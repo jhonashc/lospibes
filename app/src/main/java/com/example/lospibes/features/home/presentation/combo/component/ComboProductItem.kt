@@ -13,13 +13,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.lospibes.features.home.domain.model.ComboProduct
-import com.example.lospibes.features.home.domain.model.Product
-import com.example.lospibes.utils.Constants
-import java.util.Date
 
 @Composable
 fun ComboProductItem(
@@ -43,7 +39,7 @@ fun ComboProductItem(
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             AsyncImage(
-                modifier = Modifier.size(100.dp),
+                modifier = Modifier.size(90.dp),
                 model = comboProduct.product.imageUrl,
                 contentDescription = comboProduct.product.name,
                 contentScale = ContentScale.Fit,
@@ -92,25 +88,4 @@ fun ComboProductItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun ComboItemPreview() {
-    ComboProductItem(
-        comboProduct = ComboProduct(
-            product = Product(
-                id = "3",
-                name = "Bacon burger Bacon burger Bacon burger Bacon burger Bacon burger",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus imperdiet odio, in semper risus faucibus ut. Praesent lacinia augue quis lacus posuere dictum. Morbi placerat libero felis, id gravida velit cursus ut. Quisque tempus bibendum urna, non maximus justo.",
-                imageUrl = "https://burgerkingec.com/wp-content/uploads/2020/04/bbq-bacon-king-img.png",
-                price = 3.50,
-                stock = 100,
-                categories = Constants.categories,
-                createdAt = Date(),
-                updatedAt = Date()
-            ),
-            quantity = 2
-        ),
-    )
 }

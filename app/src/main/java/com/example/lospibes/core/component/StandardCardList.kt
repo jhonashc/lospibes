@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
-import com.example.lospibes.features.home.domain.model.toCartItem
 
 @Composable
 fun StandardCardListRow(
@@ -64,10 +63,12 @@ fun StandardCardListGrid(
         contentPadding = PaddingValues(20.dp)
     ) {
         items(cardItemList) { cardItem ->
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == cardItem.id }
+
             StandardCard(
                 cardItem = cardItem,
                 isFavorite = favoriteCardItemList.contains(cardItem),
-                isOnTheCart = cartItemList.contains(cardItem.toCartItem()),
+                isOnTheCart = isOnTheCart != -1,
                 onCardClick = { onCardItemSelected(cardItem) },
                 onAddOrRemoveClick = onAddOrRemoveClick
             )
