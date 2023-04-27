@@ -13,3 +13,12 @@ data class Product(
     val createdAt: Date,
     val updatedAt: Date
 )
+
+fun Product.toCardItem() = CardItem(
+    id = id,
+    name = name,
+    description = description,
+    imageUrl = imageUrl,
+    price = price,
+    isCombo = false
+)

@@ -31,6 +31,8 @@ fun HomeScreen(
 ) {
     val homeState = homeViewModel.state.collectAsState()
 
+    val cartState =cartViewModel.state.collectAsState()
+
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
         homeViewModel.getCombos()
@@ -168,6 +170,7 @@ private fun Body(
         Spacer(modifier = Modifier.height(26.dp))
 
         CombosSection(
+            cartViewModel = cartViewModel,
             homeState = homeState,
             onNavigateToDetails = onNavigateToDetails
         )
@@ -278,9 +281,13 @@ private fun PopularSection(
 
 @Composable
 private fun CombosSection(
+    cartViewModel: CartViewModel,
     homeState: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
     val comboList: List<Combo> = homeState.value.comboList
 
     Row(
@@ -305,8 +312,22 @@ private fun CombosSection(
 
     ComboListRow(
         combos = comboList,
+        cartItemList = cartItemList,
         onComboSelected = { selectedCombo ->
             onNavigateToDetails(true, selectedCombo.id)
+        },
+        onAddOrRemoveClick = { selectedCardItem ->
+            val cartItem = selectedCardItem.toCartItem()
+
+            if (cartItemList.contains(cartItem)) {
+                cartViewModel.onEvent(
+                    CartEvent.RemoveFromCart(cartItem)
+                )
+            } else {
+                cartViewModel.onEvent(
+                    CartEvent.AddToCart(cartItem)
+                )
+            }
         }
     )
 }

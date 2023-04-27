@@ -11,21 +11,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.lospibes.features.home.domain.model.CartItem
-import com.example.lospibes.utils.Constants.products
 import com.example.lospibes.R
 
 @Composable
 fun CartListItem(
-    cartItem: CartItem
+    cartItem: CartItem,
+    onAddQuantityClick: () -> Unit,
+    onSubtractQuantityClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp),
+            .height(110.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
@@ -37,7 +37,7 @@ fun CartListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             /* Image section */
@@ -49,8 +49,8 @@ fun CartListItem(
             )
 
             Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 /* Info section */
@@ -101,7 +101,7 @@ fun CartListItem(
                             width = 1.dp,
                             color = Color.Transparent
                         ),
-                        onClick = { /*TODO*/ }
+                        onClick = onSubtractQuantityClick
                     ) {
                         Icon(
                             modifier = Modifier.size(20.dp),
@@ -113,8 +113,8 @@ fun CartListItem(
                     }
 
                     Text(
-                        modifier = Modifier.padding(horizontal = 10.dp),
-                        text = "1",
+                        modifier = Modifier.padding(horizontal = 7.dp),
+                        text = "${cartItem.quantity}",
                         style = MaterialTheme.typography.titleMedium
                     )
 
@@ -128,7 +128,7 @@ fun CartListItem(
                             width = 1.dp,
                             color = Color.Transparent
                         ),
-                        onClick = { /*TODO*/ }
+                        onClick = onAddQuantityClick
                     ) {
                         Icon(
                             modifier = Modifier.size(20.dp),
@@ -142,18 +142,4 @@ fun CartListItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun CartListItemPreview() {
-    CartListItem(
-        cartItem = CartItem(
-            id = "1",
-            name = "Funchose with shirmps",
-            imageUrl = products[0].imageUrl,
-            price = products[0].price,
-            quantity = 1
-        )
-    )
 }

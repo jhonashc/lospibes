@@ -5,5 +5,6 @@ data class CartItem(
     val name: String,
     val imageUrl: String? = null,
     val price: Number,
-    val quantity: Int
+    val quantity: Int,
+    val isCombo: Boolean
 )

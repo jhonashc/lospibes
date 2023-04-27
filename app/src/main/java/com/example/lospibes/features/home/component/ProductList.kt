@@ -6,6 +6,7 @@ import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Product
+import com.example.lospibes.features.home.domain.model.toCardItem
 
 @Composable
 fun ProductListRow(
@@ -15,25 +16,9 @@ fun ProductListRow(
     onProductSelected: (selectedProduct: Product) -> Unit,
     onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
-    val cardItemList: List<CardItem> = products.map { product ->
-        CardItem(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            imageUrl = product.imageUrl,
-            price = product.price
-        )
-    }
+    val cardItemList: List<CardItem> = products.map { it.toCardItem() }
 
-    val favoriteCardItemList: List<CardItem> = favoriteProducts.map { product ->
-        CardItem(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            imageUrl = product.imageUrl,
-            price = product.price
-        )
-    }
+    val favoriteCardItemList: List<CardItem> = favoriteProducts.map { it.toCardItem() }
 
     val getSelectedProductById = { productId: String ->
         products.find { product -> product.id == productId }
@@ -55,27 +40,12 @@ fun ProductListRow(
 fun ProductListGrid(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
-    onProductSelected: (product: Product) -> Unit
+    onProductSelected: (product: Product) -> Unit,
+    onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
-    val cardItemList: List<CardItem> = products.map { product ->
-        CardItem(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            imageUrl = product.imageUrl,
-            price = product.price
-        )
-    }
+    val cardItemList: List<CardItem> = products.map { it.toCardItem() }
 
-    val favoriteCardItemList: List<CardItem> = favoriteProducts.map { product ->
-        CardItem(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            imageUrl = product.imageUrl,
-            price = product.price
-        )
-    }
+    val favoriteCardItemList: List<CardItem> = favoriteProducts.map { it.toCardItem() }
 
     val getSelectedProductById = { productId: String ->
         products.find { product -> product.id == productId }
@@ -87,6 +57,7 @@ fun ProductListGrid(
         onCardItemSelected = { selectedCardItem ->
             val selectedProduct: Product? = getSelectedProductById(selectedCardItem.id)
             selectedProduct?.let(onProductSelected)
-        }
+        },
+        onAddOrRemoveClick = onAddOrRemoveClick
     )
 }

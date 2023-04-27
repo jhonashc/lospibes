@@ -17,3 +17,12 @@ data class ComboProduct(
     val product: Product,
     val quantity: Int
 )
+
+fun Combo.toCardItem() = CardItem(
+    id = id,
+    name = name,
+    description = description,
+    imageUrl = imageUrl,
+    price = price,
+    isCombo = true
+)

@@ -18,11 +18,36 @@ class CartRepositoryImpl : CartRepository {
     }
 
     override fun addQuantity(cartItem: CartItem): List<CartItem> {
-        TODO("Not yet implemented")
+        val index = _cartItemList.indexOfFirst { it.id == cartItem.id }
+
+        if (index != -1) {
+            val newCartItem = _cartItemList[index].copy(
+                quantity = cartItem.quantity + 1
+            )
+
+            _cartItemList[index] = newCartItem
+        }
+
+        return _cartItemList
     }
 
     override fun subtractQuantity(cartItem: CartItem): List<CartItem> {
-        TODO("Not yet implemented")
+        val index = _cartItemList.indexOfFirst { it.id == cartItem.id }
+
+        if (index != -1) {
+            val newCartItem = _cartItemList[index].copy(
+                quantity = cartItem.quantity - 1
+            )
+
+            if (newCartItem.quantity != 0) {
+                _cartItemList[index] = newCartItem
+            } else {
+                _cartItemList.remove(cartItem)
+            }
+
+        }
+
+        return _cartItemList
     }
 
     override fun removeAll(): List<CartItem> {

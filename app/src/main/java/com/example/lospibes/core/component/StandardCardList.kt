@@ -19,7 +19,7 @@ fun StandardCardListRow(
     favoriteCardItemList: List<CardItem> = listOf(),
     cartItemList: List<CartItem> = listOf(),
     onCardItemSelected: (selectedCardItem: CardItem) -> Unit,
-    onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
+    onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -34,10 +34,12 @@ fun StandardCardListRow(
                     end = if (cardItem.id == cardItemList.last().id) 20.dp else 0.dp
                 )
             ) {
+                val isOnTheCart = cartItemList.indexOfFirst { it.id == cardItem.id }
+
                 StandardCard(
                     cardItem = cardItem,
                     isFavorite = favoriteCardItemList.contains(cardItem),
-                    isOnTheCart = cartItemList.contains(cardItem.toCartItem()),
+                    isOnTheCart = isOnTheCart != -1,
                     onCardClick = { onCardItemSelected(cardItem) },
                     onAddOrRemoveClick = onAddOrRemoveClick
                 )

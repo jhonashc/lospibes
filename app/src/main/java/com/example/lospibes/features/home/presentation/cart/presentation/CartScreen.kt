@@ -78,17 +78,13 @@ private fun Body(
 private fun CartListSection(
     cartViewModel: CartViewModel
 ) {
-    val cartState = cartViewModel.state.collectAsState()
-
-    val cartItemList: List<CartItem> = cartState.value.cartItemList
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
     ) {
         CartList(
-            cartItemList = cartItemList
+            cartViewModel = cartViewModel
         )
     }
 }
@@ -100,7 +96,6 @@ private fun Footer() {
 
 @Composable
 private fun TotalSection() {
-
     Card(
         modifier = Modifier.fillMaxSize(),
         shape = RoundedCornerShape(
