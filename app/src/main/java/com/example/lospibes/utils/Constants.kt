@@ -21,55 +21,47 @@ object Constants {
         Category(
             id = "100",
             name = "Todas",
-            emojiCode = "\uD83D\uDCCC",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "1",
             name = "Hamburguesas",
-            emojiCode = "\uD83C\uDF54",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "2",
             name = "Bebidas",
-            emojiCode = "\uD83E\uDD64",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "3",
             name = "Pizzas",
-            emojiCode = "\uD83C\uDF55",
             createdAt = date,
             updatedAt = date
         ), Category(
             id = "4",
             name = "Cócteles",
-            emojiCode = "\uD83C\uDF79",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "5",
             name = "Hot dogs",
-            emojiCode = "\uD83C\uDF2D",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "6",
             name = "Tacos",
-            emojiCode = "\uD83C\uDF2E",
             createdAt = date,
             updatedAt = date
         ),
         Category(
             id = "46",
             name = "Alitas",
-            emojiCode = "\uD83C\uDF57",
             createdAt = date,
             updatedAt = date
         )

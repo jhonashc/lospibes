@@ -9,14 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.TabItem
 
 @Composable
 fun StandardTab(
     tabItem: TabItem,
     isSelected: Boolean = false,
-    showIcon: Boolean = false,
     onClick: () -> Unit
 ) {
     val tabColor = if (isSelected)
@@ -39,17 +37,6 @@ fun StandardTab(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                if (showIcon) {
-                    tabItem.icon?.let {
-                        Text(
-                            modifier = Modifier.padding(end = 6.dp),
-                            text = it,
-                            fontWeight = tabFontWeight,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
-
                 Text(
                     text = tabItem.name,
                     fontWeight = tabFontWeight,
