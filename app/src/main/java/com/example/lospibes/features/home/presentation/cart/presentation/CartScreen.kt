@@ -8,12 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.core.component.StandardTopBar
-import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.presentation.cart.component.CartList
 import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 

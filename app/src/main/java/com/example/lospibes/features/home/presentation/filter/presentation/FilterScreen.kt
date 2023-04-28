@@ -16,7 +16,6 @@ import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardRangeSlider
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.presentation.filter.component.RecentList
-import com.example.lospibes.utils.Constants.categories
 
 @Composable
 fun FilterScreen(
@@ -138,7 +137,7 @@ private fun PriceSection() {
 @Composable
 private fun CategorySection() {
     var currentCategory by remember { mutableStateOf("") }
-    val categoryNames: List<String> = categories.map { category -> category.name }
+    val categoryNames: List<String> = listOf("hamburguesas", "pizzas")
 
     val onItemSelected = { newCategory: String -> currentCategory = newCategory }
 
