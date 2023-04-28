@@ -9,11 +9,11 @@ data class HomeState(
     val isCategoryLoading: Boolean = true,
     val isComboLoading: Boolean = true,
     val isProductLoading: Boolean = true,
-    val isFavoriteProductLoading: Boolean = true,
     val isFavoriteComboLoading: Boolean = true,
+    val isFavoriteProductLoading: Boolean = true,
     val categoryList: List<Category> = emptyList(),
     val comboList: List<Combo> = emptyList(),
     val productList: List<Product> = emptyList(),
-    val favoriteProductList: List<Product> = emptyList(),
-    val favoriteComboList: List<Combo> = emptyList()
+    val favoriteComboList: List<Combo> = emptyList(),
+    val favoriteProductList: List<Product> = emptyList()
 )

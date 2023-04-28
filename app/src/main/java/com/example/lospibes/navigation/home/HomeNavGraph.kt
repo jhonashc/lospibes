@@ -49,6 +49,7 @@ fun HomeNavGraph(
             route = HomeDestinations.FavoriteScreen.route
         ) {
             FavoriteScreen(
+                cartViewModel = cartViewModel,
                 onNavigateToHome = {
                     navController.popBackStack(
                         route = HomeDestinations.HomeScreen.route,

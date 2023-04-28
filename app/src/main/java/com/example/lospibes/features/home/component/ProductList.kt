@@ -40,6 +40,7 @@ fun ProductListRow(
 fun ProductListGrid(
     products: List<Product>,
     favoriteProducts: List<Product> = listOf(),
+    cartItemList: List<CartItem> = listOf(),
     onProductSelected: (product: Product) -> Unit,
     onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
@@ -54,6 +55,7 @@ fun ProductListGrid(
     StandardCardListGrid(
         cardItemList = cardItemList,
         favoriteCardItemList = favoriteCardItemList,
+        cartItemList = cartItemList,
         onCardItemSelected = { selectedCardItem ->
             val selectedProduct: Product? = getSelectedProductById(selectedCardItem.id)
             selectedProduct?.let(onProductSelected)
