@@ -12,15 +12,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.R
 import com.example.lospibes.core.component.*
-import com.example.lospibes.features.home.component.ComboListGrid
-import com.example.lospibes.features.home.component.ProductListGrid
+import com.example.lospibes.features.home.domain.model.CardItem
+import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.TabItem
+import com.example.lospibes.features.home.domain.model.toCardItem
+import com.example.lospibes.features.home.domain.model.toCartItem
+import com.example.lospibes.features.home.viewmodel.cart.CartEvent
+import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
 fun ExploreScreen(
+    cartViewModel: CartViewModel,
     exploreViewModel: ExploreViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToFilter: () -> Unit,
@@ -51,6 +56,7 @@ fun ExploreScreen(
             )
 
             Body(
+                cartViewModel = cartViewModel,
                 exploreViewModel = exploreViewModel,
                 exploreState = exploreState,
                 queryState = queryState,
@@ -123,6 +129,7 @@ private fun Header(
 
 @Composable
 private fun Body(
+    cartViewModel: CartViewModel,
     exploreViewModel: ExploreViewModel,
     exploreState: State<ExploreState>,
     queryState: State<QueryState>,
@@ -139,6 +146,7 @@ private fun Body(
     }
 
     ResultSection(
+        cartViewModel = cartViewModel,
         exploreState = exploreState,
         onNavigateToDetails = onNavigateToDetails
     )
@@ -186,25 +194,42 @@ private fun CategorySection(
 
 @Composable
 fun ResultSection(
+    cartViewModel: CartViewModel,
     exploreState: State<ExploreState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
 ) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
     val comboList: List<Combo> = exploreState.value.comboList
     val productList: List<Product> = exploreState.value.productList
 
-    if (comboList.isNotEmpty()) {
-        ComboListGrid(
-            combos = comboList,
-            onComboSelected = { selectedCombo ->
-                onNavigateToDetails(true, selectedCombo.id)
+    val comboCardList: List<CardItem> = comboList.map { it.toCardItem() }
+    val productCardList: List<CardItem> = productList.map { it.toCardItem() }
+
+    val cardItemList: MutableList<CardItem> = mutableListOf()
+    cardItemList.addAll(comboCardList)
+    cardItemList.addAll(productCardList)
+
+    StandardCardListGrid(
+        cardItemList = cardItemList,
+        favoriteCardItemList = cardItemList,
+        cartItemList = cartItemList,
+        onCardItemSelected = { selectedCardItem ->
+            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
+        },
+        onAddOrRemoveClick = { selectedCardItem ->
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
+
+            if (isOnTheCart != -1) {
+                cartViewModel.onEvent(
+                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
+                )
+            } else {
+                cartViewModel.onEvent(
+                    CartEvent.AddToCart(selectedCardItem.toCartItem())
+                )
             }
-        )
-    } else {
-        ProductListGrid(
-            products = productList,
-            onProductSelected = { selectedProduct ->
-                onNavigateToDetails(false, selectedProduct.id)
-            }
-        )
-    }
+        }
+    )
 }

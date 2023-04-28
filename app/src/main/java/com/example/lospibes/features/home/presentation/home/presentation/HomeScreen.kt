@@ -7,9 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardBoxContainer
+import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.core.component.StandardTabList
-import com.example.lospibes.features.home.component.ComboListRow
-import com.example.lospibes.features.home.component.ProductListRow
 import com.example.lospibes.features.home.domain.model.*
 import com.example.lospibes.features.home.viewmodel.cart.CartEvent
 import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
@@ -159,6 +158,12 @@ private fun ProductSection(
     val productList: List<Product> = homeState.value.productList
     val favoriteProductList: List<Product> = homeState.value.favoriteProductList
 
+    val productCardList: List<CardItem> = productList.map { it.toCardItem() }
+    val favoriteProductCardList: List<CardItem> = favoriteProductList.map { it.toCardItem() }
+
+    val cardItemList: MutableList<CardItem> = mutableListOf()
+    cardItemList.addAll(productCardList)
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -179,12 +184,12 @@ private fun ProductSection(
 
     Spacer(modifier = Modifier.height(22.dp))
 
-    ProductListRow(
-        products = productList,
-        favoriteProducts = favoriteProductList,
+    StandardCardListRow(
+        cardItemList = cardItemList,
+        favoriteCardItemList = favoriteProductCardList,
         cartItemList = cartItemList,
-        onProductSelected = { selectedProduct ->
-            onNavigateToDetails(false, selectedProduct.id)
+        onCardItemSelected = { selectedCardItem ->
+            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
         },
         onAddOrRemoveClick = { selectedCardItem ->
             val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
@@ -214,6 +219,12 @@ private fun CombosSection(
     val comboList: List<Combo> = homeState.value.comboList
     val favoriteComboList: List<Combo> = homeState.value.favoriteComboList
 
+    val comboCardList: List<CardItem> = comboList.map { it.toCardItem() }
+    val favoriteComboCardList: List<CardItem> = favoriteComboList.map { it.toCardItem() }
+
+    val cardItemList: MutableList<CardItem> = mutableListOf()
+    cardItemList.addAll(comboCardList)
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -234,23 +245,23 @@ private fun CombosSection(
 
     Spacer(modifier = Modifier.height(22.dp))
 
-    ComboListRow(
-        combos = comboList,
-        favoriteCombos = favoriteComboList,
+    StandardCardListRow(
+        cardItemList = cardItemList,
+        favoriteCardItemList = favoriteComboCardList,
         cartItemList = cartItemList,
-        onComboSelected = { selectedCombo ->
-            onNavigateToDetails(true, selectedCombo.id)
+        onCardItemSelected = { selectedCardItem ->
+            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
         },
         onAddOrRemoveClick = { selectedCardItem ->
-            val cartItem = selectedCardItem.toCartItem()
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
 
-            if (cartItemList.contains(cartItem)) {
+            if (isOnTheCart != -1) {
                 cartViewModel.onEvent(
-                    CartEvent.RemoveFromCart(cartItem)
+                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
                 )
             } else {
                 cartViewModel.onEvent(
-                    CartEvent.AddToCart(cartItem)
+                    CartEvent.AddToCart(selectedCardItem.toCartItem())
                 )
             }
         }

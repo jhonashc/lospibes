@@ -6,8 +6,6 @@ data class ProductState(
     val message: String? = null,
     val isProductLoading: Boolean = true,
     val isFavoriteProductLoading: Boolean = true,
-    val isSimilarProductLoading: Boolean = true,
     val product: Product? = null,
-    val favoriteProduct: Product? = null,
-    val similarProductList: List<Product> = emptyList()
+    val favoriteProduct: Product? = null
 )

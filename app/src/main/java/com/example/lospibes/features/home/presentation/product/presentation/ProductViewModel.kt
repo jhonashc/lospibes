@@ -3,7 +3,6 @@ package com.example.lospibes.features.home.presentation.product.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
 import com.example.lospibes.features.home.domain.use_case.favorite.FavoriteUseCase
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
@@ -100,44 +99,6 @@ class ProductViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 isFavoriteProductLoading = false
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun getSimilarProducts(
-        getProductsQueryDto: GetProductsQueryDto? = null
-    ) {
-        viewModelScope.launch {
-            productUseCase.getProducts(
-                getProductsQueryDto = getProductsQueryDto
-            ).collect { res ->
-                when (res) {
-                    is NetworkResult.Loading -> {
-                        _state.update {
-                            it.copy(
-                                isSimilarProductLoading = true
-                            )
-                        }
-                    }
-
-                    is NetworkResult.Success -> {
-                        _state.update {
-                            it.copy(
-                                similarProductList = res.data?.data ?: emptyList(),
-                                isSimilarProductLoading = false
-                            )
-                        }
-                    }
-
-                    is NetworkResult.Error -> {
-                        _state.update {
-                            it.copy(
-                                message = res.message,
-                                isSimilarProductLoading = false
                             )
                         }
                     }

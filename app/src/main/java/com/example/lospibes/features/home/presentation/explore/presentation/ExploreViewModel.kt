@@ -53,7 +53,6 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-
     fun getCategories(
         getCategoriesQueryDto: GetCategoriesQueryDto? = null
     ) {

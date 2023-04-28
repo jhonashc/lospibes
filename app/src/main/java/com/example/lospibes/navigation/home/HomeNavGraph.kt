@@ -29,39 +29,6 @@ fun HomeNavGraph(
         route = HOME_GRAPH_ROUTE
     ) {
         composable(
-            route = HomeDestinations.ProfileScreen.route
-        ) {
-            ProfileScreen(
-                onNavigateToHome = {}
-            )
-        }
-
-        composable(
-            route = HomeDestinations.CartScreen.route
-        ) {
-            CartScreen(
-                cartViewModel = cartViewModel,
-                onNavigateToHome = {}
-            )
-        }
-
-        composable(
-            route = HomeDestinations.FavoriteScreen.route
-        ) {
-            FavoriteScreen(
-                cartViewModel = cartViewModel,
-                onNavigateToHome = {},
-                onNavigateToDetails = { isCombo, id ->
-                    if (isCombo) {
-                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
-                    } else {
-                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
-                    }
-                }
-            )
-        }
-
-        composable(
             route = HomeDestinations.HomeScreen.route
         ) {
             HomeScreen(
@@ -101,6 +68,7 @@ fun HomeNavGraph(
             )
         ) {
             ExploreScreen(
+                cartViewModel = cartViewModel,
                 onNavigateToHome = {},
                 onNavigateToFilter = {
                     navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
@@ -112,6 +80,39 @@ fun HomeNavGraph(
                         navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
                     }
                 }
+            )
+        }
+
+        composable(
+            route = HomeDestinations.CartScreen.route
+        ) {
+            CartScreen(
+                cartViewModel = cartViewModel,
+                onNavigateToHome = {}
+            )
+        }
+
+        composable(
+            route = HomeDestinations.FavoriteScreen.route
+        ) {
+            FavoriteScreen(
+                cartViewModel = cartViewModel,
+                onNavigateToHome = {},
+                onNavigateToDetails = { isCombo, id ->
+                    if (isCombo) {
+                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
+                    } else {
+                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
+                    }
+                }
+            )
+        }
+
+        composable(
+            route = HomeDestinations.ProfileScreen.route
+        ) {
+            ProfileScreen(
+                onNavigateToHome = {}
             )
         }
 
@@ -141,12 +142,7 @@ fun NavGraphBuilder.detailsNavGraph(
         ) {
             ComboScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {},
-                onNavigateToDetails = { isCombo, id ->
-                    if (isCombo) {
-                        navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
-                    }
-                }
+                onNavigateToHome = {}
             )
         }
 
@@ -161,12 +157,7 @@ fun NavGraphBuilder.detailsNavGraph(
         ) {
             ProductScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {},
-                onNavigateToDetails = { isCombo, id ->
-                    if (!isCombo) {
-                        navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
-                    }
-                }
+                onNavigateToHome = {}
             )
         }
 

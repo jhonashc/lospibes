@@ -6,8 +6,6 @@ data class ComboState(
     val message: String? = null,
     val isComboLoading: Boolean = true,
     val isFavoriteComboLoading: Boolean = true,
-    val isSimilarComboLoading: Boolean = true,
     val combo: Combo? = null,
     val favoriteCombo: Combo? = null,
-    val similarComboList: List<Combo> = emptyList()
 )

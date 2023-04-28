@@ -21,8 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardTopBar
-import com.example.lospibes.features.home.component.ComboListRow
-import com.example.lospibes.features.home.data.dto.query.GetCombosQueryDto
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.ComboProduct
@@ -35,8 +33,7 @@ import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 fun ComboScreen(
     cartViewModel: CartViewModel,
     comboViewModel: ComboViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToHome: () -> Unit
 ) {
     val comboState = comboViewModel.state.collectAsState()
 
@@ -47,12 +44,6 @@ fun ComboScreen(
 
     LaunchedEffect(key1 = comboState.value.combo) {
         if (combo != null) {
-            comboViewModel.getSimilarCombos(
-                getCombosQueryDto = GetCombosQueryDto(
-                    name = combo.name
-                )
-            )
-
             comboViewModel.getFavoriteCombo(
                 comboId = combo.id,
                 userId = userId
@@ -62,8 +53,7 @@ fun ComboScreen(
 
     StandardBoxContainer(
         isLoading = comboState.value.isComboLoading &&
-                comboState.value.isFavoriteComboLoading &&
-                comboState.value.isSimilarComboLoading,
+                comboState.value.isFavoriteComboLoading,
         message = comboState.value.message
     ) {
         Column(
@@ -77,8 +67,7 @@ fun ComboScreen(
             )
 
             Body(
-                comboState = comboState,
-                onNavigateToDetails = onNavigateToDetails
+                comboState = comboState
             )
 
             FooterSection(
@@ -128,14 +117,9 @@ private fun Header(
 
 @Composable
 private fun Body(
-    comboState: State<ComboState>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    comboState: State<ComboState>
 ) {
     val combo: Combo? = comboState.value.combo
-
-    val similarComboList: List<Combo> = comboState.value.similarComboList.filter {
-        it.id != combo?.id
-    }
 
     if (combo != null) {
         Column(
@@ -156,15 +140,6 @@ private fun Body(
 
                 ComboProductSection(
                     comboProductList = combo.products
-                )
-            }
-
-            if (similarComboList.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(26.dp))
-
-                SimilarSection(
-                    similarComboList = similarComboList,
-                    onNavigateToDetails = onNavigateToDetails
                 )
             }
 
@@ -266,27 +241,6 @@ private fun ComboProductSection(
             comboProductList = comboProductList
         )
     }
-}
-
-@Composable
-private fun SimilarSection(
-    similarComboList: List<Combo>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
-) {
-    Text(
-        modifier = Modifier.padding(horizontal = 20.dp),
-        text = "Similares",
-        style = MaterialTheme.typography.titleMedium,
-    )
-
-    Spacer(modifier = Modifier.height(22.dp))
-
-    ComboListRow(
-        combos = similarComboList,
-        onComboSelected = { selectedCombo ->
-            onNavigateToDetails(true, selectedCombo.id)
-        }
-    )
 }
 
 @Composable

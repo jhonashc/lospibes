@@ -20,8 +20,6 @@ import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardTopBar
-import com.example.lospibes.features.home.component.ProductListRow
-import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
@@ -33,8 +31,7 @@ import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 fun ProductScreen(
     cartViewModel: CartViewModel,
     productViewModel: ProductViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToHome: () -> Unit
 ) {
     val productState = productViewModel.state.collectAsState()
 
@@ -45,16 +42,6 @@ fun ProductScreen(
 
     LaunchedEffect(key1 = productState.value.product) {
         if (product != null) {
-            val categories: List<Category> = product.categories
-
-            if (categories.isNotEmpty()) {
-                productViewModel.getSimilarProducts(
-                    getProductsQueryDto = GetProductsQueryDto(
-                        category = categories.first().name
-                    )
-                )
-            }
-
             productViewModel.getFavoriteProduct(
                 productId = product.id,
                 userId = userId
@@ -64,8 +51,7 @@ fun ProductScreen(
 
     StandardBoxContainer(
         isLoading = productState.value.isProductLoading &&
-                productState.value.isFavoriteProductLoading &&
-                productState.value.isSimilarProductLoading,
+                productState.value.isFavoriteProductLoading,
         message = productState.value.message
     ) {
         Column(
@@ -79,8 +65,7 @@ fun ProductScreen(
             )
 
             Body(
-                productState = productState,
-                onNavigateToDetails = onNavigateToDetails
+                productState = productState
             )
 
             FooterSection(
@@ -130,14 +115,9 @@ private fun Header(
 
 @Composable
 private fun Body(
-    productState: State<ProductState>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    productState: State<ProductState>
 ) {
     val product: Product? = productState.value.product
-
-    val similarProductList: List<Product> = productState.value.similarProductList.filter {
-        it.id != product?.id
-    }
 
     if (product != null) {
         Column(
@@ -158,15 +138,6 @@ private fun Body(
             CategorySection(
                 categoryList = product.categories
             )
-
-            if (similarProductList.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(26.dp))
-
-                SimilarSection(
-                    similarProductList = similarProductList,
-                    onNavigateToDetails = onNavigateToDetails
-                )
-            }
 
             Spacer(modifier = Modifier.height(26.dp))
         }
@@ -270,27 +241,6 @@ private fun CategorySection(
             onItemSelected = {}
         )
     }
-}
-
-@Composable
-private fun SimilarSection(
-    similarProductList: List<Product>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
-) {
-    Text(
-        modifier = Modifier.padding(horizontal = 20.dp),
-        text = "Similares",
-        style = MaterialTheme.typography.titleMedium,
-    )
-
-    Spacer(modifier = Modifier.height(22.dp))
-
-    ProductListRow(
-        products = similarProductList,
-        onProductSelected = { selectedProduct ->
-            onNavigateToDetails(false, selectedProduct.id)
-        }
-    )
 }
 
 @Composable
