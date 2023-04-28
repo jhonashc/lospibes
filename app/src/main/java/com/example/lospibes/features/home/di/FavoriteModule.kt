@@ -4,7 +4,9 @@ import com.example.lospibes.features.home.data.repository.FavoriteRepositoryImpl
 import com.example.lospibes.features.home.data.source.remote.FavoriteService
 import com.example.lospibes.features.home.domain.repository.FavoriteRepository
 import com.example.lospibes.features.home.domain.use_case.favorite.FavoriteUseCase
+import com.example.lospibes.features.home.domain.use_case.favorite.GetFavoriteCombo
 import com.example.lospibes.features.home.domain.use_case.favorite.GetFavoriteCombos
+import com.example.lospibes.features.home.domain.use_case.favorite.GetFavoriteProduct
 import com.example.lospibes.features.home.domain.use_case.favorite.GetFavoriteProducts
 import dagger.Module
 import dagger.Provides
@@ -33,7 +35,9 @@ object FavoriteModule {
     fun provideFavoriteUseCase(favoriteRepository: FavoriteRepository): FavoriteUseCase {
         return FavoriteUseCase(
             getFavoriteCombos = GetFavoriteCombos(favoriteRepository),
-            getFavoriteProducts = GetFavoriteProducts(favoriteRepository)
+            getFavoriteProducts = GetFavoriteProducts(favoriteRepository),
+            getFavoriteCombo = GetFavoriteCombo(favoriteRepository),
+            getFavoriteProduct = GetFavoriteProduct(favoriteRepository)
         )
     }
 }

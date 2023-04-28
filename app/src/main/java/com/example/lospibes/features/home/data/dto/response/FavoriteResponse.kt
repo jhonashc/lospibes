@@ -12,3 +12,13 @@ data class FavoriteProductsResponse(
     val status: Boolean,
     val data: List<Product>
 )
+
+data class FavoriteComboResponse(
+    val status: Boolean,
+    val data: Combo
+)
+
+data class FavoriteProductResponse(
+    val status: Boolean,
+    val data: Product
+)
