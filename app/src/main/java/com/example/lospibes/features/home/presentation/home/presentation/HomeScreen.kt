@@ -31,18 +31,25 @@ fun HomeScreen(
 ) {
     val homeState = homeViewModel.state.collectAsState()
 
-    val cartState = cartViewModel.state.collectAsState()
+    /* Temporal */
+    val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
 
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
         homeViewModel.getCombos()
         homeViewModel.getProducts()
+
+        /* Temporal */
+        homeViewModel.getFavoriteCombos(userId)
+        homeViewModel.getFavoriteProducts(userId)
     }
 
     StandardBoxContainer(
         isLoading = homeState.value.isCategoryLoading &&
                 homeState.value.isComboLoading &&
-                homeState.value.isProductLoading,
+                homeState.value.isProductLoading &&
+                homeState.value.isFavoriteComboLoading &&
+                homeState.value.isFavoriteProductLoading,
         message = homeState.value.message
     ) {
         Column(
@@ -236,6 +243,7 @@ private fun PopularSection(
 
     val cartItemList: List<CartItem> = cartState.value.cartItemList
     val productList: List<Product> = homeState.value.productList
+    val favoriteProductList: List<Product> = homeState.value.favoriteProductList
 
     Row(
         modifier = Modifier
@@ -259,6 +267,7 @@ private fun PopularSection(
 
     ProductListRow(
         products = productList,
+        favoriteProducts = favoriteProductList,
         cartItemList = cartItemList,
         onProductSelected = { selectedProduct ->
             onNavigateToDetails(false, selectedProduct.id)
@@ -289,6 +298,7 @@ private fun CombosSection(
 
     val cartItemList: List<CartItem> = cartState.value.cartItemList
     val comboList: List<Combo> = homeState.value.comboList
+    val favoriteComboList: List<Combo> = homeState.value.favoriteComboList
 
     Row(
         modifier = Modifier
@@ -312,6 +322,7 @@ private fun CombosSection(
 
     ComboListRow(
         combos = comboList,
+        favoriteCombos = favoriteComboList,
         cartItemList = cartItemList,
         onComboSelected = { selectedCombo ->
             onNavigateToDetails(true, selectedCombo.id)

@@ -71,7 +71,7 @@ fun HomeNavGraph(
             HomeScreen(
                 cartViewModel = cartViewModel,
                 onNavigateToExplore = { category ->
-                    navController.navigate("explore_screen?category=${category}") {
+                    navController.navigate("${HomeDestinations.ExploreScreen.route}?category=${category}") {
                         popUpTo(HomeDestinations.HomeScreen.route) {
                             inclusive = true
                         }
@@ -88,7 +88,7 @@ fun HomeNavGraph(
         }
 
         composable(
-            route = HomeDestinations.ExploreScreen.route,
+            route = "${HomeDestinations.ExploreScreen.route}?name={name}&category={category}&min={min}&max={max}",
             arguments = listOf(
                 navArgument("name") {
                     defaultValue = ""
@@ -125,7 +125,7 @@ fun HomeNavGraph(
 
         detailsNavGraph(
             navController = navController,
-            cartViewModel =cartViewModel
+            cartViewModel = cartViewModel
         )
     }
 }

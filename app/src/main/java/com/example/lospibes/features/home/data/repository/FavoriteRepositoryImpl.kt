@@ -1,7 +1,7 @@
 package com.example.lospibes.features.home.data.repository
 
-import com.example.lospibes.features.home.data.dto.response.FavoriteComboResponse
-import com.example.lospibes.features.home.data.dto.response.FavoriteProductResponse
+import com.example.lospibes.features.home.data.dto.response.FavoriteCombosResponse
+import com.example.lospibes.features.home.data.dto.response.FavoriteProductsResponse
 import com.example.lospibes.features.home.data.source.remote.FavoriteService
 import com.example.lospibes.features.home.domain.repository.FavoriteRepository
 import com.example.lospibes.utils.BaseApiResponse
@@ -14,13 +14,13 @@ class FavoriteRepositoryImpl @Inject constructor(
 ) : FavoriteRepository, BaseApiResponse() {
     override fun getFavoriteCombos(
         userId: String
-    ): Flow<NetworkResult<FavoriteComboResponse>> {
+    ): Flow<NetworkResult<FavoriteCombosResponse>> {
         return safeApiCall { favoriteService.getFavoriteCombos(userId) }
     }
 
     override fun getFavoriteProducts(
         userId: String
-    ): Flow<NetworkResult<FavoriteProductResponse>> {
+    ): Flow<NetworkResult<FavoriteProductsResponse>> {
         return safeApiCall { favoriteService.getFavoriteProducts(userId) }
     }
 }

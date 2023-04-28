@@ -7,6 +7,7 @@ import com.example.lospibes.features.home.data.dto.query.GetCombosQueryDto
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
 import com.example.lospibes.features.home.domain.use_case.category.CategoryUseCase
 import com.example.lospibes.features.home.domain.use_case.combo.ComboUseCase
+import com.example.lospibes.features.home.domain.use_case.favorite.FavoriteUseCase
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val categoryUseCase: CategoryUseCase,
     private val comboUseCase: ComboUseCase,
-    private val productUseCase: ProductUseCase
+    private val productUseCase: ProductUseCase,
+    private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
@@ -131,6 +133,82 @@ class HomeViewModel @Inject constructor(
                             it.copy(
                                 message = res.message,
                                 isProductLoading = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getFavoriteCombos(
+        userId: String
+    ) {
+        viewModelScope.launch {
+            favoriteUseCase.getFavoriteCombos(
+                userId = userId
+            ).collect { res ->
+                when (res) {
+                    is NetworkResult.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isFavoriteComboLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _state.update {
+                            it.copy(
+                                favoriteComboList = res.data?.data ?: emptyList(),
+                                isFavoriteComboLoading = false
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        _state.update {
+                            it.copy(
+                                message = res.message,
+                                isFavoriteComboLoading = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getFavoriteProducts(
+        userId: String
+    ) {
+        viewModelScope.launch {
+            favoriteUseCase.getFavoriteProducts(
+                userId = userId
+            ).collect { res ->
+                when (res) {
+                    is NetworkResult.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isFavoriteProductLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _state.update {
+                            it.copy(
+                                favoriteProductList = res.data?.data ?: emptyList(),
+                                isFavoriteProductLoading = false
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        _state.update {
+                            it.copy(
+                                message = res.message,
+                                isFavoriteProductLoading = false
                             )
                         }
                     }

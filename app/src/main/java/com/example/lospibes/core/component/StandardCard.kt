@@ -43,6 +43,11 @@ fun StandardCard(
         MaterialTheme.colorScheme.error else
         MaterialTheme.colorScheme.primary
 
+    val favoriteContentButtonColor = if (isFavorite)
+        MaterialTheme.colorScheme.error else
+        MaterialTheme.colorScheme.onBackground
+
+
     Card(
         modifier = Modifier
             .width(180.dp)
@@ -77,6 +82,7 @@ fun StandardCard(
                     shape = MaterialTheme.shapes.extraLarge,
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = MaterialTheme.colorScheme.outline.copy(0.15f),
+                        contentColor = favoriteContentButtonColor
                     ),
                     border = BorderStroke(
                         width = 1.dp,
