@@ -1,19 +1,11 @@
 package com.example.lospibes.features.home.presentation.home.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.component.ComboListRow
@@ -57,10 +49,6 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(vertical = 20.dp)
         ) {
-            Header()
-
-            Spacer(modifier = Modifier.height(26.dp))
-
             Body(
                 cartViewModel = cartViewModel,
                 homeState = homeState,
@@ -68,80 +56,6 @@ fun HomeScreen(
                 onNavigateToDetails = onNavigateToDetails
             )
         }
-    }
-}
-
-@Composable
-private fun Header() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 15.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 5.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = "Tu ubicación",
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1
-                )
-
-                IconButton(
-                    modifier = Modifier.size(25.dp),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = MaterialTheme.colorScheme.outline,
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    onClick = {}
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowDown,
-                        contentDescription = "KeyboardArrowDown",
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.LocationOn,
-                    contentDescription = "Location",
-                    tint = MaterialTheme.colorScheme.primary
-                )
-
-                Text(
-                    text = "2009, Robert Browning St, Mosaic at Monastery",
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.outline,
-                    style = MaterialTheme.typography.titleSmall,
-                    maxLines = 1
-                )
-            }
-        }
-
-        AsyncImage(
-            modifier = Modifier
-                .size(45.dp)
-                .clip(MaterialTheme.shapes.extraLarge),
-            model = "https://images.pexels.com/photos/3778361/pexels-photo-3778361.jpeg",
-            contentDescription = "Profile",
-            contentScale = ContentScale.Crop
-        )
     }
 }
 
@@ -166,7 +80,7 @@ private fun Body(
     if (popularList.isNotEmpty()) {
         Spacer(modifier = Modifier.height(26.dp))
 
-        PopularSection(
+        ProductSection(
             cartViewModel = cartViewModel,
             homeState = homeState,
             onNavigateToDetails = onNavigateToDetails
@@ -215,7 +129,7 @@ private fun CategorySection(
         )
     }
 
-    Spacer(modifier = Modifier.height(6.dp))
+    Spacer(modifier = Modifier.height(7.dp))
 
     Column(
         modifier = Modifier
@@ -228,13 +142,13 @@ private fun CategorySection(
             onTabSelected = { newSelectedTab ->
                 selectedTab = newSelectedTab
                 onNavigateToExplore(newSelectedTab.name)
-            },
+            }
         )
     }
 }
 
 @Composable
-private fun PopularSection(
+private fun ProductSection(
     cartViewModel: CartViewModel,
     homeState: State<HomeState>,
     onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
@@ -252,12 +166,12 @@ private fun PopularSection(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Populares",
+            text = "Productos",
             style = MaterialTheme.typography.titleMedium,
         )
 
         Text(
-            text = "Ver todas",
+            text = "Ver todos",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -312,7 +226,7 @@ private fun CombosSection(
         )
 
         Text(
-            text = "Ver todas",
+            text = "Ver todos",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )

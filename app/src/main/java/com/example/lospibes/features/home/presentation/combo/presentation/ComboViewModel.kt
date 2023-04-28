@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lospibes.features.home.data.dto.query.GetCombosQueryDto
 import com.example.lospibes.features.home.domain.use_case.combo.ComboUseCase
+import com.example.lospibes.features.home.domain.use_case.favorite.FavoriteUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ComboViewModel @Inject constructor(
     private val comboUseCase: ComboUseCase,
+    private val favoriteUseCase: FavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state = MutableStateFlow(ComboState())
@@ -59,6 +61,45 @@ class ComboViewModel @Inject constructor(
                             it.copy(
                                 message = res.message,
                                 isComboLoading = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getFavoriteCombo(
+        comboId: String,
+        userId: String
+    ) {
+        viewModelScope.launch {
+            favoriteUseCase.getFavoriteCombo(
+                comboId = comboId,
+                userId = userId
+            ).collect { res ->
+                when (res) {
+                    is NetworkResult.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isFavoriteComboLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _state.update {
+                            it.copy(
+                                favoriteCombo = res.data?.data,
+                                isFavoriteComboLoading = false
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        _state.update {
+                            it.copy(
+                                isFavoriteComboLoading = false
                             )
                         }
                     }

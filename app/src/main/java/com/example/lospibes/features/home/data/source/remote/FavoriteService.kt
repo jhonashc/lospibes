@@ -26,7 +26,7 @@ interface FavoriteService {
         @Path("userId") userId: String
     ): Response<FavoriteComboResponse>
 
-    @GET("${FAVORITES}/{userId}/products/{comboId}")
+    @GET("${FAVORITES}/{userId}/products/{productId}")
     suspend fun getFavoriteProduct(
         @Path("productId") productId: String,
         @Path("userId") userId: String

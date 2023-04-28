@@ -40,6 +40,9 @@ fun ProductScreen(
 
     val product: Product? = productState.value.product
 
+    /* Temporal */
+    val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
+
     LaunchedEffect(key1 = productState.value.product) {
         if (product != null) {
             val categories: List<Category> = product.categories
@@ -51,11 +54,17 @@ fun ProductScreen(
                     )
                 )
             }
+
+            productViewModel.getFavoriteProduct(
+                productId = product.id,
+                userId = userId
+            )
         }
     }
 
     StandardBoxContainer(
         isLoading = productState.value.isProductLoading &&
+                productState.value.isFavoriteProductLoading &&
                 productState.value.isSimilarProductLoading,
         message = productState.value.message
     ) {
@@ -65,7 +74,7 @@ fun ProductScreen(
                 .padding(bottom = 20.dp)
         ) {
             Header(
-                isFavorite = false,
+                isFavorite = productState.value.favoriteProduct != null,
                 onNavigateToHome = onNavigateToHome
             )
 
@@ -91,6 +100,10 @@ private fun Header(
         Icons.Filled.Favorite else
         Icons.Filled.FavoriteBorder
 
+    val favoriteContentButtonColor = if (isFavorite)
+        MaterialTheme.colorScheme.error else
+        MaterialTheme.colorScheme.onBackground
+
     StandardTopBar(
         navigationIcon = {
             Icon(
@@ -101,7 +114,7 @@ private fun Header(
         actions = {
             IconButton(
                 colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = MaterialTheme.colorScheme.primary
+                    contentColor = favoriteContentButtonColor
                 ),
                 onClick = { /* TODO */ }
             ) {
@@ -315,17 +328,17 @@ private fun FooterSection(
                 contentColor = MaterialTheme.colorScheme.background
             ),
             onClick = {
-                    if (product != null) {
-                        if (isOnTheCart != -1) {
-                            cartViewModel.onEvent(
-                                CartEvent.RemoveFromCart(product.toCartItem())
-                            )
-                        } else {
-                            cartViewModel.onEvent(
-                                CartEvent.AddToCart(product.toCartItem())
-                            )
-                        }
+                if (product != null) {
+                    if (isOnTheCart != -1) {
+                        cartViewModel.onEvent(
+                            CartEvent.RemoveFromCart(product.toCartItem())
+                        )
+                    } else {
+                        cartViewModel.onEvent(
+                            CartEvent.AddToCart(product.toCartItem())
+                        )
                     }
+                }
             }
         ) {
             Text(

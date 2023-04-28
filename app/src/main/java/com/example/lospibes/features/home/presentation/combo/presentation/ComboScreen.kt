@@ -42,6 +42,9 @@ fun ComboScreen(
 
     val combo: Combo? = comboState.value.combo
 
+    /* Temporal */
+    val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
+
     LaunchedEffect(key1 = comboState.value.combo) {
         if (combo != null) {
             comboViewModel.getSimilarCombos(
@@ -49,11 +52,17 @@ fun ComboScreen(
                     name = combo.name
                 )
             )
+
+            comboViewModel.getFavoriteCombo(
+                comboId = combo.id,
+                userId = userId
+            )
         }
     }
 
     StandardBoxContainer(
         isLoading = comboState.value.isComboLoading &&
+                comboState.value.isFavoriteComboLoading &&
                 comboState.value.isSimilarComboLoading,
         message = comboState.value.message
     ) {
@@ -63,7 +72,7 @@ fun ComboScreen(
                 .padding(bottom = 20.dp)
         ) {
             Header(
-                isFavorite = false,
+                isFavorite = comboState.value.favoriteCombo != null,
                 onNavigateToHome = onNavigateToHome
             )
 
@@ -89,6 +98,10 @@ private fun Header(
         Icons.Filled.Favorite else
         Icons.Filled.FavoriteBorder
 
+    val favoriteContentButtonColor = if (isFavorite)
+        MaterialTheme.colorScheme.error else
+        MaterialTheme.colorScheme.onBackground
+
     StandardTopBar(
         navigationIcon = {
             Icon(
@@ -99,7 +112,7 @@ private fun Header(
         actions = {
             IconButton(
                 colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = MaterialTheme.colorScheme.primary
+                    contentColor = favoriteContentButtonColor
                 ),
                 onClick = { /* TODO */ }
             ) {

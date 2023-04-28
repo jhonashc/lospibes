@@ -50,12 +50,7 @@ fun HomeNavGraph(
         ) {
             FavoriteScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {
-                    navController.popBackStack(
-                        route = HomeDestinations.HomeScreen.route,
-                        inclusive = false
-                    )
-                },
+                onNavigateToHome = {},
                 onNavigateToDetails = { isCombo, id ->
                     if (isCombo) {
                         navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
@@ -72,11 +67,7 @@ fun HomeNavGraph(
             HomeScreen(
                 cartViewModel = cartViewModel,
                 onNavigateToExplore = { category ->
-                    navController.navigate("${HomeDestinations.ExploreScreen.route}?category=${category}") {
-                        popUpTo(HomeDestinations.HomeScreen.route) {
-                            inclusive = true
-                        }
-                    }
+                    navController.navigate("${HomeDestinations.ExploreScreen.route}?category=${category}")
                 },
                 onNavigateToDetails = { isCombo, id ->
                     if (isCombo) {
@@ -150,12 +141,7 @@ fun NavGraphBuilder.detailsNavGraph(
         ) {
             ComboScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {
-                    navController.popBackStack(
-                        route = HomeDestinations.HomeScreen.route,
-                        inclusive = false
-                    )
-                },
+                onNavigateToHome = {},
                 onNavigateToDetails = { isCombo, id ->
                     if (isCombo) {
                         navController.navigate("${DetailsDestinations.ComboDetailsScreen.route}/${id}")
@@ -175,12 +161,7 @@ fun NavGraphBuilder.detailsNavGraph(
         ) {
             ProductScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {
-                    navController.popBackStack(
-                        route = HomeDestinations.HomeScreen.route,
-                        inclusive = false
-                    )
-                },
+                onNavigateToHome = {},
                 onNavigateToDetails = { isCombo, id ->
                     if (!isCombo) {
                         navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${id}")
