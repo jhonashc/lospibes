@@ -13,7 +13,12 @@ class CartRepositoryImpl : CartRepository {
     }
 
     override fun removeFromCart(cartItem: CartItem): List<CartItem> {
-        _cartItemList.remove(cartItem)
+        val index = _cartItemList.indexOfFirst { it.id == cartItem.id }
+
+        if (index != -1) {
+            _cartItemList.removeAt(index)
+        }
+
         return _cartItemList
     }
 

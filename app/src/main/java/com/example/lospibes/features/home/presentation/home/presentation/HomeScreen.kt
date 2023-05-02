@@ -18,29 +18,18 @@ fun HomeScreen(
     cartViewModel: CartViewModel,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onNavigateToExplore: (query: String) -> Unit,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val homeState = homeViewModel.state.collectAsState()
 
-    /* Temporal */
-    val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
-
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
-        homeViewModel.getCombos()
         homeViewModel.getProducts()
-
-        /* Temporal */
-        homeViewModel.getFavoriteCombos(userId)
-        homeViewModel.getFavoriteProducts(userId)
     }
 
     StandardBoxContainer(
         isLoading = homeState.value.isCategoryLoading &&
-                homeState.value.isComboLoading &&
-                homeState.value.isProductLoading &&
-                homeState.value.isFavoriteComboLoading &&
-                homeState.value.isFavoriteProductLoading,
+                homeState.value.isProductLoading,
         message = homeState.value.message
     ) {
         Column(
@@ -63,11 +52,10 @@ private fun Body(
     cartViewModel: CartViewModel,
     homeState: State<HomeState>,
     onNavigateToExplore: (query: String) -> Unit,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val categoryList: List<Category> = homeState.value.categoryList
     val popularList: List<Product> = homeState.value.productList
-    val comboList: List<Combo> = homeState.value.comboList
 
     if (categoryList.isNotEmpty()) {
         CategorySection(
@@ -80,16 +68,6 @@ private fun Body(
         Spacer(modifier = Modifier.height(26.dp))
 
         ProductSection(
-            cartViewModel = cartViewModel,
-            homeState = homeState,
-            onNavigateToDetails = onNavigateToDetails
-        )
-    }
-
-    if (comboList.isNotEmpty()) {
-        Spacer(modifier = Modifier.height(26.dp))
-
-        CombosSection(
             cartViewModel = cartViewModel,
             homeState = homeState,
             onNavigateToDetails = onNavigateToDetails
@@ -150,16 +128,14 @@ private fun CategorySection(
 private fun ProductSection(
     cartViewModel: CartViewModel,
     homeState: State<HomeState>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val cartState = cartViewModel.state.collectAsState()
 
     val cartItemList: List<CartItem> = cartState.value.cartItemList
     val productList: List<Product> = homeState.value.productList
-    val favoriteProductList: List<Product> = homeState.value.favoriteProductList
 
     val productCardList: List<CardItem> = productList.map { it.toCardItem() }
-    val favoriteProductCardList: List<CardItem> = favoriteProductList.map { it.toCardItem() }
 
     val cardItemList: MutableList<CardItem> = mutableListOf()
     cardItemList.addAll(productCardList)
@@ -186,71 +162,10 @@ private fun ProductSection(
 
     StandardCardListRow(
         cardItemList = cardItemList,
-        favoriteCardItemList = favoriteProductCardList,
+        favoriteCardItemList = emptyList(),
         cartItemList = cartItemList,
         onCardItemSelected = { selectedCardItem ->
-            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
-        },
-        onAddOrRemoveClick = { selectedCardItem ->
-            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
-
-            if (isOnTheCart != -1) {
-                cartViewModel.onEvent(
-                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
-                )
-            } else {
-                cartViewModel.onEvent(
-                    CartEvent.AddToCart(selectedCardItem.toCartItem())
-                )
-            }
-        }
-    )
-}
-
-@Composable
-private fun CombosSection(
-    cartViewModel: CartViewModel,
-    homeState: State<HomeState>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
-) {
-    val cartState = cartViewModel.state.collectAsState()
-
-    val cartItemList: List<CartItem> = cartState.value.cartItemList
-    val comboList: List<Combo> = homeState.value.comboList
-    val favoriteComboList: List<Combo> = homeState.value.favoriteComboList
-
-    val comboCardList: List<CardItem> = comboList.map { it.toCardItem() }
-    val favoriteComboCardList: List<CardItem> = favoriteComboList.map { it.toCardItem() }
-
-    val cardItemList: MutableList<CardItem> = mutableListOf()
-    cardItemList.addAll(comboCardList)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = "Combos",
-            style = MaterialTheme.typography.titleMedium,
-        )
-
-        Text(
-            text = "Ver todos",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
-
-    Spacer(modifier = Modifier.height(22.dp))
-
-    StandardCardListRow(
-        cardItemList = cardItemList,
-        favoriteCardItemList = favoriteComboCardList,
-        cartItemList = cartItemList,
-        onCardItemSelected = { selectedCardItem ->
-            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
+            onNavigateToDetails(selectedCardItem.id)
         },
         onAddOrRemoveClick = { selectedCardItem ->
             val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }

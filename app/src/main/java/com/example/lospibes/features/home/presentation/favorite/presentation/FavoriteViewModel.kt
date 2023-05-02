@@ -18,44 +18,6 @@ class FavoriteViewModel @Inject constructor(
     private val _state = MutableStateFlow(FavoriteState())
     val state = _state.asStateFlow()
 
-    fun getFavoriteCombos(
-        userId: String
-    ) {
-        viewModelScope.launch {
-            favoriteUseCase.getFavoriteCombos(
-                userId = userId
-            ).collect { res ->
-                when (res) {
-                    is NetworkResult.Loading -> {
-                        _state.update {
-                            it.copy(
-                                isFavoriteComboLoading = true
-                            )
-                        }
-                    }
-
-                    is NetworkResult.Success -> {
-                        _state.update {
-                            it.copy(
-                                favoriteComboList = res.data?.data ?: emptyList(),
-                                isFavoriteComboLoading = false
-                            )
-                        }
-                    }
-
-                    is NetworkResult.Error -> {
-                        _state.update {
-                            it.copy(
-                                message = res.message,
-                                isFavoriteComboLoading = false
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     fun getFavoriteProducts(
         userId: String
     ) {

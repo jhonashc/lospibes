@@ -17,6 +17,7 @@ fun StandardCardListRow(
     cardItemList: List<CardItem>,
     favoriteCardItemList: List<CardItem> = listOf(),
     cartItemList: List<CartItem> = listOf(),
+    showFavIcon: Boolean = false,
     onCardItemSelected: (selectedCardItem: CardItem) -> Unit,
     onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit
 ) {
@@ -39,6 +40,7 @@ fun StandardCardListRow(
                     cardItem = cardItem,
                     isFavorite = favoriteCardItemList.contains(cardItem),
                     isOnTheCart = isOnTheCart != -1,
+                    showFavIcon = showFavIcon,
                     onCardClick = { onCardItemSelected(cardItem) },
                     onAddOrRemoveClick = onAddOrRemoveClick
                 )
@@ -53,6 +55,7 @@ fun StandardCardListGrid(
     cardItemList: List<CardItem>,
     cartItemList: List<CartItem> = listOf(),
     favoriteCardItemList: List<CardItem> = listOf(),
+    showFavIcon: Boolean = false,
     onCardItemSelected: (listItem: CardItem) -> Unit,
     onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
@@ -69,6 +72,7 @@ fun StandardCardListGrid(
                 cardItem = cardItem,
                 isFavorite = favoriteCardItemList.contains(cardItem),
                 isOnTheCart = isOnTheCart != -1,
+                showFavIcon = showFavIcon,
                 onCardClick = { onCardItemSelected(cardItem) },
                 onAddOrRemoveClick = onAddOrRemoveClick
             )

@@ -8,7 +8,7 @@ data class Product(
     val description: String? = null,
     val imageUrl: String? = null,
     val price: Number,
-    val stock: Number,
+    val stock: Int,
     val categories: List<Category> = emptyList(),
     val createdAt: Date,
     val updatedAt: Date
@@ -19,8 +19,7 @@ fun Product.toCardItem() = CardItem(
     name = name,
     description = description,
     imageUrl = imageUrl,
-    price = price,
-    isCombo = false
+    price = price
 )
 
 fun Product.toCartItem() = CartItem(
@@ -28,6 +27,5 @@ fun Product.toCartItem() = CartItem(
     name = name,
     imageUrl = imageUrl,
     price = price,
-    quantity = 1,
-    isCombo = false
+    quantity = 1
 )

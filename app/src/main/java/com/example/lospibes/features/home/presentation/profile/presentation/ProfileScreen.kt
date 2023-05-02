@@ -88,6 +88,8 @@ private fun Body() {
         Spacer(modifier = Modifier.height(26.dp))
 
         SettingSection()
+
+        Spacer(modifier = Modifier.height(26.dp))
     }
 }
 

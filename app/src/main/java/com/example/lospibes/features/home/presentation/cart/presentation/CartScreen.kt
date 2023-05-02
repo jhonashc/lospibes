@@ -8,11 +8,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.presentation.cart.component.CartList
+import com.example.lospibes.features.home.presentation.cart.component.EmptyCart
 import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
 
 @Composable
@@ -20,6 +23,10 @@ fun CartScreen(
     cartViewModel: CartViewModel,
     onNavigateToHome: () -> Unit
 ) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartListItem: List<CartItem> = cartState.value.cartItemList
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -32,18 +39,26 @@ fun CartScreen(
                 onNavigateToHome = onNavigateToHome
             )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Body(
-                    cartViewModel = cartViewModel
-                )
+            if (cartListItem.isEmpty()) {
+                EmptyCart()
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Body(
+                        cartViewModel = cartViewModel
+                    )
+                }
             }
         }
 
-        Footer()
+        if (cartListItem.isNotEmpty()) {
+            Footer(
+                cartViewModel = cartViewModel
+            )
+        }
     }
 }
 
@@ -88,12 +103,22 @@ private fun CartListSection(
 }
 
 @Composable
-private fun Footer() {
-    TotalSection()
+private fun Footer(
+    cartViewModel: CartViewModel
+) {
+    TotalSection(
+        cartViewModel = cartViewModel
+    )
 }
 
 @Composable
-private fun TotalSection() {
+private fun TotalSection(
+    cartViewModel: CartViewModel
+) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val total: Number = 10
+
     Card(
         modifier = Modifier.fillMaxSize(),
         shape = RoundedCornerShape(
@@ -118,44 +143,6 @@ private fun TotalSection() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Subtotal",
-                    style = MaterialTheme.typography.titleMedium,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-
-                Text(
-                    text = "$ 365",
-                    style = MaterialTheme.typography.titleMedium,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Descuento",
-                    style = MaterialTheme.typography.titleMedium,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-
-                Text(
-                    text = "-$ 26",
-                    style = MaterialTheme.typography.titleMedium,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
                     text = "Total",
                     style = MaterialTheme.typography.titleMedium,
                     overflow = TextOverflow.Ellipsis,
@@ -163,7 +150,7 @@ private fun TotalSection() {
                 )
 
                 Text(
-                    text = "-$ 339",
+                    text = "$ $total",
                     style = MaterialTheme.typography.titleMedium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1

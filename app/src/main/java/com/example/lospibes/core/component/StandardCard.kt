@@ -28,6 +28,7 @@ fun StandardCard(
     cardItem: CardItem,
     isFavorite: Boolean = false,
     isOnTheCart: Boolean = false,
+    showFavIcon: Boolean = false,
     onCardClick: () -> Unit,
     onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit = {}
 ) {
@@ -77,24 +78,26 @@ fun StandardCard(
                     contentScale = ContentScale.Fit,
                 )
 
-                OutlinedIconButton(
-                    modifier = Modifier.align(Alignment.TopEnd),
-                    shape = MaterialTheme.shapes.extraLarge,
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.outline.copy(0.15f),
-                        contentColor = favoriteContentButtonColor
-                    ),
-                    border = BorderStroke(
-                        width = 1.dp,
-                        color = Color.Transparent
-                    ),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        imageVector = favoriteIcon,
-                        contentDescription = "Favorite Icon"
-                    )
+                if (showFavIcon) {
+                    OutlinedIconButton(
+                        modifier = Modifier.align(Alignment.TopEnd),
+                        shape = MaterialTheme.shapes.extraLarge,
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.outline.copy(0.15f),
+                            contentColor = favoriteContentButtonColor
+                        ),
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = Color.Transparent
+                        ),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            imageVector = favoriteIcon,
+                            contentDescription = "Favorite Icon"
+                        )
+                    }
                 }
             }
 

@@ -14,10 +14,7 @@ import com.example.lospibes.R
 import com.example.lospibes.core.component.*
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
-import com.example.lospibes.features.home.domain.model.Category
-import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.Product
-import com.example.lospibes.features.home.domain.model.TabItem
 import com.example.lospibes.features.home.domain.model.toCardItem
 import com.example.lospibes.features.home.domain.model.toCartItem
 import com.example.lospibes.features.home.viewmodel.cart.CartEvent
@@ -29,22 +26,19 @@ fun ExploreScreen(
     exploreViewModel: ExploreViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToFilter: () -> Unit,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val exploreState = exploreViewModel.state.collectAsState()
     val queryState = exploreViewModel.queryState.collectAsState()
 
     LaunchedEffect(key1 = queryState.value) {
-        exploreViewModel.getCategories()
         exploreViewModel.getProducts(
             getProductsQueryDto = queryState.value.getProductsQueryDto
         )
     }
 
     StandardColumnContainer(
-        isLoading = exploreState.value.isCategoryLoading &&
-                exploreState.value.isComboLoading &&
-                exploreState.value.isProductLoading,
+        isLoading = exploreState.value.isProductLoading,
         message = exploreState.value.message
     ) {
         Column(
@@ -57,9 +51,7 @@ fun ExploreScreen(
 
             Body(
                 cartViewModel = cartViewModel,
-                exploreViewModel = exploreViewModel,
                 exploreState = exploreState,
-                queryState = queryState,
                 onNavigateToDetails = onNavigateToDetails
             )
         }
@@ -130,21 +122,9 @@ private fun Header(
 @Composable
 private fun Body(
     cartViewModel: CartViewModel,
-    exploreViewModel: ExploreViewModel,
     exploreState: State<ExploreState>,
-    queryState: State<QueryState>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
-    val categoryList: List<Category> = exploreState.value.categoryList
-
-    if (categoryList.isNotEmpty()) {
-        CategorySection(
-            exploreViewModel = exploreViewModel,
-            queryState = queryState,
-            categoryList = categoryList
-        )
-    }
-
     ResultSection(
         cartViewModel = cartViewModel,
         exploreState = exploreState,
@@ -153,70 +133,24 @@ private fun Body(
 }
 
 @Composable
-private fun CategorySection(
-    exploreViewModel: ExploreViewModel,
-    queryState: State<QueryState>,
-    categoryList: List<Category>
-) {
-    val tabList: List<TabItem> = categoryList.map { category ->
-        TabItem(
-            name = category.name
-        )
-    }
-
-    val categoryQuery: String = queryState.value.getProductsQueryDto.category.orEmpty()
-
-    val currentTab: TabItem = if (categoryQuery.isNotEmpty())
-        TabItem(name = categoryQuery) else
-        tabList[0]
-
-    var selectedTab by remember { mutableStateOf(currentTab) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 12.dp)
-    ) {
-        StandardTabList(
-            tabList = tabList,
-            selectedTab = selectedTab,
-            onTabSelected = { tabItem ->
-                exploreViewModel.onEvent(
-                    ExploreEvent.SelectedCategory(
-                        value = tabItem.name
-                    )
-                )
-                selectedTab = tabItem
-            }
-        )
-    }
-}
-
-@Composable
 fun ResultSection(
     cartViewModel: CartViewModel,
     exploreState: State<ExploreState>,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val cartState = cartViewModel.state.collectAsState()
 
     val cartItemList: List<CartItem> = cartState.value.cartItemList
-    val comboList: List<Combo> = exploreState.value.comboList
     val productList: List<Product> = exploreState.value.productList
 
-    val comboCardList: List<CardItem> = comboList.map { it.toCardItem() }
     val productCardList: List<CardItem> = productList.map { it.toCardItem() }
 
-    val cardItemList: MutableList<CardItem> = mutableListOf()
-    cardItemList.addAll(comboCardList)
-    cardItemList.addAll(productCardList)
-
     StandardCardListGrid(
-        cardItemList = cardItemList,
-        favoriteCardItemList = cardItemList,
+        cardItemList = productCardList,
+        favoriteCardItemList = emptyList(),
         cartItemList = cartItemList,
         onCardItemSelected = { selectedCardItem ->
-            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
+            onNavigateToDetails(selectedCardItem.id)
         },
         onAddOrRemoveClick = { selectedCardItem ->
             val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }

@@ -18,7 +18,6 @@ import com.example.lospibes.core.component.StandardColumnContainer
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
-import com.example.lospibes.features.home.domain.model.Combo
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.toCardItem
 import com.example.lospibes.features.home.domain.model.toCartItem
@@ -30,7 +29,7 @@ fun FavoriteScreen(
     cartViewModel: CartViewModel,
     favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val favoriteState = favoriteViewModel.state.collectAsState()
 
@@ -38,13 +37,11 @@ fun FavoriteScreen(
     val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
 
     LaunchedEffect(key1 = Unit) {
-        favoriteViewModel.getFavoriteCombos(userId)
         favoriteViewModel.getFavoriteProducts(userId)
     }
 
     StandardColumnContainer(
-        isLoading = favoriteState.value.isFavoriteComboLoading &&
-                favoriteState.value.isFavoriteProductLoading,
+        isLoading = favoriteState.value.isFavoriteProductLoading,
         message = favoriteState.value.message
     ) {
         Column(
@@ -111,7 +108,7 @@ private fun Header(
 private fun Body(
     cartViewModel: CartViewModel,
     favoriteViewModel: FavoriteViewModel,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val favoriteState = favoriteViewModel.state.collectAsState()
 
@@ -130,28 +127,23 @@ private fun Body(
 fun FavoriteSection(
     cartViewModel: CartViewModel,
     favoriteViewModel: FavoriteViewModel,
-    onNavigateToDetails: (isCombo: Boolean, id: String) -> Unit
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val cartState = cartViewModel.state.collectAsState()
     val favoriteState = favoriteViewModel.state.collectAsState()
 
     val cartItemList: List<CartItem> = cartState.value.cartItemList
-    val favoriteComboList: List<Combo> = favoriteState.value.favoriteComboList
     val favoriteProductList: List<Product> = favoriteState.value.favoriteProductList
 
-    val comboCardList: List<CardItem> = favoriteComboList.map { it.toCardItem() }
     val productCardList: List<CardItem> = favoriteProductList.map { it.toCardItem() }
 
-    val cardItemList: MutableList<CardItem> = mutableListOf()
-    cardItemList.addAll(comboCardList)
-    cardItemList.addAll(productCardList)
-
     StandardCardListGrid(
-        cardItemList = cardItemList,
-        favoriteCardItemList = cardItemList,
+        cardItemList = productCardList,
+        favoriteCardItemList = productCardList,
         cartItemList = cartItemList,
+        showFavIcon = true,
         onCardItemSelected = { selectedCardItem ->
-            onNavigateToDetails(selectedCardItem.isCombo, selectedCardItem.id)
+            onNavigateToDetails(selectedCardItem.id)
         },
         onAddOrRemoveClick = { selectedCardItem ->
             val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
