@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,6 +61,7 @@ fun StandardOutlinedTextField(
     readOnly: Boolean = false,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     shape: Shape = RoundedCornerShape(0.dp),
     placeholder: @Composable () -> Unit = {},
     leadingIcon: @Composable () -> Unit = {},
@@ -81,6 +83,7 @@ fun StandardOutlinedTextField(
         colors = colors,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
+        visualTransformation =visualTransformation,
         shape = shape,
         placeholder = placeholder,
         leadingIcon = leadingIcon,

@@ -4,9 +4,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.lospibes.features.auth.presentation.login.LoginScreen
-import com.example.lospibes.features.auth.presentation.register.RegisterScreen
+import com.example.lospibes.features.auth.presentation.login.presentation.LoginScreen
+import com.example.lospibes.features.auth.presentation.register.presentation.RegisterScreen
 import com.example.lospibes.utils.Constants.AUTH_GRAPH_ROUTE
+import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController
@@ -21,6 +22,10 @@ fun NavGraphBuilder.authNavGraph(
             LoginScreen(
                 onNavigateToRegister = {
                     navController.navigate(AuthDestinations.RegisterScreen.route)
+                },
+                onNavigateToHome = {
+                    navController.popBackStack()
+                    navController.navigate(HOME_GRAPH_ROUTE)
                 }
             )
         }
@@ -30,10 +35,7 @@ fun NavGraphBuilder.authNavGraph(
         ) {
             RegisterScreen(
                 onNavigateToLogin = {
-                    navController.popBackStack(
-                        route = AuthDestinations.LoginScreen.route,
-                        inclusive = false
-                    )
+                    navController.popBackStack()
                 }
             )
         }
