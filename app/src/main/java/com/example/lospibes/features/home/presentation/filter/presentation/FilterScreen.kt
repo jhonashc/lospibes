@@ -1,30 +1,35 @@
 package com.example.lospibes.features.home.presentation.filter.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardFlowRow
-import com.example.lospibes.core.component.StandardRangeSlider
 import com.example.lospibes.core.component.StandardTopBar
-import com.example.lospibes.features.home.presentation.filter.component.RecentList
+import com.example.lospibes.features.home.presentation.filter.component.MaxPriceTextField
+import com.example.lospibes.features.home.presentation.filter.component.MinPriceTextField
 
 @Composable
 fun FilterScreen(
+    filterViewModel: FilterViewModel = hiltViewModel(),
     onNavigateToExplore: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    val filterState = filterViewModel.state.collectAsState()
+
+    LaunchedEffect(key1 = Unit) {
+        filterViewModel.getCategories()
+    }
+
+    StandardBoxContainer(
+        isLoading = filterState.value.isCategoryLoading,
+        message = filterState.value.message
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -33,7 +38,9 @@ fun FilterScreen(
                 onNavigateToExplore = onNavigateToExplore
             )
 
-            Body()
+            Body(
+                filterViewModel = filterViewModel
+            )
         }
     }
 }
@@ -66,42 +73,25 @@ private fun Header(
 }
 
 @Composable
-private fun Body() {
+private fun Body(
+    filterViewModel: FilterViewModel
+) {
     PriceSection()
 
     Spacer(modifier = Modifier.height(26.dp))
 
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+    CategorySection(
+        filterViewModel = filterViewModel
     )
-
-    Spacer(modifier = Modifier.height(26.dp))
-
-    CategorySection()
-
-    Spacer(modifier = Modifier.height(26.dp))
-
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-    )
-
-    Spacer(modifier = Modifier.height(26.dp))
-
-    RecentSection()
 }
 
 @Composable
 private fun PriceSection() {
-    val valueRange = 5.0f..30.0f
-    var value by remember { mutableStateOf(5.0f..10.0f) }
+    var minValue by remember { mutableStateOf("") }
+    var maxValue by remember { mutableStateOf("") }
 
-    val onValueChange = { newValue: ClosedFloatingPointRange<Float> ->
-        value = newValue
-    }
+    val onMinValueChange = { newMinValue: String -> minValue = newMinValue }
+    val onMaxValueChange = { newMinValue: String -> maxValue = newMinValue }
 
     Column(
         modifier = Modifier
@@ -110,34 +100,42 @@ private fun PriceSection() {
     ) {
         Text(
             text = "Rango de precio",
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1
+            style = MaterialTheme.typography.titleMedium
         )
 
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        StandardRangeSlider(
-            value = value,
-            valueRange = valueRange,
-            onValueChange = onValueChange,
-            steps = 4
-        )
-
-        Text(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            text = value.toString(),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.outline,
-            textAlign = TextAlign.Center
-        )
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            MinPriceTextField(
+                modifier = Modifier.weight(1f),
+                value = minValue,
+                onValueChange = onMinValueChange
+            )
+
+            MaxPriceTextField(
+                modifier = Modifier.weight(1f),
+                value = maxValue,
+                onValueChange = onMaxValueChange
+            )
+        }
     }
 }
 
 @Composable
-private fun CategorySection() {
+private fun CategorySection(
+    filterViewModel: FilterViewModel
+) {
+    val filterState = filterViewModel.state.collectAsState()
+
+    val categoryNameList: List<String> = filterState.value.categoryList.map {
+        it.name
+    }
+
     var currentCategory by remember { mutableStateOf("") }
-    val categoryNames: List<String> = listOf("hamburguesas", "pizzas")
 
     val onItemSelected = { newCategory: String -> currentCategory = newCategory }
 
@@ -146,49 +144,15 @@ private fun CategorySection() {
     ) {
         Text(
             text = "Categorías",
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1
+            style = MaterialTheme.typography.titleMedium
         )
 
         Spacer(modifier = Modifier.height(18.dp))
 
         StandardFlowRow(
-            itemList = categoryNames,
+            itemList = categoryNameList,
             selectedItem = currentCategory,
             onItemSelected = onItemSelected
-        )
-    }
-}
-
-@Composable
-fun RecentSection() {
-    val recentSearch = listOf(
-        "Tomato",
-        "Apple",
-        "Hamburger",
-        "Pizza",
-        "Pastel"
-    )
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-    ) {
-        Text(
-            text = "Búsquedas recientes",
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        RecentList(
-            itemList = recentSearch,
-            onItemSelected = {}
         )
     }
 }
