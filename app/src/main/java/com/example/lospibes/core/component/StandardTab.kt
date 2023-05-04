@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import com.example.lospibes.features.home.domain.model.TabItem
+import com.example.lospibes.utils.capitalizeText
 
 @Composable
 fun StandardTab(
@@ -38,7 +39,7 @@ fun StandardTab(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = tabItem.name,
+                    text = capitalizeText(tabItem.name),
                     fontWeight = tabFontWeight,
                     style = MaterialTheme.typography.titleMedium
                 )

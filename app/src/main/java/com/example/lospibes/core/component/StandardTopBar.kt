@@ -15,7 +15,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -58,7 +57,6 @@ fun StandardTopBar(
 @Composable
 fun SearchTopBar(
     value: String = "",
-    filterIcon: (@Composable () -> Unit)? = null,
     onClose: () -> Unit,
     onSubmit: (value: String) -> Unit,
     onValueChange: (newValue: String) -> Unit
@@ -74,7 +72,6 @@ fun SearchTopBar(
                 .fillMaxWidth()
                 .height(70.dp)
                 .align(Alignment.CenterStart)
-                .padding(end = if (filterIcon != null) 40.dp else 0.dp)
                 .focusRequester(focusRequester),
             value = value,
             singleLine = true,
@@ -119,29 +116,9 @@ fun SearchTopBar(
             },
             onValueChange = onValueChange
         )
-
-        filterIcon?.let { icon ->
-            IconButton(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = { /*TODO*/ }
-            ) {
-                icon()
-            }
-        }
     }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
-}
-
-@Preview
-@Composable
-fun SearchTopBarPreview() {
-    SearchTopBar(
-        value = "",
-        onSubmit = {},
-        onClose = {},
-        onValueChange = {}
-    )
 }

@@ -26,7 +26,9 @@ fun MainScreen(
         NavItem(
             name = stringResource(R.string.home_item),
             route = HomeDestinations.HomeScreen.route,
-            icon = painterResource(id = R.drawable.baseline_home_24)
+            icon = painterResource(
+                id = R.drawable.baseline_home_24
+            )
         ),
         NavItem(
             name = stringResource(R.string.explore_item),
@@ -39,7 +41,7 @@ fun MainScreen(
             name = stringResource(R.string.cart_item),
             route = HomeDestinations.CartScreen.route,
             icon = painterResource(
-                id = R.drawable.baseline_shopping_bag_24
+                id = R.drawable.baseline_shopping_basket_24
             )
         ),
         NavItem(
@@ -53,19 +55,18 @@ fun MainScreen(
             name = stringResource(R.string.account_item),
             route = HomeDestinations.ProfileScreen.route,
             icon = painterResource(
-                id = R.drawable.baseline_account_circle_24
+                id = R.drawable.baseline_person_24
             )
         )
     )
 
     StandardScaffold(
         bottomAppBar = {
-            if (scaffoldState.value.showBottomBar) {
-                StandardBottomBar(
-                    navController = navController,
-                    navItems = homeNavItems
-                )
-            }
+            StandardBottomBar(
+                visible = scaffoldState.value.showBottomBar,
+                navController = navController,
+                navItems = homeNavItems
+            )
         }
     ) {
         HomeNavGraph(

@@ -33,6 +33,8 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.HomeScreen.route
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
+
             HomeScreen(
                 cartViewModel = cartViewModel,
                 onNavigateToExplore = { category ->
@@ -65,9 +67,13 @@ fun HomeNavGraph(
                 }
             )
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
+
             ExploreScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {},
+                onNavigateToHome = {
+                    navController.navigate(HomeDestinations.HomeScreen.route)
+                },
                 onNavigateToFilter = {
                     navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
                 },
@@ -80,15 +86,21 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.CartScreen.route
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
+
             CartScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {}
+                onNavigateToHome = {
+                    navController.navigate(HomeDestinations.HomeScreen.route)
+                }
             )
         }
 
         composable(
             route = HomeDestinations.FavoriteScreen.route
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
+
             FavoriteScreen(
                 cartViewModel = cartViewModel,
                 onNavigateToHome = {},
@@ -101,8 +113,12 @@ fun HomeNavGraph(
         composable(
             route = HomeDestinations.ProfileScreen.route
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
+
             ProfileScreen(
-                onNavigateToHome = {}
+                onNavigateToHome = {
+                    navController.navigate(HomeDestinations.HomeScreen.route)
+                }
             )
         }
 
@@ -132,18 +148,23 @@ fun NavGraphBuilder.detailsNavGraph(
                 }
             )
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
+
             ProductScreen(
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {}
+                onNavigateToHome = {
+                    navController.popBackStack()
+                }
             )
         }
 
         composable(
             route = DetailsDestinations.ExploreFilterScreen.route
         ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
+
             FilterScreen(
                 onNavigateToExplore = {
-                    scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
                     navController.popBackStack()
                 }
             )

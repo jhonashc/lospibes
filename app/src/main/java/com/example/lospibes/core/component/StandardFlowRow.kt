@@ -12,11 +12,12 @@ fun StandardFlowRow(
     modifier: Modifier = Modifier,
     itemList: List<String>,
     selectedItem: String,
+    maxItemsInEachRow: Int = 3,
     onItemSelected: (item: String) -> Unit
 ) {
     FlowRow(
         modifier = modifier,
-        maxItemsInEachRow = 3,
+        maxItemsInEachRow = maxItemsInEachRow,
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         itemList.forEach { item ->

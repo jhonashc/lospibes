@@ -136,25 +136,33 @@ private fun SettingSection() {
             name = "Mis órdenes",
             description = "Información sobre las órdenes",
             route = "",
-            icon = painterResource(id = R.drawable.baseline_article_24)
+            icon = painterResource(
+                id = R.drawable.baseline_article_24
+            )
         ),
         SectionItem(
             name = "Métodos de pago",
             description = "Efectivo",
             route = "",
-            icon = painterResource(id = R.drawable.baseline_payment_24)
+            icon = painterResource(
+                id = R.drawable.baseline_payment_24
+            )
         ),
         SectionItem(
             name = "Direcciones de envío",
             description = "2009, Robert Browning St, Mosaic at Monastery",
             route = "",
-            icon = painterResource(id = R.drawable.baseline_location_on_24)
+            icon = painterResource(
+                id = R.drawable.baseline_location_on_24
+            )
         ),
         SectionItem(
             name = "Notificaciones",
             description = "Order #3 Pending",
             route = "",
-            icon = painterResource(id = R.drawable.baseline_notifications_24)
+            icon = painterResource(
+                id = R.drawable.baseline_notifications_24
+            )
         )
     )
 

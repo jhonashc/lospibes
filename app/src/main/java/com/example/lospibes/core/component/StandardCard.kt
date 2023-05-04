@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.lospibes.features.home.domain.model.CardItem
+import com.example.lospibes.utils.capitalizeText
+import com.example.lospibes.utils.formatNumber
 
 @Composable
 fun StandardCard(
@@ -109,7 +111,7 @@ fun StandardCard(
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
-                    text = cardItem.name,
+                    text = capitalizeText(cardItem.name),
                     style = MaterialTheme.typography.titleMedium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
@@ -145,7 +147,7 @@ fun StandardCard(
                         )
 
                         Text(
-                            text = "${cardItem.price}",
+                            text = formatNumber(cardItem.price),
                             fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.titleMedium
                         )

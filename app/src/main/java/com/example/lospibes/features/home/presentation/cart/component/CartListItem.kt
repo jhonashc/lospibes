@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.R
+import com.example.lospibes.utils.capitalizeText
+import com.example.lospibes.utils.formatNumber
 
 @Composable
 fun CartListItem(
@@ -35,7 +37,7 @@ fun CartListItem(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -59,7 +61,7 @@ fun CartListItem(
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Text(
-                        text = "${cartItem.name} ${cartItem.name} ${cartItem.name}",
+                        text = capitalizeText(cartItem.name),
                         style = MaterialTheme.typography.titleMedium,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 2
@@ -78,7 +80,7 @@ fun CartListItem(
                         )
 
                         Text(
-                            text = "${cartItem.price}",
+                            text = formatNumber(cartItem.price),
                             fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 1

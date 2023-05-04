@@ -1,6 +1,8 @@
 package com.example.lospibes.features.home.presentation.product.presentation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -17,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.CartItem
@@ -26,6 +27,8 @@ import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.toCartItem
 import com.example.lospibes.features.home.viewmodel.cart.CartEvent
 import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
+import com.example.lospibes.utils.capitalizeText
+import com.example.lospibes.utils.formatNumber
 
 @Composable
 fun ProductScreen(
@@ -36,6 +39,9 @@ fun ProductScreen(
     val productState = productViewModel.state.collectAsState()
 
     val product: Product? = productState.value.product
+
+    val isLoading: Boolean = productState.value.isProductLoading &&
+            productState.value.isFavoriteProductLoading
 
     /* Temporal */
     val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
@@ -49,29 +55,38 @@ fun ProductScreen(
         }
     }
 
-    StandardBoxContainer(
-        isLoading = productState.value.isProductLoading &&
-                productState.value.isFavoriteProductLoading,
-        message = productState.value.message
+    if (!isLoading &&
+        productState.value.message.orEmpty().isEmpty()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 20.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
-            Header(
-                isFavorite = productState.value.favoriteProduct != null,
-                onNavigateToHome = onNavigateToHome
-            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = 20.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Header(
+                    isFavorite = productState.value.favoriteProduct != null,
+                    onNavigateToHome = onNavigateToHome
+                )
 
-            Body(
-                productState = productState
-            )
+                Body(
+                    productState = productState
+                )
+            }
 
-            FooterSection(
-                productState = productState,
-                cartViewModel = cartViewModel
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp)
+            ) {
+                FooterSection(
+                    productState = productState,
+                    cartViewModel = cartViewModel
+                )
+            }
         }
     }
 }
@@ -133,7 +148,7 @@ private fun Body(
                 product = product
             )
 
-            Spacer(modifier = Modifier.height(26.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
             CategorySection(
                 categoryList = product.categories
@@ -175,7 +190,7 @@ private fun InfoSection(
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = product.name,
+                text = capitalizeText(product.name),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -192,7 +207,7 @@ private fun InfoSection(
                 )
 
                 Text(
-                    text = "${product.price}",
+                    text = formatNumber(product.price),
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -226,15 +241,6 @@ private fun CategorySection(
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
-        Text(
-            text = "Categorías",
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1
-        )
-
-        Spacer(modifier = Modifier.height(18.dp))
-
         StandardFlowRow(
             itemList = categoryNames,
             selectedItem = "",
@@ -263,7 +269,6 @@ private fun FooterSection(
     val buttonText = if (isOnTheCart != -1)
         "Remover" else
         "Agregar"
-
 
     Column(
         modifier = Modifier

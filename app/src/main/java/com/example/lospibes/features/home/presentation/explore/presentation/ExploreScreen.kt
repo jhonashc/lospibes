@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -45,13 +46,13 @@ fun ExploreScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             Header(
-                onNavigateToHome = onNavigateToHome,
-                onNavigateToFilter = onNavigateToFilter
+                onNavigateToHome = onNavigateToHome
             )
 
             Body(
                 cartViewModel = cartViewModel,
                 exploreState = exploreState,
+                onNavigateToFilter = onNavigateToFilter,
                 onNavigateToDetails = onNavigateToDetails
             )
         }
@@ -60,8 +61,7 @@ fun ExploreScreen(
 
 @Composable
 private fun Header(
-    onNavigateToHome: () -> Unit,
-    onNavigateToFilter: () -> Unit
+    onNavigateToHome: () -> Unit
 ) {
     var value by remember { mutableStateOf("") }
     val onValueChange = { newValue: String -> value = newValue }
@@ -93,22 +93,6 @@ private fun Header(
     } else {
         SearchTopBar(
             value = value,
-            filterIcon = {
-                IconButton(
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = MaterialTheme.colorScheme.outline
-                    ),
-                    onClick = {
-                        onNavigateToFilter()
-                        isVisibleSearchBar = true
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_filter_list_24),
-                        contentDescription = "Filter Icon"
-                    )
-                }
-            },
             onSubmit = {},
             onClose = {
                 value = ""
@@ -123,8 +107,15 @@ private fun Header(
 private fun Body(
     cartViewModel: CartViewModel,
     exploreState: State<ExploreState>,
+    onNavigateToFilter: () -> Unit,
     onNavigateToDetails: (productId: String) -> Unit
 ) {
+    FilterSection(
+        onNavigateToFilter = onNavigateToFilter
+    )
+
+    Spacer(modifier = Modifier.height(5.dp))
+
     ResultSection(
         cartViewModel = cartViewModel,
         exploreState = exploreState,
@@ -133,7 +124,72 @@ private fun Body(
 }
 
 @Composable
-fun ResultSection(
+private fun FilterSection(
+    onNavigateToFilter: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            modifier = Modifier.weight(1f),
+            shape = MaterialTheme.shapes.extraSmall,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onBackground
+            ),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 1.dp
+            ),
+            onClick = onNavigateToFilter
+        ) {
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.baseline_filter_alt_24
+                ),
+                contentDescription = "Filter Icon"
+            )
+
+            Text(
+                modifier = Modifier.padding(start = 6.dp),
+                text = "Filtros",
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
+
+        Button(
+            modifier = Modifier.weight(1f),
+            shape = MaterialTheme.shapes.extraSmall,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onBackground
+            ),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 1.dp
+            ),
+            onClick = {}
+        ) {
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.baseline_sort_24
+                ),
+                contentDescription = "Sort Icon"
+            )
+
+            Text(
+                modifier = Modifier.padding(start = 6.dp),
+                text = "Ordenar",
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
+    }
+}
+
+@Composable
+private fun ResultSection(
     cartViewModel: CartViewModel,
     exploreState: State<ExploreState>,
     onNavigateToDetails: (productId: String) -> Unit
