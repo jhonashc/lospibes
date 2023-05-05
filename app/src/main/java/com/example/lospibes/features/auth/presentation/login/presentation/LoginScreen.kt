@@ -97,13 +97,17 @@ private fun Body(
         /* Email */
         EmailTextField(
             value = loginState.value.email,
-            onValueChange = { loginViewModel.onEvent(LoginEvent.EnteredEmail(it)) }
+            onValueChange = {
+                loginViewModel.onEvent(LoginEvent.EnteredEmail(it))
+            }
         )
 
         /* Password */
         PasswordTextField(
             value = loginState.value.password,
-            onValueChange = { loginViewModel.onEvent(LoginEvent.EnteredPassword(it)) }
+            onValueChange = {
+                loginViewModel.onEvent(LoginEvent.EnteredPassword(it))
+            }
         )
 
         /* Forgot password */
@@ -124,7 +128,7 @@ private fun Body(
                 contentColor = MaterialTheme.colorScheme.background
             ),
             onClick = {
-                loginViewModel.login()
+                loginViewModel.onEvent(LoginEvent.OnLoginClick)
             }
         ) {
             if (loginState.value.isLoading) {

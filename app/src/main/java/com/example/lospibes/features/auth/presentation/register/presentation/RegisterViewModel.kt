@@ -1,8 +1,8 @@
-package com.example.lospibes.features.auth.presentation.login.presentation
+package com.example.lospibes.features.auth.presentation.register.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.features.auth.data.dto.body.CreateLoginDto
+import com.example.lospibes.features.auth.data.dto.body.CreateRegisterDto
 import com.example.lospibes.features.auth.domain.use_case.AuthUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,15 +13,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
     private val authUseCase: AuthUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(LoginState())
+    private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
 
-    fun onEvent(event: LoginEvent) {
+    fun onEvent(event: RegisterEvent) {
         when (event) {
-            is LoginEvent.EnteredEmail -> {
+            is RegisterEvent.EnteredUsername -> {
+                _state.update {
+                    it.copy(
+                        username = event.value
+                    )
+                }
+            }
+
+            is RegisterEvent.EnteredEmail -> {
                 _state.update {
                     it.copy(
                         email = event.value
@@ -29,7 +37,15 @@ class LoginViewModel @Inject constructor(
                 }
             }
 
-            is LoginEvent.EnteredPassword -> {
+            is RegisterEvent.EnteredTelephone -> {
+                _state.update {
+                    it.copy(
+                        telephone = event.value
+                    )
+                }
+            }
+
+            is RegisterEvent.EnteredPassword -> {
                 _state.update {
                     it.copy(
                         password = event.value
@@ -37,16 +53,17 @@ class LoginViewModel @Inject constructor(
                 }
             }
 
-            is LoginEvent.OnLoginClick -> {
-                login()
+            is RegisterEvent.OnRegisterClick -> {
+                register()
             }
         }
     }
 
-    private fun login() {
+    private fun register() {
         viewModelScope.launch {
-            authUseCase.login(
-                createLoginDto = CreateLoginDto(
+            authUseCase.register(
+                createRegisterDto = CreateRegisterDto(
+                    username = state.value.username,
                     email = state.value.email,
                     password = state.value.password
                 )

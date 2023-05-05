@@ -5,6 +5,7 @@ import com.example.lospibes.features.auth.data.source.remote.AuthService
 import com.example.lospibes.features.auth.domain.repository.AuthRepository
 import com.example.lospibes.features.auth.domain.use_case.AuthUseCase
 import com.example.lospibes.features.auth.domain.use_case.Login
+import com.example.lospibes.features.auth.domain.use_case.Register
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +32,8 @@ object AuthModule {
     @Provides
     fun provideAuthUseCase(authRepository: AuthRepository): AuthUseCase {
         return AuthUseCase(
-            login = Login(authRepository)
+            login = Login(authRepository),
+            register = Register(authRepository)
         )
     }
 }

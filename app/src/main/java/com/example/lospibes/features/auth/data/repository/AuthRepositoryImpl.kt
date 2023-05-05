@@ -1,7 +1,8 @@
 package com.example.lospibes.features.auth.data.repository
 
 import com.example.lospibes.features.auth.data.dto.body.CreateLoginDto
-import com.example.lospibes.features.auth.data.dto.response.LoginResponse
+import com.example.lospibes.features.auth.data.dto.body.CreateRegisterDto
+import com.example.lospibes.features.auth.data.dto.response.AuthResponse
 import com.example.lospibes.features.auth.data.source.remote.AuthService
 import com.example.lospibes.features.auth.domain.repository.AuthRepository
 import com.example.lospibes.utils.BaseApiResponse
@@ -14,7 +15,13 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository, BaseApiResponse() {
     override fun login(
         createLoginDto: CreateLoginDto
-    ): Flow<NetworkResult<LoginResponse>> {
+    ): Flow<NetworkResult<AuthResponse>> {
         return safeApiCall { authService.login(createLoginDto) }
+    }
+
+    override fun register(
+        createRegisterDto: CreateRegisterDto
+    ): Flow<NetworkResult<AuthResponse>> {
+        return safeApiCall { authService.register(createRegisterDto) }
     }
 }

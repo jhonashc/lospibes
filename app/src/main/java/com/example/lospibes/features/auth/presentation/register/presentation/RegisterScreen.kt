@@ -3,33 +3,43 @@ package com.example.lospibes.features.auth.presentation.register.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.R
-import com.example.lospibes.core.component.StandardOutlinedTextField
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.view_model.auth.AuthEvent
+import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.features.auth.presentation.register.component.EmailTextField
+import com.example.lospibes.features.auth.presentation.register.component.PasswordTextField
+import com.example.lospibes.features.auth.presentation.register.component.TelephoneTextField
+import com.example.lospibes.features.auth.presentation.register.component.UsernameTextField
 
 @Composable
 fun RegisterScreen(
-    onNavigateToLogin: () -> Unit
+    authViewModel: AuthViewModel,
+    registerViewModel: RegisterViewModel = hiltViewModel(),
+    onNavigateToLogin: () -> Unit,
+    onNavigateToHome: () -> Unit
 ) {
+    val registerState = registerViewModel.state.collectAsState()
 
+    LaunchedEffect(key1 = registerState.value.token) {
+        if (registerState.value.status) {
+            onNavigateToHome()
+            authViewModel.onEvent(AuthEvent.SetToken(registerState.value.token!!))
+            authViewModel.onEvent(AuthEvent.SetUserId(registerState.value.userId!!))
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -54,7 +64,9 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(35.dp))
 
-            Body()
+            Body(
+                registerViewModel = registerViewModel
+            )
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -103,122 +115,45 @@ fun Banner() {
 }
 
 @Composable
-private fun Body() {
+private fun Body(
+    registerViewModel: RegisterViewModel
+) {
+    val registerState = registerViewModel.state.collectAsState()
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(25.dp)
     ) {
         /* Username */
-        StandardOutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = "",
-            singleLine = true,
-            shape = MaterialTheme.shapes.extraLarge,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            placeholder = {
-                Text(
-                    text = "Nombre de usuario",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = "Person Icon"
-                )
-            },
-            onValueChange = {}
+        UsernameTextField(
+            value = registerState.value.username,
+            onValueChange = {
+                registerViewModel.onEvent(RegisterEvent.EnteredUsername(it))
+            }
         )
 
         /* Email */
-        StandardOutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = "",
-            singleLine = true,
-            shape = MaterialTheme.shapes.extraLarge,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            ),
-            placeholder = {
-                Text(
-                    text = "Email",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Email,
-                    contentDescription = "Email Icon"
-                )
-            },
-            onValueChange = {}
+        EmailTextField(
+            value = registerState.value.email,
+            onValueChange = {
+                registerViewModel.onEvent(RegisterEvent.EnteredEmail(it))
+            }
         )
 
         /* Telephone */
-        StandardOutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = "",
-            singleLine = true,
-            shape = MaterialTheme.shapes.extraLarge,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            ),
-            placeholder = {
-                Text(
-                    text = "Teléfono",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Phone,
-                    contentDescription = "Phone Icon"
-                )
-            },
-            onValueChange = {}
+        TelephoneTextField(
+            value = registerState.value.telephone,
+            onValueChange = {
+                registerViewModel.onEvent(RegisterEvent.EnteredTelephone(it))
+            }
         )
 
         /* Password */
-        StandardOutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = "",
-            singleLine = true,
-            shape = MaterialTheme.shapes.extraLarge,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            placeholder = {
-                Text(
-                    text = "Contraseña",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Lock,
-                    contentDescription = "Lock Icon"
-                )
-            },
-            trailingIcon = {
-                IconButton(
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = MaterialTheme.colorScheme.outline
-                    ),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_remove_red_eye_24),
-                        contentDescription = "Eye Icon"
-                    )
-                }
-            },
-            onValueChange = {}
+        PasswordTextField(
+            value = registerState.value.password,
+            onValueChange = {
+                registerViewModel.onEvent(RegisterEvent.EnteredPassword(it))
+            }
         )
 
         /* Sign Up button */
@@ -229,14 +164,22 @@ private fun Body() {
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background
             ),
-            onClick = { /*TODO*/ }
+            onClick = {
+                registerViewModel.onEvent(RegisterEvent.OnRegisterClick)
+            }
         ) {
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = "Sign Up",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
+            if (registerState.value.isLoading) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colorScheme.background
+                )
+            } else {
+                Text(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    text = "Sign Up",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

@@ -37,8 +37,13 @@ fun NavGraphBuilder.authNavGraph(
             route = AuthDestinations.RegisterScreen.route
         ) {
             RegisterScreen(
+                authViewModel = authViewModel,
                 onNavigateToLogin = {
                     navController.popBackStack()
+                },
+                onNavigateToHome = {
+                    navController.popBackStack()
+                    navController.navigate(HOME_GRAPH_ROUTE)
                 }
             )
         }
