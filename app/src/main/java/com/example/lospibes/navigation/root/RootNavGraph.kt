@@ -32,6 +32,7 @@ fun RootNavGraph(
 
         composable(route = HOME_GRAPH_ROUTE) {
             MainScreen(
+                authViewModel = authViewModel,
                 scaffoldViewModel = scaffoldViewModel
             )
         }

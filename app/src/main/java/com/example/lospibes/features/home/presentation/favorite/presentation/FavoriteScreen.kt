@@ -16,6 +16,7 @@ import com.example.lospibes.core.component.SearchTopBar
 import com.example.lospibes.core.component.StandardCardListGrid
 import com.example.lospibes.core.component.StandardColumnContainer
 import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Product
@@ -26,18 +27,19 @@ import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
 @Composable
 fun FavoriteScreen(
+    authViewModel: AuthViewModel,
     cartViewModel: CartViewModel,
     favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToDetails: (productId: String) -> Unit
 ) {
+    val authState = authViewModel.state.collectAsState()
     val favoriteState = favoriteViewModel.state.collectAsState()
 
-    /* Temporal */
-    val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
-
     LaunchedEffect(key1 = Unit) {
-        favoriteViewModel.getFavoriteProducts(userId)
+        favoriteViewModel.getFavoriteProducts(
+            userId = authState.value.userId
+        )
     }
 
     StandardColumnContainer(

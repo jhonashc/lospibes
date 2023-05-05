@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.presentation.cart.presentation.CartScreen
 import com.example.lospibes.features.home.presentation.filter.presentation.FilterScreen
 import com.example.lospibes.features.home.presentation.product.presentation.ProductScreen
@@ -21,6 +22,7 @@ import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
+    authViewModel: AuthViewModel,
     scaffoldViewModel: ScaffoldViewModel
 ) {
     val cartViewModel: CartViewModel = hiltViewModel()
@@ -102,6 +104,7 @@ fun HomeNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
 
             FavoriteScreen(
+                authViewModel = authViewModel,
                 cartViewModel = cartViewModel,
                 onNavigateToHome = {},
                 onNavigateToDetails = { productId ->
@@ -124,6 +127,7 @@ fun HomeNavGraph(
 
         detailsNavGraph(
             navController = navController,
+            authViewModel = authViewModel,
             cartViewModel = cartViewModel,
             scaffoldViewModel = scaffoldViewModel
         )
@@ -132,6 +136,7 @@ fun HomeNavGraph(
 
 fun NavGraphBuilder.detailsNavGraph(
     navController: NavHostController,
+    authViewModel: AuthViewModel,
     cartViewModel: CartViewModel,
     scaffoldViewModel: ScaffoldViewModel
 ) {
@@ -151,6 +156,7 @@ fun NavGraphBuilder.detailsNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
 
             ProductScreen(
+                authViewModel = authViewModel,
                 cartViewModel = cartViewModel,
                 onNavigateToHome = {
                     navController.popBackStack()

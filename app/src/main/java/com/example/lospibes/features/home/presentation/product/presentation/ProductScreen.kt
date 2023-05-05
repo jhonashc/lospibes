@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
@@ -32,10 +33,12 @@ import com.example.lospibes.utils.formatNumber
 
 @Composable
 fun ProductScreen(
+    authViewModel: AuthViewModel,
     cartViewModel: CartViewModel,
     productViewModel: ProductViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit
 ) {
+    val authState = authViewModel.state.collectAsState()
     val productState = productViewModel.state.collectAsState()
 
     val product: Product? = productState.value.product
@@ -43,14 +46,11 @@ fun ProductScreen(
     val isLoading: Boolean = productState.value.isProductLoading &&
             productState.value.isFavoriteProductLoading
 
-    /* Temporal */
-    val userId = "a4d0dea5-2b10-42b9-a930-a8faec563e10"
-
     LaunchedEffect(key1 = productState.value.product) {
         if (product != null) {
             productViewModel.getFavoriteProduct(
                 productId = product.id,
-                userId = userId
+                userId = authState.value.userId
             )
         }
     }

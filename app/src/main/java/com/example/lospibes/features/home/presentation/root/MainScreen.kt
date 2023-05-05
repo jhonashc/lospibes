@@ -12,10 +12,12 @@ import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.core.component.StandardBottomBar
 import com.example.lospibes.features.home.domain.model.NavItem
 import com.example.lospibes.R
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
 
 @Composable
 fun MainScreen(
+    authViewModel: AuthViewModel,
     scaffoldViewModel: ScaffoldViewModel
 ) {
     val navController: NavHostController = rememberNavController()
@@ -71,6 +73,7 @@ fun MainScreen(
     ) {
         HomeNavGraph(
             navController = navController,
+            authViewModel = authViewModel,
             scaffoldViewModel = scaffoldViewModel
         )
     }
