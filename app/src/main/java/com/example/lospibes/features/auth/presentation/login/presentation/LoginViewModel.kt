@@ -51,6 +51,7 @@ class LoginViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -59,10 +60,11 @@ class LoginViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                user = res.data?.user,
+                                status = true,
+                                userId = res.data?.user?.id,
                                 token = res.data?.token,
                                 expiresIn = res.data?.expiresIn,
-                                isLoading = false,
+                                isLoading = false
                             )
                         }
                     }
@@ -70,6 +72,7 @@ class LoginViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 message = res.message,
                                 isLoading = false
                             )

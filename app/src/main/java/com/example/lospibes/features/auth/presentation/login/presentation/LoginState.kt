@@ -1,13 +1,12 @@
 package com.example.lospibes.features.auth.presentation.login.presentation
 
-import com.example.lospibes.core.domain.model.User
-
 data class LoginState(
+    val status: Boolean = false,
     val message: String? = null,
     val isLoading: Boolean = false,
     val email: String = "admin@gmail.com",
     val password: String = "password",
-    val user: User? = null,
+    val userId: String? = null,
     val token: String? = null,
     val expiresIn: Int? = null
 )
