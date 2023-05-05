@@ -18,8 +18,8 @@ import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.toCardItem
 import com.example.lospibes.features.home.domain.model.toCartItem
-import com.example.lospibes.features.home.viewmodel.cart.CartEvent
-import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
+import com.example.lospibes.features.home.view_model.cart.CartEvent
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
 @Composable
 fun ExploreScreen(

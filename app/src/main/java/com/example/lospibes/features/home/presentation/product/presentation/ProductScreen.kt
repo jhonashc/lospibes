@@ -25,8 +25,8 @@ import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.toCartItem
-import com.example.lospibes.features.home.viewmodel.cart.CartEvent
-import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
+import com.example.lospibes.features.home.view_model.cart.CartEvent
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
 import com.example.lospibes.utils.capitalizeText
 import com.example.lospibes.utils.formatNumber
 

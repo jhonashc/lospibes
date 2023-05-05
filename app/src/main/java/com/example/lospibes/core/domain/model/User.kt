@@ -1,10 +1,9 @@
-package com.example.lospibes.core.model
+package com.example.lospibes.core.domain.model
 
 data class User(
     val id: String,
     val username: String,
     val email: String,
     val avatarUrl: String? = null,
-    val roles: List<Role> = emptyList(),
     val person: Person? = null
 )

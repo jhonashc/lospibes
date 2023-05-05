@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.viewmodel.cart
+package com.example.lospibes.features.home.view_model.cart
 
 import com.example.lospibes.features.home.domain.model.CartItem
 

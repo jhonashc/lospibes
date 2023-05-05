@@ -1,6 +1,6 @@
 package com.example.lospibes.features.auth.presentation.login.presentation
 
-import com.example.lospibes.core.model.User
+import com.example.lospibes.core.domain.model.User
 
 data class LoginState(
     val message: String? = null,

@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.viewmodel.scaffold
+package com.example.lospibes.features.home.view_model.scaffold
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -14,11 +14,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.lospibes.core.view_model.auth.AuthEvent
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.auth.presentation.login.component.EmailTextField
 import com.example.lospibes.features.auth.presentation.login.component.PasswordTextField
 
 @Composable
 fun LoginScreen(
+    authViewModel: AuthViewModel,
     loginViewModel: LoginViewModel = hiltViewModel(),
     onNavigateToRegister: () -> Unit,
     onNavigateToHome: () -> Unit
@@ -26,8 +29,11 @@ fun LoginScreen(
     val loginState = loginViewModel.state.collectAsState()
 
     LaunchedEffect(key1 = loginState.value.token) {
-        if (loginState.value.token.orEmpty().isNotEmpty()) {
+        loginState.value.token?.let { validToken ->
             onNavigateToHome()
+
+            authViewModel.onEvent(AuthEvent.SetToken(validToken))
+            authViewModel.onEvent(AuthEvent.SetUserId(loginState.value.user?.id.orEmpty()))
         }
     }
 

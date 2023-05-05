@@ -10,8 +10,8 @@ import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.domain.model.*
-import com.example.lospibes.features.home.viewmodel.cart.CartEvent
-import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
+import com.example.lospibes.features.home.view_model.cart.CartEvent
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
 @Composable
 fun HomeScreen(
@@ -80,11 +80,7 @@ private fun CategorySection(
     categoryList: List<Category>,
     onNavigateToExplore: (query: String) -> Unit
 ) {
-    val tabList = categoryList.map { category ->
-        TabItem(
-            name = category.name
-        )
-    }
+    val tabList: List<TabItem> = categoryList.map { it.toTabItem() }
 
     var selectedTab by remember { mutableStateOf(tabList[0]) }
 

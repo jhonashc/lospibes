@@ -1,7 +1,5 @@
 package com.example.lospibes.features.home.domain.model
 
-import java.util.Date
-
 data class Product(
     val id: String,
     val name: String,
@@ -9,9 +7,7 @@ data class Product(
     val imageUrl: String? = null,
     val price: Number,
     val stock: Int,
-    val categories: List<Category> = emptyList(),
-    val createdAt: Date,
-    val updatedAt: Date
+    val categories: List<Category> = emptyList()
 )
 
 fun Product.toCardItem() = CardItem(

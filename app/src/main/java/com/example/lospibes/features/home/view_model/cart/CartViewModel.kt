@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.viewmodel.cart
+package com.example.lospibes.features.home.view_model.cart
 
 import androidx.lifecycle.ViewModel
 import com.example.lospibes.features.home.domain.use_case.cart.CartUseCase

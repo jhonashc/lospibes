@@ -8,8 +8,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.CartItem
-import com.example.lospibes.features.home.viewmodel.cart.CartEvent
-import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
+import com.example.lospibes.features.home.view_model.cart.CartEvent
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
 @Composable
 fun CartList(

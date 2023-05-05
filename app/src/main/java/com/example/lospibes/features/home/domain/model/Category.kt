@@ -1,10 +1,10 @@
 package com.example.lospibes.features.home.domain.model
 
-import java.util.Date
-
 data class Category(
     val id: String,
-    val name: String,
-    val createdAt: Date,
-    val updatedAt: Date
+    val name: String
+)
+
+fun Category.toTabItem() = TabItem(
+    name = name
 )

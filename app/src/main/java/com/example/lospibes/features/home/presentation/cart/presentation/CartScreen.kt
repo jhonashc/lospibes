@@ -16,7 +16,7 @@ import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.presentation.cart.component.CartList
 import com.example.lospibes.features.home.presentation.cart.component.EmptyCart
-import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
 @Composable
 fun CartScreen(

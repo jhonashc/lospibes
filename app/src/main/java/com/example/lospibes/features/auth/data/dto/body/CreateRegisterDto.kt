@@ -1,6 +1,6 @@
 package com.example.lospibes.features.auth.data.dto.body
 
-import com.example.lospibes.core.model.Person
+import com.example.lospibes.core.domain.model.Person
 
 data class CreateRegisterDto(
     val person: Person? = null,

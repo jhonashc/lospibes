@@ -1,4 +1,4 @@
-package com.example.lospibes.core.model
+package com.example.lospibes.core.domain.model
 
 data class Person(
     val id: String,

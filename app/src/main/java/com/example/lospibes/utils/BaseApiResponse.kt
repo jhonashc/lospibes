@@ -1,6 +1,6 @@
 package com.example.lospibes.utils
 
-import com.example.lospibes.core.dto.response.ErrorResponse
+import com.example.lospibes.core.data.dto.response.ErrorResponse
 import com.google.gson.Gson
 import retrofit2.Response
 import kotlinx.coroutines.flow.Flow

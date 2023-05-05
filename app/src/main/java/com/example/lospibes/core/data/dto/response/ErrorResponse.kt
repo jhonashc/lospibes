@@ -1,4 +1,4 @@
-package com.example.lospibes.core.dto.response
+package com.example.lospibes.core.data.dto.response
 
 data class ErrorResponse(
     val status: Boolean = false,

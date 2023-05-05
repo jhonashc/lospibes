@@ -12,9 +12,9 @@ import com.example.lospibes.features.home.presentation.explore.presentation.Expl
 import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
 import com.example.lospibes.features.home.presentation.home.presentation.HomeScreen
 import com.example.lospibes.features.home.presentation.profile.presentation.ProfileScreen
-import com.example.lospibes.features.home.viewmodel.cart.CartViewModel
-import com.example.lospibes.features.home.viewmodel.scaffold.ScaffoldEvent
-import com.example.lospibes.features.home.viewmodel.scaffold.ScaffoldViewModel
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
+import com.example.lospibes.features.home.view_model.scaffold.ScaffoldEvent
+import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
 import com.example.lospibes.utils.Constants.DETAIL_GRAPH_ROUTE
 import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 
