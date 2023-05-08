@@ -15,7 +15,7 @@ interface FavoriteService {
 
     @GET("${FAVORITES}/{userId}/products/{productId}")
     suspend fun getFavoriteProduct(
-        @Path("productId") productId: String,
-        @Path("userId") userId: String
+        @Path("userId") userId: String,
+        @Path("productId") productId: String
     ): Response<FavoriteProductResponse>
 }

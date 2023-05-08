@@ -17,8 +17,50 @@ class AuthViewModel @Inject constructor(
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
 
+    init {
+        onEvent(AuthEvent.GetAccessToken)
+        onEvent(AuthEvent.GetRefreshToken)
+        onEvent(AuthEvent.GetUserId)
+    }
+
     fun onEvent(event: AuthEvent) {
         when (event) {
+            is AuthEvent.GetAccessToken -> {
+                viewModelScope.launch {
+                    authPreferenceUseCase.getAccessToken().collect { accessToken ->
+                        _state.update {
+                            it.copy(
+                                accessToken = accessToken
+                            )
+                        }
+                    }
+                }
+            }
+
+            is AuthEvent.GetRefreshToken -> {
+                viewModelScope.launch {
+                    authPreferenceUseCase.getRefreshToken().collect { refreshToken ->
+                        _state.update {
+                            it.copy(
+                                refreshToken = refreshToken
+                            )
+                        }
+                    }
+                }
+            }
+
+            is AuthEvent.GetUserId -> {
+                viewModelScope.launch {
+                    authPreferenceUseCase.getUserId().collect { userId ->
+                        _state.update {
+                            it.copy(
+                                userId = userId
+                            )
+                        }
+                    }
+                }
+            }
+
             is AuthEvent.SetAccessToken -> {
                 viewModelScope.launch {
                     authPreferenceUseCase.setAccessToken(event.value)
@@ -34,42 +76,6 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.SetUserId -> {
                 viewModelScope.launch {
                     authPreferenceUseCase.setUserId(event.value)
-                }
-            }
-        }
-    }
-
-    fun getAccessToken() {
-        viewModelScope.launch {
-            authPreferenceUseCase.getAccessToken().collect { accessToken ->
-                _state.update {
-                    it.copy(
-                        accessToken = accessToken
-                    )
-                }
-            }
-        }
-    }
-
-    fun getRefreshToken() {
-        viewModelScope.launch {
-            authPreferenceUseCase.getRefreshToken().collect { refreshToken ->
-                _state.update {
-                    it.copy(
-                        refreshToken = refreshToken
-                    )
-                }
-            }
-        }
-    }
-
-    fun getUserId() {
-        viewModelScope.launch {
-            authPreferenceUseCase.getUserId().collect { userId ->
-                _state.update {
-                    it.copy(
-                        userId = userId
-                    )
                 }
             }
         }
