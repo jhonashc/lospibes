@@ -1,6 +1,7 @@
 package com.example.lospibes.features.home.data.repository
 
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
+import com.example.lospibes.features.home.data.dto.query.GetSimilarProductsQueryDto
 import com.example.lospibes.features.home.data.dto.response.ProductResponse
 import com.example.lospibes.features.home.data.dto.response.ProductsResponse
 import com.example.lospibes.features.home.data.source.remote.ProductService
@@ -26,6 +27,19 @@ class ProductRepositoryImpl @Inject constructor(
                 max = getProductsQueryDto?.max,
                 limit = getProductsQueryDto?.limit,
                 offset = getProductsQueryDto?.offset
+            )
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getSimilarProducts(
+        id: String,
+        getSimilarProductsQueryDto: GetSimilarProductsQueryDto?
+    ): Flow<NetworkResult<ProductsResponse>> {
+        return safeApiCall {
+            productService.getSimilarProducts(
+                id = id,
+                limit = getSimilarProductsQueryDto?.limit,
+                offset = getSimilarProductsQueryDto?.offset
             )
         }.flowOn(Dispatchers.IO)
     }

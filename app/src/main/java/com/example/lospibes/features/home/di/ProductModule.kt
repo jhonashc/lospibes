@@ -5,6 +5,7 @@ import com.example.lospibes.features.home.data.source.remote.ProductService
 import com.example.lospibes.features.home.domain.repository.ProductRepository
 import com.example.lospibes.features.home.domain.use_case.product.GetProductById
 import com.example.lospibes.features.home.domain.use_case.product.GetProducts
+import com.example.lospibes.features.home.domain.use_case.product.GetSimilarProducts
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import dagger.Module
 import dagger.Provides
@@ -33,6 +34,7 @@ object ProductModule {
     fun provideProductUseCase(productRepository: ProductRepository): ProductUseCase {
         return ProductUseCase(
             getProducts = GetProducts(productRepository),
+            getSimilarProducts = GetSimilarProducts(productRepository),
             getProductById = GetProductById(productRepository)
         )
     }

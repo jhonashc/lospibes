@@ -8,3 +8,8 @@ data class GetProductsQueryDto(
     val limit: Int? = null,
     val offset: Int? = null
 )
+
+data class GetSimilarProductsQueryDto(
+    val limit: Int? = null,
+    val offset: Int? = null
+)
