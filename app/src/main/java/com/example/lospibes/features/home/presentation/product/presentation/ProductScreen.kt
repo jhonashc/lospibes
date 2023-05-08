@@ -19,12 +19,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.core.component.StandardFlowRow
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
+import com.example.lospibes.features.home.domain.model.toCardItem
 import com.example.lospibes.features.home.domain.model.toCartItem
 import com.example.lospibes.features.home.view_model.cart.CartEvent
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
@@ -36,7 +39,8 @@ fun ProductScreen(
     authViewModel: AuthViewModel,
     cartViewModel: CartViewModel,
     productViewModel: ProductViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val authState = authViewModel.state.collectAsState()
     val productState = productViewModel.state.collectAsState()
@@ -44,13 +48,18 @@ fun ProductScreen(
     val product: Product? = productState.value.product
 
     val isLoading: Boolean = productState.value.isProductLoading &&
-            productState.value.isFavoriteProductLoading
+            productState.value.isFavoriteProductLoading &&
+            productState.value.isSimilarProductsLoading
 
     LaunchedEffect(key1 = productState.value.product) {
         if (product != null) {
             productViewModel.getFavoriteProduct(
                 productId = product.id,
                 userId = authState.value.userId
+            )
+
+            productViewModel.getSimilarProducts(
+                productId = product.id
             )
         }
     }
@@ -59,34 +68,27 @@ fun ProductScreen(
         productState.value.message.orEmpty().isEmpty()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = 20.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Header(
-                    isFavorite = productState.value.favoriteProduct != null,
-                    onNavigateToHome = onNavigateToHome
-                )
+            Header(
+                isFavorite = productState.value.favoriteProduct != null,
+                onNavigateToHome = onNavigateToHome
+            )
 
-                Body(
-                    productState = productState
-                )
-            }
+            Body(
+                cartViewModel = cartViewModel,
+                productState = productState,
+                onNavigateToDetails = onNavigateToDetails
+            )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 20.dp)
-            ) {
-                FooterSection(
-                    productState = productState,
-                    cartViewModel = cartViewModel
-                )
-            }
+            FooterSection(
+                productState = productState,
+                cartViewModel = cartViewModel
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -130,9 +132,12 @@ private fun Header(
 
 @Composable
 private fun Body(
-    productState: State<ProductState>
+    cartViewModel: CartViewModel,
+    productState: State<ProductState>,
+    onNavigateToDetails: (productId: String) -> Unit
 ) {
     val product: Product? = productState.value.product
+    val similarProductList: List<Product> = productState.value.similarProductList
 
     if (product != null) {
         Column(
@@ -148,11 +153,24 @@ private fun Body(
                 product = product
             )
 
-            Spacer(modifier = Modifier.height(18.dp))
+            if (product.categories.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(18.dp))
 
-            CategorySection(
-                categoryList = product.categories
-            )
+                CategorySection(
+                    categoryList = product.categories
+                )
+            }
+
+
+            if (similarProductList.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(26.dp))
+
+                SimilarProduct(
+                    cartViewModel = cartViewModel,
+                    similarProductList = similarProductList,
+                    onNavigateToDetails = onNavigateToDetails
+                )
+            }
 
             Spacer(modifier = Modifier.height(26.dp))
         }
@@ -250,6 +268,54 @@ private fun CategorySection(
 }
 
 @Composable
+private fun SimilarProduct(
+    cartViewModel: CartViewModel,
+    similarProductList: List<Product>,
+    onNavigateToDetails: (productId: String) -> Unit
+) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
+
+    val similarProductCardList: List<CardItem> = similarProductList.map { it.toCardItem() }
+
+    val cardItemList: MutableList<CardItem> = mutableListOf()
+    cardItemList.addAll(similarProductCardList)
+
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        text = "Similares",
+        style = MaterialTheme.typography.titleMedium
+    )
+
+    Spacer(modifier = Modifier.height(22.dp))
+
+    StandardCardListRow(
+        cardItemList = cardItemList,
+        favoriteCardItemList = emptyList(),
+        cartItemList = cartItemList,
+        onCardItemSelected = { selectedCardItem ->
+            onNavigateToDetails(selectedCardItem.id)
+        },
+        onAddOrRemoveClick = { selectedCardItem ->
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
+
+            if (isOnTheCart != -1) {
+                cartViewModel.onEvent(
+                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
+                )
+            } else {
+                cartViewModel.onEvent(
+                    CartEvent.AddToCart(selectedCardItem.toCartItem())
+                )
+            }
+        }
+    )
+}
+
+@Composable
 private fun FooterSection(
     cartViewModel: CartViewModel,
     productState: State<ProductState>
@@ -277,7 +343,7 @@ private fun FooterSection(
     ) {
         Button(
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge,
+            shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = buttonContainerColor,
                 contentColor = MaterialTheme.colorScheme.background

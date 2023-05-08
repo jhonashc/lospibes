@@ -160,6 +160,9 @@ fun NavGraphBuilder.detailsNavGraph(
                 cartViewModel = cartViewModel,
                 onNavigateToHome = {
                     navController.popBackStack()
+                },
+                onNavigateToDetails = { productId ->
+                    navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
                 }
             )
         }
