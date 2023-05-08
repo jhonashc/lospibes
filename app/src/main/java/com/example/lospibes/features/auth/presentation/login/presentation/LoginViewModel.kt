@@ -66,8 +66,8 @@ class LoginViewModel @Inject constructor(
                             it.copy(
                                 status = true,
                                 userId = res.data?.user?.id,
-                                token = res.data?.token,
-                                expiresIn = res.data?.expiresIn,
+                                accessToken = res.data?.accessToken,
+                                refreshToken = res.data?.refreshToken,
                                 isLoading = false
                             )
                         }

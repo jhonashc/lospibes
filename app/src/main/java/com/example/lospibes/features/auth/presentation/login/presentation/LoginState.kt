@@ -7,6 +7,6 @@ data class LoginState(
     val email: String = "admin@gmail.com",
     val password: String = "password",
     val userId: String? = null,
-    val token: String? = null,
-    val expiresIn: Int? = null
+    val accessToken: String? = null,
+    val refreshToken: String? = null
 )

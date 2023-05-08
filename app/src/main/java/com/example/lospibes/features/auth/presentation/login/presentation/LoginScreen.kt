@@ -28,11 +28,12 @@ fun LoginScreen(
 ) {
     val loginState = loginViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = loginState.value.token) {
+    LaunchedEffect(key1 = loginState.value.accessToken) {
         if (loginState.value.status) {
             onNavigateToHome()
-            authViewModel.onEvent(AuthEvent.SetToken(loginState.value.token!!))
-            authViewModel.onEvent(AuthEvent.SetUserId(loginState.value.userId!!))
+            authViewModel.onEvent(AuthEvent.SetAccessToken(loginState.value.accessToken.orEmpty()))
+            authViewModel.onEvent(AuthEvent.SetRefreshToken(loginState.value.refreshToken.orEmpty()))
+            authViewModel.onEvent(AuthEvent.SetUserId(loginState.value.userId.orEmpty()))
         }
     }
 

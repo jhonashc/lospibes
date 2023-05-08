@@ -4,6 +4,6 @@ import com.example.lospibes.core.domain.model.User
 
 data class AuthResponse(
     val user: User,
-    val token: String,
-    val expiresIn: Int
+    val accessToken: String,
+    val refreshToken: String
 )

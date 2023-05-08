@@ -14,19 +14,29 @@ import javax.inject.Inject
 class AuthPreferenceRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : AuthPreferenceRepository {
-
     private object PreferencesKeys {
-        val AUTH_TOKEN_KEY = stringPreferencesKey("AUTH_TOKEN_KEY")
+        val AUTH_ACCESS_TOKEN_KEY = stringPreferencesKey("AUTH_ACCESS_TOKEN_KEY")
+        val AUTH_REFRESH_TOKEN_KEY = stringPreferencesKey("AUTH_REFRESH_TOKEN_KEY")
         val AUTH_USER_ID_KEY = stringPreferencesKey("AUTH_USER_ID_KEY")
     }
 
-    override fun getToken(): Flow<String> {
+    override fun getAccessToken(): Flow<String> {
         return dataStore.data
             .catch {
                 emit(emptyPreferences())
             }
             .map { preferences ->
-                preferences[PreferencesKeys.AUTH_TOKEN_KEY] ?: ""
+                preferences[PreferencesKeys.AUTH_ACCESS_TOKEN_KEY] ?: ""
+            }
+    }
+
+    override fun getRefreshToken(): Flow<String> {
+        return dataStore.data
+            .catch {
+                emit(emptyPreferences())
+            }
+            .map { preferences ->
+                preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] ?: ""
             }
     }
 
@@ -40,9 +50,15 @@ class AuthPreferenceRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun setToken(token: String) {
+    override suspend fun setAccessToken(accessToken: String) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.AUTH_TOKEN_KEY] = token
+            preferences[PreferencesKeys.AUTH_ACCESS_TOKEN_KEY] = accessToken
+        }
+    }
+
+    override suspend fun setRefreshToken(refreshToken: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] = refreshToken
         }
     }
 

@@ -18,15 +18,22 @@ class AuthViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getToken()
+        getAccessToken()
+        getRefreshToken()
         getUserId()
     }
 
     fun onEvent(event: AuthEvent) {
         when (event) {
-            is AuthEvent.SetToken -> {
+            is AuthEvent.SetAccessToken -> {
                 viewModelScope.launch {
-                    authPreferenceRepository.setToken(event.value)
+                    authPreferenceRepository.setAccessToken(event.value)
+                }
+            }
+
+            is AuthEvent.SetRefreshToken -> {
+                viewModelScope.launch {
+                    authPreferenceRepository.setRefreshToken(event.value)
                 }
             }
 
@@ -38,12 +45,24 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun getToken() {
+    private fun getAccessToken() {
         viewModelScope.launch {
-            authPreferenceRepository.getToken().collect { token ->
+            authPreferenceRepository.getAccessToken().collect { accessToken ->
                 _state.update {
                     it.copy(
-                        token = token
+                        accessToken = accessToken
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getRefreshToken() {
+        viewModelScope.launch {
+            authPreferenceRepository.getRefreshToken().collect { refreshToken ->
+                _state.update {
+                    it.copy(
+                        refreshToken = refreshToken
                     )
                 }
             }

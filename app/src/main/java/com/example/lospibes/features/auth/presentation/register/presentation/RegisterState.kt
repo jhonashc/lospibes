@@ -9,6 +9,6 @@ data class RegisterState(
     val telephone: String = "",
     val password: String = "",
     val userId: String? = null,
-    val token: String? = null,
-    val expiresIn: Int? = null
+    val accessToken: String? = null,
+    val refreshToken: String? = null
 )

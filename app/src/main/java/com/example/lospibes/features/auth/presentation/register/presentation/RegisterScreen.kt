@@ -33,11 +33,12 @@ fun RegisterScreen(
 ) {
     val registerState = registerViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = registerState.value.token) {
+    LaunchedEffect(key1 = registerState.value.accessToken) {
         if (registerState.value.status) {
             onNavigateToHome()
-            authViewModel.onEvent(AuthEvent.SetToken(registerState.value.token!!))
-            authViewModel.onEvent(AuthEvent.SetUserId(registerState.value.userId!!))
+            authViewModel.onEvent(AuthEvent.SetAccessToken(registerState.value.accessToken.orEmpty()))
+            authViewModel.onEvent(AuthEvent.SetRefreshToken(registerState.value.refreshToken.orEmpty()))
+            authViewModel.onEvent(AuthEvent.SetUserId(registerState.value.userId.orEmpty()))
         }
     }
 
