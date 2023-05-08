@@ -19,7 +19,7 @@ interface ProductService {
         @Query("offset") offset: Int? = null
     ): Response<ProductsResponse>
 
-    @GET(PRODUCTS)
+    @GET("${PRODUCTS}/{id}/similar")
     suspend fun getSimilarProducts(
         @Path("id") id: String,
         @Query("limit") limit: Int? = null,
