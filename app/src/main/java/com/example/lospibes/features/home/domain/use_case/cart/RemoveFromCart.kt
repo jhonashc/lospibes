@@ -9,6 +9,8 @@ class RemoveFromCart(
     operator fun invoke(
         cartItem: CartItem
     ): List<CartItem> {
-        return cartRepository.removeFromCart(cartItem)
+        return cartRepository.removeFromCart(
+            cartItem = cartItem
+        )
     }
 }

@@ -30,7 +30,9 @@ object AuthModule {
     fun provideAuthRepository(
         authService: AuthService
     ): AuthRepository {
-        return AuthRepositoryImpl(authService)
+        return AuthRepositoryImpl(
+            authService = authService
+        )
     }
 
     @Singleton
@@ -39,9 +41,15 @@ object AuthModule {
         authRepository: AuthRepository
     ): AuthUseCase {
         return AuthUseCase(
-            login = Login(authRepository),
-            register = Register(authRepository),
-            refreshToken = RefreshToken(authRepository)
+            login = Login(
+                authRepository = authRepository
+            ),
+            register = Register(
+                authRepository = authRepository
+            ),
+            refreshToken = RefreshToken(
+                authRepository = authRepository
+            )
         )
     }
 }

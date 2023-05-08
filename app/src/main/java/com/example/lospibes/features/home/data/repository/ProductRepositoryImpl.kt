@@ -48,7 +48,9 @@ class ProductRepositoryImpl @Inject constructor(
         id: String
     ): Flow<NetworkResult<ProductResponse>> {
         return safeApiCall {
-            productService.getProductById(id)
+            productService.getProductById(
+                id = id
+            )
         }.flowOn(Dispatchers.IO)
     }
 }

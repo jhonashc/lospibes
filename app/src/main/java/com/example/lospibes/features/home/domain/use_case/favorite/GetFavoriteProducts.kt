@@ -11,6 +11,8 @@ class GetFavoriteProducts(
     operator fun invoke(
         userId: String
     ): Flow<NetworkResult<FavoriteProductsResponse>> {
-        return favoriteRepository.getFavoriteProducts(userId)
+        return favoriteRepository.getFavoriteProducts(
+            userId = userId
+        )
     }
 }

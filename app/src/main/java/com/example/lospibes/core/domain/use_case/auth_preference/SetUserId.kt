@@ -8,6 +8,8 @@ class SetUserId(
     suspend operator fun invoke(
         userId: String
     ) {
-        return authPreferenceRepository.setUserId(userId)
+        return authPreferenceRepository.setUserId(
+            userId = userId
+        )
     }
 }

@@ -15,13 +15,22 @@ class FavoriteRepositoryImpl @Inject constructor(
     override fun getFavoriteProducts(
         userId: String
     ): Flow<NetworkResult<FavoriteProductsResponse>> {
-        return safeApiCall { favoriteService.getFavoriteProducts(userId) }
+        return safeApiCall {
+            favoriteService.getFavoriteProducts(
+                userId = userId
+            )
+        }
     }
 
     override fun getFavoriteProduct(
+        userId: String,
         productId: String,
-        userId: String
     ): Flow<NetworkResult<FavoriteProductResponse>> {
-        return safeApiCall { favoriteService.getFavoriteProduct(productId, userId) }
+        return safeApiCall {
+            favoriteService.getFavoriteProduct(
+                userId = userId,
+                productId = productId
+            )
+        }
     }
 }

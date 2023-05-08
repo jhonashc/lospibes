@@ -8,6 +8,8 @@ class SetAccessToken(
     suspend operator fun invoke(
         accessToken: String
     ) {
-        return authPreferenceRepository.setAccessToken(accessToken)
+        return authPreferenceRepository.setAccessToken(
+            accessToken = accessToken
+        )
     }
 }

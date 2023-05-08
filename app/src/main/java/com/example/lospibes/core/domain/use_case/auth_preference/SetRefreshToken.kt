@@ -8,6 +8,8 @@ class SetRefreshToken(
     suspend operator fun invoke(
         refreshToken: String
     ) {
-        return authPreferenceRepository.setRefreshToken(refreshToken)
+        return authPreferenceRepository.setRefreshToken(
+            refreshToken = refreshToken
+        )
     }
 }

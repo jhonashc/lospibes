@@ -12,6 +12,8 @@ class RefreshToken(
     operator fun invoke(
         createRefreshTokenDto: CreateRefreshTokenDto
     ): Flow<NetworkResult<RefreshTokenResponse>> {
-        return authRepository.refreshToken(createRefreshTokenDto)
+        return authRepository.refreshToken(
+            createRefreshTokenDto = createRefreshTokenDto
+        )
     }
 }

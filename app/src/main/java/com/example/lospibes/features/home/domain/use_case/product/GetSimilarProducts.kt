@@ -13,6 +13,9 @@ class GetSimilarProducts(
         id: String,
         getSimilarProductsQueryDto: GetSimilarProductsQueryDto? = null
     ): Flow<NetworkResult<ProductsResponse>> {
-        return productRepository.getSimilarProducts(id, getSimilarProductsQueryDto)
+        return productRepository.getSimilarProducts(
+            id = id,
+            getSimilarProductsQueryDto = getSimilarProductsQueryDto
+        )
     }
 }

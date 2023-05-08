@@ -29,7 +29,9 @@ object FavoriteModule {
     fun provideFavoriteRepository(
         favoriteService: FavoriteService
     ): FavoriteRepository {
-        return FavoriteRepositoryImpl(favoriteService)
+        return FavoriteRepositoryImpl(
+            favoriteService = favoriteService
+        )
     }
 
     @Singleton
@@ -38,8 +40,12 @@ object FavoriteModule {
         favoriteRepository: FavoriteRepository
     ): FavoriteUseCase {
         return FavoriteUseCase(
-            getFavoriteProducts = GetFavoriteProducts(favoriteRepository),
-            getFavoriteProduct = GetFavoriteProduct(favoriteRepository)
+            getFavoriteProducts = GetFavoriteProducts(
+                favoriteRepository = favoriteRepository
+            ),
+            getFavoriteProduct = GetFavoriteProduct(
+                favoriteRepository = favoriteRepository
+            )
         )
     }
 }

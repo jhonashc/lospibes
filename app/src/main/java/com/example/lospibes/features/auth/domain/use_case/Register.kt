@@ -12,6 +12,8 @@ class Register(
     operator fun invoke(
         createRegisterDto: CreateRegisterDto
     ): Flow<NetworkResult<AuthResponse>> {
-        return authRepository.register(createRegisterDto)
+        return authRepository.register(
+            createRegisterDto = createRegisterDto
+        )
     }
 }

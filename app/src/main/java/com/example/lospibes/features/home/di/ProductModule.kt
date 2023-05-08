@@ -30,7 +30,9 @@ object ProductModule {
     fun provideProductRepository(
         productService: ProductService
     ): ProductRepository {
-        return ProductRepositoryImpl(productService)
+        return ProductRepositoryImpl(
+            productService = productService
+        )
     }
 
     @Singleton
@@ -39,9 +41,15 @@ object ProductModule {
         productRepository: ProductRepository
     ): ProductUseCase {
         return ProductUseCase(
-            getProducts = GetProducts(productRepository),
-            getSimilarProducts = GetSimilarProducts(productRepository),
-            getProductById = GetProductById(productRepository)
+            getProducts = GetProducts(
+                productRepository = productRepository
+            ),
+            getSimilarProducts = GetSimilarProducts(
+                productRepository = productRepository
+            ),
+            getProductById = GetProductById(
+                productRepository = productRepository
+            )
         )
     }
 }

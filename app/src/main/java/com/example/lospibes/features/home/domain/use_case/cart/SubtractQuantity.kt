@@ -9,6 +9,8 @@ class SubtractQuantity(
     operator fun invoke(
         cartItem: CartItem
     ): List<CartItem> {
-        return cartRepository.subtractQuantity(cartItem)
+        return cartRepository.subtractQuantity(
+            cartItem = cartItem
+        )
     }
 }

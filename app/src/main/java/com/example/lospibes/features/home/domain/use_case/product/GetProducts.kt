@@ -12,6 +12,8 @@ class GetProducts(
     operator fun invoke(
         getProductsQueryDto: GetProductsQueryDto? = null
     ): Flow<NetworkResult<ProductsResponse>> {
-        return productRepository.getProducts(getProductsQueryDto)
+        return productRepository.getProducts(
+            getProductsQueryDto = getProductsQueryDto
+        )
     }
 }

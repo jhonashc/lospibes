@@ -12,6 +12,8 @@ class GetCategories(
     operator fun invoke(
         getCategoriesQueryDto: GetCategoriesQueryDto? = null
     ): Flow<NetworkResult<CategoriesResponse>> {
-        return categoryRepository.getCategories(getCategoriesQueryDto)
+        return categoryRepository.getCategories(
+            getCategoriesQueryDto = getCategoriesQueryDto
+        )
     }
 }

@@ -9,6 +9,8 @@ class AddToCart(
     operator fun invoke(
         cartItem: CartItem
     ): List<CartItem> {
-        return cartRepository.addToCart(cartItem)
+        return cartRepository.addToCart(
+            cartItem = cartItem
+        )
     }
 }

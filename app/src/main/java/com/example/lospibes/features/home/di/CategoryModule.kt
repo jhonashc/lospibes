@@ -28,7 +28,9 @@ object CategoryModule {
     fun provideCategoryRepository(
         categoryService: CategoryService
     ): CategoryRepository {
-        return CategoryRepositoryImpl(categoryService)
+        return CategoryRepositoryImpl(
+            categoryService = categoryService
+        )
     }
 
     @Singleton
@@ -37,7 +39,9 @@ object CategoryModule {
         categoryRepository: CategoryRepository
     ): CategoryUseCase {
         return CategoryUseCase(
-            getCategories = GetCategories(categoryRepository)
+            getCategories = GetCategories(
+                categoryRepository = categoryRepository
+            )
         )
     }
 }

@@ -11,7 +11,7 @@ interface FavoriteRepository {
     ): Flow<NetworkResult<FavoriteProductsResponse>>
 
     fun getFavoriteProduct(
-        productId: String,
-        userId: String
+        userId: String,
+        productId: String
     ): Flow<NetworkResult<FavoriteProductResponse>>
 }

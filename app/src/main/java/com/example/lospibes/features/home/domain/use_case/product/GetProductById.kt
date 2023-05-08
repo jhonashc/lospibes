@@ -11,6 +11,8 @@ class GetProductById(
     operator fun invoke(
         id: String
     ): Flow<NetworkResult<ProductResponse>> {
-        return productRepository.getProductById(id)
+        return productRepository.getProductById(
+            id = id
+        )
     }
 }

@@ -12,6 +12,8 @@ class Login(
     operator fun invoke(
         createLoginDto: CreateLoginDto
     ): Flow<NetworkResult<AuthResponse>> {
-        return authRepository.login(createLoginDto)
+        return authRepository.login(
+            createLoginDto = createLoginDto
+        )
     }
 }
