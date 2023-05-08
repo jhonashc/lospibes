@@ -1,7 +1,6 @@
 package com.example.lospibes.navigation.home
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,10 +22,9 @@ import com.example.lospibes.utils.Constants.HOME_GRAPH_ROUTE
 fun HomeNavGraph(
     navController: NavHostController,
     authViewModel: AuthViewModel,
+    cartViewModel: CartViewModel,
     scaffoldViewModel: ScaffoldViewModel
 ) {
-    val cartViewModel: CartViewModel = hiltViewModel()
-
     NavHost(
         navController = navController,
         startDestination = HomeDestinations.HomeScreen.route,

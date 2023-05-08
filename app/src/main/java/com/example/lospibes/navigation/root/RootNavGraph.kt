@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.presentation.root.MainScreen
+import com.example.lospibes.features.home.view_model.cart.CartViewModel
 import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
 import com.example.lospibes.navigation.auth.authNavGraph
 import com.example.lospibes.utils.Constants.AUTH_GRAPH_ROUTE
@@ -18,6 +19,7 @@ fun RootNavGraph(
     navController: NavHostController
 ) {
     val authViewModel: AuthViewModel = hiltViewModel()
+    val cartViewModel: CartViewModel = hiltViewModel()
     val scaffoldViewModel: ScaffoldViewModel = hiltViewModel()
 
     NavHost(
@@ -33,6 +35,7 @@ fun RootNavGraph(
         composable(route = HOME_GRAPH_ROUTE) {
             MainScreen(
                 authViewModel = authViewModel,
+                cartViewModel = cartViewModel,
                 scaffoldViewModel = scaffoldViewModel
             )
         }
