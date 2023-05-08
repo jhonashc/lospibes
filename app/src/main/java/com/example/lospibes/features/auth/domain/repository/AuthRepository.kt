@@ -1,8 +1,10 @@
 package com.example.lospibes.features.auth.domain.repository
 
 import com.example.lospibes.features.auth.data.dto.body.CreateLoginDto
+import com.example.lospibes.features.auth.data.dto.body.CreateRefreshTokenDto
 import com.example.lospibes.features.auth.data.dto.body.CreateRegisterDto
 import com.example.lospibes.features.auth.data.dto.response.AuthResponse
+import com.example.lospibes.features.auth.data.dto.response.RefreshTokenResponse
 import com.example.lospibes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
 
@@ -14,4 +16,8 @@ interface AuthRepository {
     fun register(
         createRegisterDto: CreateRegisterDto
     ): Flow<NetworkResult<AuthResponse>>
+
+    fun refreshToken(
+        createRefreshTokenDto: CreateRefreshTokenDto
+    ): Flow<NetworkResult<RefreshTokenResponse>>
 }
