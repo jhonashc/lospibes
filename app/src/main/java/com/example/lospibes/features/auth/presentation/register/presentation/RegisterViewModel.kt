@@ -82,7 +82,7 @@ class RegisterViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 status = true,
-                                userId = res.data?.user?.id,
+                                userId = res.data?.userId,
                                 accessToken = res.data?.accessToken,
                                 refreshToken = res.data?.refreshToken,
                                 isLoading = false
