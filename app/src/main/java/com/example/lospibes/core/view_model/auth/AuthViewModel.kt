@@ -2,7 +2,7 @@ package com.example.lospibes.core.view_model.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.core.domain.repository.AuthPreferenceRepository
+import com.example.lospibes.core.domain.use_case.auth_preference.AuthPreferenceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,42 +12,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authPreferenceRepository: AuthPreferenceRepository
+    private val authPreferenceUseCase: AuthPreferenceUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
-
-    init {
-        getAccessToken()
-        getRefreshToken()
-        getUserId()
-    }
 
     fun onEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.SetAccessToken -> {
                 viewModelScope.launch {
-                    authPreferenceRepository.setAccessToken(event.value)
+                    authPreferenceUseCase.setAccessToken(event.value)
                 }
             }
 
             is AuthEvent.SetRefreshToken -> {
                 viewModelScope.launch {
-                    authPreferenceRepository.setRefreshToken(event.value)
+                    authPreferenceUseCase.setRefreshToken(event.value)
                 }
             }
 
             is AuthEvent.SetUserId -> {
                 viewModelScope.launch {
-                    authPreferenceRepository.setUserId(event.value)
+                    authPreferenceUseCase.setUserId(event.value)
                 }
             }
         }
     }
 
-    private fun getAccessToken() {
+    fun getAccessToken() {
         viewModelScope.launch {
-            authPreferenceRepository.getAccessToken().collect { accessToken ->
+            authPreferenceUseCase.getAccessToken().collect { accessToken ->
                 _state.update {
                     it.copy(
                         accessToken = accessToken
@@ -57,9 +51,9 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun getRefreshToken() {
+    fun getRefreshToken() {
         viewModelScope.launch {
-            authPreferenceRepository.getRefreshToken().collect { refreshToken ->
+            authPreferenceUseCase.getRefreshToken().collect { refreshToken ->
                 _state.update {
                     it.copy(
                         refreshToken = refreshToken
@@ -69,9 +63,9 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun getUserId() {
+    fun getUserId() {
         viewModelScope.launch {
-            authPreferenceRepository.getUserId().collect { userId ->
+            authPreferenceUseCase.getUserId().collect { userId ->
                 _state.update {
                     it.copy(
                         userId = userId

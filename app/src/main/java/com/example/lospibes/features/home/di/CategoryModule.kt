@@ -17,19 +17,25 @@ import javax.inject.Singleton
 object CategoryModule {
     @Singleton
     @Provides
-    fun provideCategoryService(retrofit: Retrofit): CategoryService {
+    fun provideCategoryService(
+        retrofit: Retrofit
+    ): CategoryService {
         return retrofit.create(CategoryService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideCategoryRepository(categoryService: CategoryService): CategoryRepository {
+    fun provideCategoryRepository(
+        categoryService: CategoryService
+    ): CategoryRepository {
         return CategoryRepositoryImpl(categoryService)
     }
 
     @Singleton
     @Provides
-    fun provideCategoryUseCase(categoryRepository: CategoryRepository): CategoryUseCase {
+    fun provideCategoryUseCase(
+        categoryRepository: CategoryRepository
+    ): CategoryUseCase {
         return CategoryUseCase(
             getCategories = GetCategories(categoryRepository)
         )

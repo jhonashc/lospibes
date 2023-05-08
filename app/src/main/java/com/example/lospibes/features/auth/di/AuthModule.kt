@@ -18,19 +18,25 @@ import javax.inject.Singleton
 object AuthModule {
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideAuthService(
+        retrofit: Retrofit
+    ): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideAuthRepository(authService: AuthService): AuthRepository {
+    fun provideAuthRepository(
+        authService: AuthService
+    ): AuthRepository {
         return AuthRepositoryImpl(authService)
     }
 
     @Singleton
     @Provides
-    fun provideAuthUseCase(authRepository: AuthRepository): AuthUseCase {
+    fun provideAuthUseCase(
+        authRepository: AuthRepository
+    ): AuthUseCase {
         return AuthUseCase(
             login = Login(authRepository),
             register = Register(authRepository)

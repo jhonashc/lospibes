@@ -18,19 +18,25 @@ import javax.inject.Singleton
 object FavoriteModule {
     @Singleton
     @Provides
-    fun provideFavoriteService(retrofit: Retrofit): FavoriteService {
+    fun provideFavoriteService(
+        retrofit: Retrofit
+    ): FavoriteService {
         return retrofit.create(FavoriteService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideFavoriteRepository(favoriteService: FavoriteService): FavoriteRepository {
+    fun provideFavoriteRepository(
+        favoriteService: FavoriteService
+    ): FavoriteRepository {
         return FavoriteRepositoryImpl(favoriteService)
     }
 
     @Singleton
     @Provides
-    fun provideFavoriteUseCase(favoriteRepository: FavoriteRepository): FavoriteUseCase {
+    fun provideFavoriteUseCase(
+        favoriteRepository: FavoriteRepository
+    ): FavoriteUseCase {
         return FavoriteUseCase(
             getFavoriteProducts = GetFavoriteProducts(favoriteRepository),
             getFavoriteProduct = GetFavoriteProduct(favoriteRepository)

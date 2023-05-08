@@ -20,7 +20,9 @@ object CartModule {
 
     @Singleton
     @Provides
-    fun provideCartUseCase(cartRepository: CartRepository): CartUseCase {
+    fun provideCartUseCase(
+        cartRepository: CartRepository
+    ): CartUseCase {
         return CartUseCase(
             addToCart = AddToCart(cartRepository),
             removeFromCart = RemoveFromCart(cartRepository),

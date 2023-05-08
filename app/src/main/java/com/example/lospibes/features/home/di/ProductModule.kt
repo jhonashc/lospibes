@@ -19,19 +19,25 @@ import javax.inject.Singleton
 object ProductModule {
     @Singleton
     @Provides
-    fun provideProductService(retrofit: Retrofit): ProductService {
+    fun provideProductService(
+        retrofit: Retrofit
+    ): ProductService {
         return retrofit.create(ProductService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideProductRepository(productService: ProductService): ProductRepository {
+    fun provideProductRepository(
+        productService: ProductService
+    ): ProductRepository {
         return ProductRepositoryImpl(productService)
     }
 
     @Singleton
     @Provides
-    fun provideProductUseCase(productRepository: ProductRepository): ProductUseCase {
+    fun provideProductUseCase(
+        productRepository: ProductRepository
+    ): ProductUseCase {
         return ProductUseCase(
             getProducts = GetProducts(productRepository),
             getSimilarProducts = GetSimilarProducts(productRepository),

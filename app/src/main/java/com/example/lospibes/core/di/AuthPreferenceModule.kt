@@ -9,6 +9,13 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.lospibes.core.data.repository.AuthPreferenceRepositoryImpl
 import com.example.lospibes.core.domain.repository.AuthPreferenceRepository
+import com.example.lospibes.core.domain.use_case.auth_preference.AuthPreferenceUseCase
+import com.example.lospibes.core.domain.use_case.auth_preference.GetAccessToken
+import com.example.lospibes.core.domain.use_case.auth_preference.GetRefreshToken
+import com.example.lospibes.core.domain.use_case.auth_preference.GetUserId
+import com.example.lospibes.core.domain.use_case.auth_preference.SetAccessToken
+import com.example.lospibes.core.domain.use_case.auth_preference.SetRefreshToken
+import com.example.lospibes.core.domain.use_case.auth_preference.SetUserId
 import com.example.lospibes.utils.Constants.AUTH_PREFERENCES
 import dagger.Module
 import dagger.Provides
@@ -39,5 +46,20 @@ object AuthPreferenceModule {
         authDataStore: DataStore<Preferences>
     ): AuthPreferenceRepository {
         return AuthPreferenceRepositoryImpl(authDataStore)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthPreferenceUseCase(
+        authPreferenceRepository: AuthPreferenceRepository
+    ): AuthPreferenceUseCase {
+        return AuthPreferenceUseCase(
+            getAccessToken = GetAccessToken(authPreferenceRepository),
+            getRefreshToken = GetRefreshToken(authPreferenceRepository),
+            getUserId = GetUserId(authPreferenceRepository),
+            setAccessToken = SetAccessToken(authPreferenceRepository),
+            setRefreshToken = SetRefreshToken(authPreferenceRepository),
+            setUserId = SetUserId(authPreferenceRepository)
+        )
     }
 }
