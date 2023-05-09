@@ -10,12 +10,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.lospibes.core.data.repository.AuthPreferenceRepositoryImpl
 import com.example.lospibes.core.domain.repository.AuthPreferenceRepository
 import com.example.lospibes.core.domain.use_case.auth_preference.AuthPreferenceUseCase
-import com.example.lospibes.core.domain.use_case.auth_preference.GetAccessToken
-import com.example.lospibes.core.domain.use_case.auth_preference.GetRefreshToken
-import com.example.lospibes.core.domain.use_case.auth_preference.GetUserId
-import com.example.lospibes.core.domain.use_case.auth_preference.SetAccessToken
-import com.example.lospibes.core.domain.use_case.auth_preference.SetRefreshToken
-import com.example.lospibes.core.domain.use_case.auth_preference.SetUserId
+import com.example.lospibes.core.domain.use_case.auth_preference.GetAuthPreference
+import com.example.lospibes.core.domain.use_case.auth_preference.SetAuthPreference
 import com.example.lospibes.utils.Constants.AUTH_PREFERENCES
 import dagger.Module
 import dagger.Provides
@@ -45,7 +41,9 @@ object AuthPreferenceModule {
     fun provideAuthPreferenceRepository(
         authDataStore: DataStore<Preferences>
     ): AuthPreferenceRepository {
-        return AuthPreferenceRepositoryImpl(authDataStore)
+        return AuthPreferenceRepositoryImpl(
+            dataStore = authDataStore
+        )
     }
 
     @Singleton
@@ -54,12 +52,12 @@ object AuthPreferenceModule {
         authPreferenceRepository: AuthPreferenceRepository
     ): AuthPreferenceUseCase {
         return AuthPreferenceUseCase(
-            getAccessToken = GetAccessToken(authPreferenceRepository),
-            getRefreshToken = GetRefreshToken(authPreferenceRepository),
-            getUserId = GetUserId(authPreferenceRepository),
-            setAccessToken = SetAccessToken(authPreferenceRepository),
-            setRefreshToken = SetRefreshToken(authPreferenceRepository),
-            setUserId = SetUserId(authPreferenceRepository)
+            getAuthPreferenceUseCase = GetAuthPreference(
+                authPreferenceRepository = authPreferenceRepository
+            ),
+            setAuthPreference = SetAuthPreference(
+                authPreferenceRepository = authPreferenceRepository
+            )
         )
     }
 }

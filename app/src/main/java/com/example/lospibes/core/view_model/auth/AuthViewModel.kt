@@ -6,6 +6,8 @@ import com.example.lospibes.core.domain.use_case.auth_preference.AuthPreferenceU
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,64 +20,46 @@ class AuthViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        onEvent(AuthEvent.GetAccessToken)
-        onEvent(AuthEvent.GetRefreshToken)
-        onEvent(AuthEvent.GetUserId)
+        onEvent(AuthEvent.GetAuthState)
     }
 
     fun onEvent(event: AuthEvent) {
         when (event) {
-            is AuthEvent.GetAccessToken -> {
+            is AuthEvent.GetAuthState -> {
                 viewModelScope.launch {
-                    authPreferenceUseCase.getAccessToken().collect { accessToken ->
-                        _state.update {
-                            it.copy(
-                                accessToken = accessToken
-                            )
+                    authPreferenceUseCase.getAuthPreferenceUseCase()
+                        .onStart {
+                            _state.update {
+                                it.copy(
+                                    isLoading = true
+                                )
+                            }
                         }
-                    }
-                }
-            }
-
-            is AuthEvent.GetRefreshToken -> {
-                viewModelScope.launch {
-                    authPreferenceUseCase.getRefreshToken().collect { refreshToken ->
-                        _state.update {
-                            it.copy(
-                                refreshToken = refreshToken
-                            )
+                        .catch {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false
+                                )
+                            }
                         }
-                    }
-                }
-            }
-
-            is AuthEvent.GetUserId -> {
-                viewModelScope.launch {
-                    authPreferenceUseCase.getUserId().collect { userId ->
-                        _state.update {
-                            it.copy(
-                                userId = userId
-                            )
+                        .collect { auth ->
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    accessToken = auth.accessToken,
+                                    refreshToken = auth.refreshToken,
+                                    userId = auth.userId
+                                )
+                            }
                         }
-                    }
                 }
             }
 
-            is AuthEvent.SetAccessToken -> {
+            is AuthEvent.SetAuthState -> {
                 viewModelScope.launch {
-                    authPreferenceUseCase.setAccessToken(event.value)
-                }
-            }
-
-            is AuthEvent.SetRefreshToken -> {
-                viewModelScope.launch {
-                    authPreferenceUseCase.setRefreshToken(event.value)
-                }
-            }
-
-            is AuthEvent.SetUserId -> {
-                viewModelScope.launch {
-                    authPreferenceUseCase.setUserId(event.value)
+                    authPreferenceUseCase.setAuthPreference(
+                        auth = event.value
+                    )
                 }
             }
         }

@@ -104,7 +104,9 @@ fun HomeNavGraph(
             FavoriteScreen(
                 authViewModel = authViewModel,
                 cartViewModel = cartViewModel,
-                onNavigateToHome = {},
+                onNavigateToHome = {
+                    navController.navigate(HomeDestinations.HomeScreen.route)
+                },
                 onNavigateToDetails = { productId ->
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
                 }
@@ -117,6 +119,7 @@ fun HomeNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
 
             ProfileScreen(
+                authViewModel = authViewModel,
                 onNavigateToHome = {
                     navController.navigate(HomeDestinations.HomeScreen.route)
                 }

@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.example.lospibes.core.domain.model.Auth
 import com.example.lospibes.core.domain.repository.AuthPreferenceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -20,51 +21,25 @@ class AuthPreferenceRepositoryImpl @Inject constructor(
         val AUTH_USER_ID_KEY = stringPreferencesKey("AUTH_USER_ID_KEY")
     }
 
-    override fun getAccessToken(): Flow<String> {
+    override fun getAuthPreference(): Flow<Auth> {
         return dataStore.data
             .catch {
                 emit(emptyPreferences())
             }
             .map { preferences ->
-                preferences[PreferencesKeys.AUTH_ACCESS_TOKEN_KEY] ?: ""
+                Auth(
+                    accessToken = preferences[PreferencesKeys.AUTH_ACCESS_TOKEN_KEY] ?: "",
+                    refreshToken = preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] ?: "",
+                    userId = preferences[PreferencesKeys.AUTH_USER_ID_KEY] ?: ""
+                )
             }
     }
 
-    override fun getRefreshToken(): Flow<String> {
-        return dataStore.data
-            .catch {
-                emit(emptyPreferences())
-            }
-            .map { preferences ->
-                preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] ?: ""
-            }
-    }
-
-    override fun getUserId(): Flow<String> {
-        return dataStore.data
-            .catch {
-                emit(emptyPreferences())
-            }
-            .map { preferences ->
-                preferences[PreferencesKeys.AUTH_USER_ID_KEY] ?: ""
-            }
-    }
-
-    override suspend fun setAccessToken(accessToken: String) {
+    override suspend fun setAuthPreference(auth: Auth) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.AUTH_ACCESS_TOKEN_KEY] = accessToken
-        }
-    }
-
-    override suspend fun setRefreshToken(refreshToken: String) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] = refreshToken
-        }
-    }
-
-    override suspend fun setUserId(userId: String) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.AUTH_USER_ID_KEY] = userId
+            preferences[PreferencesKeys.AUTH_ACCESS_TOKEN_KEY] = auth.accessToken
+            preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] = auth.refreshToken
+            preferences[PreferencesKeys.AUTH_USER_ID_KEY] = auth.userId
         }
     }
 }

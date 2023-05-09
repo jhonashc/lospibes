@@ -23,9 +23,13 @@ import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.SectionItem
 import com.example.lospibes.features.home.presentation.profile.component.SectionList
 import com.example.lospibes.R
+import com.example.lospibes.core.domain.model.Auth
+import com.example.lospibes.core.view_model.auth.AuthEvent
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 
 @Composable
 fun ProfileScreen(
+    authViewModel: AuthViewModel,
     onNavigateToHome: () -> Unit
 ) {
     Column(
@@ -45,7 +49,9 @@ fun ProfileScreen(
             Body()
         }
 
-        Footer()
+        Footer(
+            authViewModel = authViewModel
+        )
     }
 }
 
@@ -177,7 +183,9 @@ private fun SettingSection() {
 }
 
 @Composable
-private fun Footer() {
+private fun Footer(
+    authViewModel: AuthViewModel
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -190,7 +198,17 @@ private fun Footer() {
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background
             ),
-            onClick = { /*TODO*/ }
+            onClick = {
+                authViewModel.onEvent(
+                    AuthEvent.SetAuthState(
+                        Auth(
+                            accessToken = "",
+                            refreshToken = "",
+                            userId = ""
+                        )
+                    )
+                )
+            }
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 8.dp),

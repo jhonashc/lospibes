@@ -1,6 +1,7 @@
 package com.example.lospibes.navigation.root
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,22 +23,30 @@ fun RootNavGraph(
     val cartViewModel: CartViewModel = hiltViewModel()
     val scaffoldViewModel: ScaffoldViewModel = hiltViewModel()
 
-    NavHost(
-        navController = navController,
-        route = ROOT_GRAPH_ROUTE,
-        startDestination = AUTH_GRAPH_ROUTE,
-    ) {
-        authNavGraph(
-            navController = navController,
-            authViewModel = authViewModel
-        )
+    val authState = authViewModel.state.collectAsState()
 
-        composable(route = HOME_GRAPH_ROUTE) {
-            MainScreen(
-                authViewModel = authViewModel,
-                cartViewModel = cartViewModel,
-                scaffoldViewModel = scaffoldViewModel
+    if (!authState.value.isLoading) {
+        val startDestination = if (authState.value.userId.isEmpty())
+            AUTH_GRAPH_ROUTE else
+            HOME_GRAPH_ROUTE
+
+        NavHost(
+            navController = navController,
+            route = ROOT_GRAPH_ROUTE,
+            startDestination = startDestination,
+        ) {
+            authNavGraph(
+                navController = navController,
+                authViewModel = authViewModel
             )
+
+            composable(route = HOME_GRAPH_ROUTE) {
+                MainScreen(
+                    authViewModel = authViewModel,
+                    cartViewModel = cartViewModel,
+                    scaffoldViewModel = scaffoldViewModel
+                )
+            }
         }
     }
 }

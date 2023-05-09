@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.domain.model.Auth
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.auth.presentation.register.component.EmailTextField
@@ -36,9 +37,16 @@ fun RegisterScreen(
     LaunchedEffect(key1 = registerState.value.accessToken) {
         if (registerState.value.status) {
             onNavigateToHome()
-            authViewModel.onEvent(AuthEvent.SetAccessToken(registerState.value.accessToken.orEmpty()))
-            authViewModel.onEvent(AuthEvent.SetRefreshToken(registerState.value.refreshToken.orEmpty()))
-            authViewModel.onEvent(AuthEvent.SetUserId(registerState.value.userId.orEmpty()))
+
+            authViewModel.onEvent(
+                AuthEvent.SetAuthState(
+                    Auth(
+                        accessToken = registerState.value.accessToken ?: "",
+                        refreshToken = registerState.value.refreshToken ?: "",
+                        userId = registerState.value.userId ?: ""
+                    )
+                )
+            )
         }
     }
 

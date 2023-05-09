@@ -1,10 +1,8 @@
 package com.example.lospibes.core.view_model.auth
 
+import com.example.lospibes.core.domain.model.Auth
+
 sealed class AuthEvent {
-    object GetAccessToken : AuthEvent()
-    object GetRefreshToken : AuthEvent()
-    object GetUserId : AuthEvent()
-    data class SetAccessToken(val value: String) : AuthEvent()
-    data class SetRefreshToken(val value: String) : AuthEvent()
-    data class SetUserId(val value: String) : AuthEvent()
+    object GetAuthState : AuthEvent()
+    data class SetAuthState(val value: Auth) : AuthEvent()
 }

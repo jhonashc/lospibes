@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.lospibes.core.domain.model.Auth
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.auth.presentation.login.component.EmailTextField
@@ -31,9 +32,16 @@ fun LoginScreen(
     LaunchedEffect(key1 = loginState.value.accessToken) {
         if (loginState.value.status) {
             onNavigateToHome()
-            authViewModel.onEvent(AuthEvent.SetAccessToken(loginState.value.accessToken.orEmpty()))
-            authViewModel.onEvent(AuthEvent.SetRefreshToken(loginState.value.refreshToken.orEmpty()))
-            authViewModel.onEvent(AuthEvent.SetUserId(loginState.value.userId.orEmpty()))
+
+            authViewModel.onEvent(
+                AuthEvent.SetAuthState(
+                    Auth(
+                        accessToken = loginState.value.accessToken ?: "",
+                        refreshToken = loginState.value.refreshToken ?: "",
+                        userId = loginState.value.userId ?: ""
+                    )
+                )
+            )
         }
     }
 
