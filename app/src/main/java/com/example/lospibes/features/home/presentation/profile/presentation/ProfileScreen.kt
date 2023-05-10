@@ -30,6 +30,7 @@ import com.example.lospibes.core.domain.model.Auth
 import com.example.lospibes.core.domain.model.User
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.utils.capitalizeText
 
 @Composable
 fun ProfileScreen(
@@ -143,7 +144,7 @@ fun DetailSection(
         Spacer(modifier = Modifier.height(14.dp))
 
         Text(
-            text = user.username,
+            text = capitalizeText(user.username),
             style = MaterialTheme.typography.titleLarge,
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,

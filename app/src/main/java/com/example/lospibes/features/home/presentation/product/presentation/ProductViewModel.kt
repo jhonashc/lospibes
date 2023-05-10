@@ -42,7 +42,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isProductLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -50,8 +50,8 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                product = res.data?.data,
-                                isProductLoading = false
+                                isLoading = false,
+                                product = res.data?.data
                             )
                         }
                     }
@@ -59,8 +59,8 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                message = res.message,
-                                isProductLoading = false
+                                isLoading = false,
+                                message = res.message
                             )
                         }
                     }
@@ -82,7 +82,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isFavoriteProductLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -90,8 +90,8 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                favoriteProduct = res.data?.data,
-                                isFavoriteProductLoading = false
+                                isLoading = false,
+                                favoriteProduct = res.data?.data
                             )
                         }
                     }
@@ -99,7 +99,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                isFavoriteProductLoading = false
+                                isLoading = false
                             )
                         }
                     }
@@ -121,7 +121,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isSimilarProductsLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -129,8 +129,8 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                similarProductList = res.data?.data ?: emptyList(),
-                                isSimilarProductsLoading = false
+                                isLoading = false,
+                                similarProductList = res.data?.data ?: emptyList()
                             )
                         }
                     }
@@ -138,7 +138,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                isSimilarProductsLoading = false
+                                isLoading = false
                             )
                         }
                     }

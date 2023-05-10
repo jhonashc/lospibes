@@ -30,7 +30,7 @@ class FilterViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isCategoryLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -38,8 +38,8 @@ class FilterViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                categoryList = res.data?.data ?: emptyList(),
-                                isCategoryLoading = false,
+                                isLoading = false,
+                                categoryList = res.data?.data ?: emptyList()
                             )
                         }
                     }
@@ -47,8 +47,8 @@ class FilterViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                message = res.message,
-                                isCategoryLoading = false
+                                isLoading = false,
+                                message = res.message
                             )
                         }
                     }

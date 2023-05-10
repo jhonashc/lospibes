@@ -10,8 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardFlowRow
+import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.presentation.filter.component.MaxPriceTextField
 import com.example.lospibes.features.home.presentation.filter.component.MinPriceTextField
@@ -27,8 +27,8 @@ fun FilterScreen(
         filterViewModel.getCategories()
     }
 
-    StandardBoxContainer(
-        isLoading = filterState.value.isCategoryLoading,
+    StandardScrollableColumnContainer(
+        isLoading = filterState.value.isLoading,
         message = filterState.value.message
     ) {
         Column(

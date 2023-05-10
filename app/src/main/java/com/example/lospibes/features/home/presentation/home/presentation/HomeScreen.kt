@@ -6,8 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.lospibes.core.component.StandardBoxContainer
 import com.example.lospibes.core.component.StandardCardListRow
+import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.domain.model.*
 import com.example.lospibes.features.home.view_model.cart.CartEvent
@@ -27,9 +27,8 @@ fun HomeScreen(
         homeViewModel.getProducts()
     }
 
-    StandardBoxContainer(
-        isLoading = homeState.value.isCategoryLoading &&
-                homeState.value.isProductLoading,
+    StandardScrollableColumnContainer(
+        isLoading = homeState.value.isLoading,
         message = homeState.value.message
     ) {
         Column(

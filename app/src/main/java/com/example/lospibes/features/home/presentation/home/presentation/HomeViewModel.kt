@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isCategoryLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -41,8 +41,8 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                categoryList = res.data?.data ?: emptyList(),
-                                isCategoryLoading = false,
+                                isLoading = false,
+                                categoryList = res.data?.data ?: emptyList()
                             )
                         }
                     }
@@ -50,8 +50,8 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                message = res.message,
-                                isCategoryLoading = false
+                                isLoading = false,
+                                message = res.message
                             )
                         }
                     }
@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isProductLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -79,8 +79,8 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                productList = res.data?.data ?: emptyList(),
-                                isProductLoading = false
+                                isLoading = false,
+                                productList = res.data?.data ?: emptyList()
                             )
                         }
                     }
@@ -88,8 +88,8 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                message = res.message,
-                                isProductLoading = false
+                                isLoading = false,
+                                message = res.message
                             )
                         }
                     }

@@ -43,7 +43,7 @@ fun FavoriteScreen(
     }
 
     StandardColumnContainer(
-        isLoading = favoriteState.value.isFavoriteProductLoading,
+        isLoading = favoriteState.value.isLoading,
         message = favoriteState.value.message
     ) {
         Column(

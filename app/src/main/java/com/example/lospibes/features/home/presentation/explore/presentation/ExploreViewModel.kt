@@ -47,7 +47,7 @@ class ExploreViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
-                                isProductLoading = true
+                                isLoading = true
                             )
                         }
                     }
@@ -55,8 +55,8 @@ class ExploreViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
-                                productList = res.data?.data ?: emptyList(),
-                                isProductLoading = false
+                                isLoading = false,
+                                productList = res.data?.data ?: emptyList()
                             )
                         }
                     }
@@ -64,8 +64,8 @@ class ExploreViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
-                                message = res.message,
-                                isProductLoading = false
+                                isLoading = false,
+                                message = res.message
                             )
                         }
                     }

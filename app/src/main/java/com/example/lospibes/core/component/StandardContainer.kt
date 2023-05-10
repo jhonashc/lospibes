@@ -15,7 +15,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun StandardBoxContainer(
+fun StandardColumnContainer(
+    isLoading: Boolean,
+    message: String?,
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator()
+        }
+
+        if (!isLoading && message != null) {
+            Text(
+                text = message,
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        if (!isLoading && message.isNullOrBlank()) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun StandardScrollableColumnContainer(
     isLoading: Boolean,
     message: String?,
     content: @Composable () -> Unit
@@ -31,15 +60,13 @@ fun StandardBoxContainer(
             )
         }
 
-        if (!isLoading) {
-            message?.let { message ->
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = message,
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
-                )
-            }
+        if (!isLoading && message != null) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = message,
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center
+            )
         }
 
         if (!isLoading && message.isNullOrBlank()) {
@@ -50,37 +77,6 @@ fun StandardBoxContainer(
             ) {
                 content()
             }
-        }
-    }
-}
-
-@Composable
-fun StandardColumnContainer(
-    isLoading: Boolean,
-    message: String?,
-    content: @Composable () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (isLoading) {
-            CircularProgressIndicator()
-        }
-
-        if (!isLoading) {
-            message?.let { message ->
-                Text(
-                    text = message,
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-
-        if (!isLoading && message.isNullOrBlank()) {
-            content()
         }
     }
 }

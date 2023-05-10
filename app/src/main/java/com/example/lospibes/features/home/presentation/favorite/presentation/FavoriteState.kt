@@ -4,6 +4,6 @@ import com.example.lospibes.features.home.domain.model.Product
 
 data class FavoriteState(
     val message: String? = null,
-    val isFavoriteProductLoading: Boolean = true,
+    val isLoading: Boolean = true,
     val favoriteProductList: List<Product> = emptyList()
 )

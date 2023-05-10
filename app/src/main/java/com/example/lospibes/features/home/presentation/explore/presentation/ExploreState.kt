@@ -5,7 +5,7 @@ import com.example.lospibes.features.home.domain.model.Product
 
 data class ExploreState(
     val message: String? = null,
-    val isProductLoading: Boolean = true,
+    val isLoading: Boolean = true,
     val productList: List<Product> = emptyList(),
 )
 

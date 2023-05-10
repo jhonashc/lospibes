@@ -39,7 +39,7 @@ fun ExploreScreen(
     }
 
     StandardColumnContainer(
-        isLoading = exploreState.value.isProductLoading,
+        isLoading = exploreState.value.isLoading,
         message = exploreState.value.message
     ) {
         Column(

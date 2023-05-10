@@ -1,8 +1,6 @@
 package com.example.lospibes.features.home.presentation.product.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -21,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.core.component.StandardFlowRow
+import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CardItem
@@ -47,11 +46,7 @@ fun ProductScreen(
 
     val product: Product? = productState.value.product
 
-    val isLoading: Boolean = productState.value.isProductLoading &&
-            productState.value.isFavoriteProductLoading &&
-            productState.value.isSimilarProductsLoading
-
-    LaunchedEffect(key1 = productState.value.product) {
+    LaunchedEffect(key1 = product) {
         if (product != null) {
             productViewModel.getFavoriteProduct(
                 productId = product.id,
@@ -64,13 +59,12 @@ fun ProductScreen(
         }
     }
 
-    if (!isLoading &&
-        productState.value.message.orEmpty().isEmpty()
+    StandardScrollableColumnContainer(
+        isLoading = productState.value.isLoading,
+        message = productState.value.message
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.fillMaxSize()
         ) {
             Header(
                 isFavorite = productState.value.favoriteProduct != null,
