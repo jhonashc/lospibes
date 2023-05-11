@@ -42,4 +42,12 @@ class AuthPreferenceRepositoryImpl @Inject constructor(
             preferences[PreferencesKeys.AUTH_USER_ID_KEY] = auth.userId
         }
     }
+
+    override suspend fun deleteAuthPreference() {
+        dataStore.edit { preferences ->
+            preferences.remove(PreferencesKeys.AUTH_ACCESS_TOKEN_KEY)
+            preferences.remove(PreferencesKeys.AUTH_REFRESH_TOKEN_KEY)
+            preferences.remove(PreferencesKeys.AUTH_USER_ID_KEY)
+        }
+    }
 }

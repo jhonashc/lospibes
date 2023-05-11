@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface AuthPreference {
     fun getAuthPreference(): Flow<Auth>
     suspend fun setAuthPreference(auth: Auth)
+    suspend fun deleteAuthPreference()
 }

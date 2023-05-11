@@ -1,9 +1,7 @@
 package com.example.lospibes.features.home.presentation.profile.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -26,7 +24,8 @@ import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.SectionItem
 import com.example.lospibes.features.home.presentation.profile.component.SectionList
 import com.example.lospibes.R
-import com.example.lospibes.core.domain.model.Auth
+import com.example.lospibes.core.component.StandardNotAuthenticated
+import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.domain.model.User
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
@@ -42,34 +41,39 @@ fun ProfileScreen(
     val profileState = profileViewModel.state.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
-        profileViewModel.getUserById(
-            userId = authState.value.userId
-        )
+        if (authState.value.isAuthenticated) {
+            profileViewModel.getUserById(
+                userId = authState.value.userId
+            )
+        }
     }
 
-    if (!profileState.value.isLoading && profileState.value.status) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 20.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+    if (!authState.value.isAuthenticated) {
+        StandardNotAuthenticated()
+    } else {
+        StandardScrollableColumnContainer(
+            isLoading = profileState.value.isLoading,
+            message = profileState.value.message
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxSize()
             ) {
-                Header(
-                    onNavigateToHome = onNavigateToHome
-                )
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Header(
+                        onNavigateToHome = onNavigateToHome
+                    )
 
-                Body(
-                    profileViewModel = profileViewModel
+                    Body(
+                        profileViewModel = profileViewModel
+                    )
+                }
+
+                Footer(
+                    authViewModel = authViewModel
                 )
             }
-
-            Footer(
-                authViewModel = authViewModel
-            )
         }
     }
 }
@@ -226,15 +230,7 @@ private fun Footer(
                 contentColor = MaterialTheme.colorScheme.background
             ),
             onClick = {
-                authViewModel.onEvent(
-                    AuthEvent.SetAuthState(
-                        Auth(
-                            accessToken = "",
-                            refreshToken = "",
-                            userId = ""
-                        )
-                    )
-                )
+                authViewModel.onEvent(AuthEvent.DeleteAuthState)
             }
         ) {
             Text(

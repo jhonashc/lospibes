@@ -48,10 +48,12 @@ fun ProductScreen(
 
     LaunchedEffect(key1 = product) {
         if (product != null) {
-            productViewModel.getFavoriteProduct(
-                productId = product.id,
-                userId = authState.value.userId
-            )
+            if (authState.value.isAuthenticated) {
+                productViewModel.getFavoriteProduct(
+                    productId = product.id,
+                    userId = authState.value.userId
+                )
+            }
 
             productViewModel.getSimilarProducts(
                 productId = product.id

@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.SearchTopBar
 import com.example.lospibes.core.component.StandardCardListGrid
 import com.example.lospibes.core.component.StandardColumnContainer
+import com.example.lospibes.core.component.StandardNotAuthenticated
 import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CardItem
@@ -37,27 +38,33 @@ fun FavoriteScreen(
     val favoriteState = favoriteViewModel.state.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
-        favoriteViewModel.getFavoriteProducts(
-            userId = authState.value.userId
-        )
+        if (authState.value.isAuthenticated) {
+            favoriteViewModel.getFavoriteProducts(
+                userId = authState.value.userId
+            )
+        }
     }
 
-    StandardColumnContainer(
-        isLoading = favoriteState.value.isLoading,
-        message = favoriteState.value.message
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+    if (!authState.value.isAuthenticated) {
+        StandardNotAuthenticated()
+    } else {
+        StandardColumnContainer(
+            isLoading = favoriteState.value.isLoading,
+            message = favoriteState.value.message
         ) {
-            Header(
-                onNavigateToHome = onNavigateToHome
-            )
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Header(
+                    onNavigateToHome = onNavigateToHome
+                )
 
-            Body(
-                cartViewModel = cartViewModel,
-                favoriteViewModel = favoriteViewModel,
-                onNavigateToDetails = onNavigateToDetails
-            )
+                Body(
+                    cartViewModel = cartViewModel,
+                    favoriteViewModel = favoriteViewModel,
+                    onNavigateToDetails = onNavigateToDetails
+                )
+            }
         }
     }
 }

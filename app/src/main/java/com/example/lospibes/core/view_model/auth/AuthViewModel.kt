@@ -31,14 +31,16 @@ class AuthViewModel @Inject constructor(
                         .onStart {
                             _state.update {
                                 it.copy(
-                                    isLoading = true
+                                    isLoading = true,
+                                    isAuthenticated = false
                                 )
                             }
                         }
                         .catch {
                             _state.update {
                                 it.copy(
-                                    isLoading = false
+                                    isLoading = false,
+                                    isAuthenticated = false
                                 )
                             }
                         }
@@ -46,6 +48,7 @@ class AuthViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     isLoading = false,
+                                    isAuthenticated = auth.userId.isNotEmpty(),
                                     accessToken = auth.accessToken,
                                     refreshToken = auth.refreshToken,
                                     userId = auth.userId
@@ -57,9 +60,27 @@ class AuthViewModel @Inject constructor(
 
             is AuthEvent.SetAuthState -> {
                 viewModelScope.launch {
+                    _state.update {
+                        it.copy(
+                            isAuthenticated = event.value.userId.isNotEmpty()
+                        )
+                    }
+
                     authPreferenceUseCase.setAuthPreference(
                         auth = event.value
                     )
+                }
+            }
+
+            is AuthEvent.DeleteAuthState -> {
+                viewModelScope.launch {
+                    _state.update {
+                        it.copy(
+                            isAuthenticated = false
+                        )
+                    }
+
+                    authPreferenceUseCase.deleteAuthPreference()
                 }
             }
         }

@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.lospibes.core.data.repository.AuthPreferenceRepositoryImpl
 import com.example.lospibes.core.domain.repository.AuthPreferenceRepository
 import com.example.lospibes.core.domain.use_case.auth_preference.AuthPreferenceUseCase
+import com.example.lospibes.core.domain.use_case.auth_preference.DeleteAuthPreference
 import com.example.lospibes.core.domain.use_case.auth_preference.GetAuthPreference
 import com.example.lospibes.core.domain.use_case.auth_preference.SetAuthPreference
 import com.example.lospibes.utils.Constants.AUTH_PREFERENCES
@@ -52,12 +53,9 @@ object AuthPreferenceModule {
         authPreferenceRepository: AuthPreferenceRepository
     ): AuthPreferenceUseCase {
         return AuthPreferenceUseCase(
-            getAuthPreferenceUseCase = GetAuthPreference(
-                authPreferenceRepository = authPreferenceRepository
-            ),
-            setAuthPreference = SetAuthPreference(
-                authPreferenceRepository = authPreferenceRepository
-            )
+            getAuthPreferenceUseCase = GetAuthPreference(authPreferenceRepository),
+            setAuthPreference = SetAuthPreference(authPreferenceRepository),
+            deleteAuthPreference = DeleteAuthPreference(authPreferenceRepository)
         )
     }
 }
