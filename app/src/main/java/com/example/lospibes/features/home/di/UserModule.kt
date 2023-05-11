@@ -28,9 +28,7 @@ object UserModule {
     fun provideUserRepository(
         userService: UserService
     ): UserRepository {
-        return UserRepositoryImpl(
-            userService = userService
-        )
+        return UserRepositoryImpl(userService)
     }
 
     @Singleton
@@ -39,9 +37,7 @@ object UserModule {
         userRepository: UserRepository
     ): UserUseCase {
         return UserUseCase(
-            getUserById = GetUserById(
-                userRepository = userRepository
-            )
+            getUserById = GetUserById(userRepository)
         )
     }
 }

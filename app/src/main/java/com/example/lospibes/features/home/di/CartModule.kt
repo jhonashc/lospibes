@@ -24,21 +24,11 @@ object CartModule {
         cartRepository: CartRepository
     ): CartUseCase {
         return CartUseCase(
-            addToCart = AddToCart(
-                cartRepository = cartRepository
-            ),
-            removeFromCart = RemoveFromCart(
-                cartRepository = cartRepository
-            ),
-            addQuantity = AddQuantity(
-                cartRepository = cartRepository
-            ),
-            subtractQuantity = SubtractQuantity(
-                cartRepository = cartRepository
-            ),
-            removeAll = RemoveAll(
-                cartRepository = cartRepository
-            )
+            addToCart = AddToCart(cartRepository),
+            removeFromCart = RemoveFromCart(cartRepository),
+            addQuantity = AddQuantity(cartRepository),
+            subtractQuantity = SubtractQuantity(cartRepository),
+            removeAll = RemoveAll(cartRepository)
         )
     }
 }
