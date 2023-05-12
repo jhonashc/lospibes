@@ -26,7 +26,7 @@ fun RootNavGraph(
     val authState = authViewModel.state.collectAsState()
 
     if (!authState.value.isLoading) {
-        val startDestination = if (authState.value.userId.isEmpty())
+        val startDestination = if (!authState.value.isAuthenticated)
             AUTH_GRAPH_ROUTE else
             HOME_GRAPH_ROUTE
 

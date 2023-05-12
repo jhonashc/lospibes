@@ -12,6 +12,7 @@ object Constants {
     const val CATEGORIES = "categories"
     const val FAVORITES = "favorites"
     const val PRODUCTS = "products"
+    const val PROMOTIONS = "promotions"
     const val USERS = "users"
 
     /* DataStore */

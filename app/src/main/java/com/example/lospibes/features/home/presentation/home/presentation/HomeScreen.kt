@@ -25,6 +25,7 @@ fun HomeScreen(
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
         homeViewModel.getProducts()
+        homeViewModel.getPromotionWithProducts()
     }
 
     StandardScrollableColumnContainer(
@@ -55,6 +56,7 @@ private fun Body(
 ) {
     val categoryList: List<Category> = homeState.value.categoryList
     val popularList: List<Product> = homeState.value.productList
+    val promotionList: List<PromotionWithProducts> = homeState.value.promotionList
 
     if (categoryList.isNotEmpty()) {
         CategorySection(
@@ -63,9 +65,19 @@ private fun Body(
         )
     }
 
-    if (popularList.isNotEmpty()) {
-        Spacer(modifier = Modifier.height(26.dp))
+    Spacer(modifier = Modifier.height(26.dp))
 
+    if (promotionList.isNotEmpty()) {
+        PromotionSection(
+            cartViewModel = cartViewModel,
+            homeState = homeState,
+            onNavigateToDetails = onNavigateToDetails
+        )
+    }
+
+    Spacer(modifier = Modifier.height(26.dp))
+
+    if (popularList.isNotEmpty()) {
         ProductSection(
             cartViewModel = cartViewModel,
             homeState = homeState,
@@ -120,6 +132,63 @@ private fun CategorySection(
 }
 
 @Composable
+private fun PromotionSection(
+    cartViewModel: CartViewModel,
+    homeState: State<HomeState>,
+    onNavigateToDetails: (productId: String) -> Unit
+) {
+    val cartState = cartViewModel.state.collectAsState()
+
+    val cartItemList: List<CartItem> = cartState.value.cartItemList
+    val promotionList: List<PromotionWithProducts> = homeState.value.promotionList
+
+    val promotionProductList: List<Product> = promotionList.flatMap { it.products }
+
+    val productCardList: List<CardItem> = promotionProductList.map { it.toCardItem() }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Promociones \uD83D\uDD25",
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        Text(
+            text = "Ver todos",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+
+    Spacer(modifier = Modifier.height(22.dp))
+
+    StandardCardListRow(
+        cardItemList = productCardList,
+        cartItemList = cartItemList,
+        onCardItemSelected = { selectedCardItem ->
+            onNavigateToDetails(selectedCardItem.id)
+        },
+        onAddOrRemoveClick = { selectedCardItem ->
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
+
+            if (isOnTheCart != -1) {
+                cartViewModel.onEvent(
+                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
+                )
+            } else {
+                cartViewModel.onEvent(
+                    CartEvent.AddToCart(selectedCardItem.toCartItem())
+                )
+            }
+        }
+    )
+}
+
+@Composable
 private fun ProductSection(
     cartViewModel: CartViewModel,
     homeState: State<HomeState>,
@@ -131,9 +200,6 @@ private fun ProductSection(
     val productList: List<Product> = homeState.value.productList
 
     val productCardList: List<CardItem> = productList.map { it.toCardItem() }
-
-    val cardItemList: MutableList<CardItem> = mutableListOf()
-    cardItemList.addAll(productCardList)
 
     Row(
         modifier = Modifier
@@ -156,8 +222,7 @@ private fun ProductSection(
     Spacer(modifier = Modifier.height(22.dp))
 
     StandardCardListRow(
-        cardItemList = cardItemList,
-        favoriteCardItemList = emptyList(),
+        cardItemList = productCardList,
         cartItemList = cartItemList,
         onCardItemSelected = { selectedCardItem ->
             onNavigateToDetails(selectedCardItem.id)
