@@ -7,7 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardScaffold(
     showBottomBar: Boolean = true,

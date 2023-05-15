@@ -29,19 +29,19 @@ fun StandardTopBar(
             .fillMaxWidth()
             .height(70.dp)
     ) {
-        navigationIcon?.let { navIcon ->
+        if (navigationIcon != null) {
             IconButton(
                 modifier = Modifier.align(Alignment.CenterStart),
                 onClick = onBackTo
             ) {
-                navIcon()
+                navigationIcon()
             }
         }
 
-        title?.let {
+        if (title != null) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = it,
+                text = title,
                 style = MaterialTheme.typography.titleMedium
             )
         }

@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.ChipItem
 import com.example.lospibes.utils.capitalizeText
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardChip(
     chipItem: ChipItem,

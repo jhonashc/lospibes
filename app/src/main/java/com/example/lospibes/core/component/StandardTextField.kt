@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardTextField(
     modifier: Modifier = Modifier,
@@ -26,12 +25,16 @@ fun StandardTextField(
     trailingIcon: @Composable () -> Unit = {},
     onValueChange: (newValue: String) -> Unit
 ) {
-    val colors = TextFieldDefaults.outlinedTextFieldColors(
-        textColor = MaterialTheme.colorScheme.onBackground,
-        containerColor = MaterialTheme.colorScheme.background,
-        placeholderColor = MaterialTheme.colorScheme.outline,
-        focusedBorderColor = MaterialTheme.colorScheme.background,
-        unfocusedBorderColor = MaterialTheme.colorScheme.background
+    val colors = TextFieldDefaults.colors(
+        cursorColor = MaterialTheme.colorScheme.onBackground,
+        focusedContainerColor = MaterialTheme.colorScheme.background,
+        unfocusedContainerColor = MaterialTheme.colorScheme.background,
+        unfocusedPlaceholderColor = MaterialTheme.colorScheme.outline,
+        focusedPlaceholderColor = MaterialTheme.colorScheme.outline,
+        focusedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
+        unfocusedLeadingIconColor = MaterialTheme.colorScheme.outline,
+        focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
+        unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline,
     )
 
     TextField(
@@ -51,7 +54,6 @@ fun StandardTextField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardOutlinedTextField(
     modifier: Modifier = Modifier,
@@ -68,11 +70,18 @@ fun StandardOutlinedTextField(
     trailingIcon: @Composable () -> Unit = {},
     onValueChange: (newValue: String) -> Unit
 ) {
-    val colors = TextFieldDefaults.outlinedTextFieldColors(
-        textColor = MaterialTheme.colorScheme.onBackground,
-        containerColor = MaterialTheme.colorScheme.background,
-        placeholderColor = MaterialTheme.colorScheme.outline
-    )
+    val colors = TextFieldDefaults.colors(
+        cursorColor = MaterialTheme.colorScheme.onBackground,
+        focusedContainerColor = MaterialTheme.colorScheme.background,
+        unfocusedContainerColor = MaterialTheme.colorScheme.background,
+        unfocusedPlaceholderColor = MaterialTheme.colorScheme.outline,
+        focusedPlaceholderColor = MaterialTheme.colorScheme.outline,
+        focusedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
+        unfocusedLeadingIconColor = MaterialTheme.colorScheme.outline,
+        focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
+        unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline,
+
+        )
 
     OutlinedTextField(
         modifier = modifier,
@@ -83,7 +92,7 @@ fun StandardOutlinedTextField(
         colors = colors,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
-        visualTransformation =visualTransformation,
+        visualTransformation = visualTransformation,
         shape = shape,
         placeholder = placeholder,
         leadingIcon = leadingIcon,
