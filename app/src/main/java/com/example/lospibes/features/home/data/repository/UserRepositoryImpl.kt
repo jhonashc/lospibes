@@ -14,10 +14,6 @@ class UserRepositoryImpl @Inject constructor(
     override fun getUserById(
         id: String
     ): Flow<NetworkResult<UserResponse>> {
-        return safeApiCall {
-            userService.getUserById(
-                id = id
-            )
-        }
+        return safeApiCall { userService.getUserById(id) }
     }
 }

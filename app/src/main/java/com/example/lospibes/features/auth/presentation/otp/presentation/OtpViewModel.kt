@@ -1,8 +1,9 @@
-package com.example.lospibes.features.auth.presentation.register.presentation
+package com.example.lospibes.features.auth.presentation.otp.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.features.auth.data.dto.body.CreateRegisterDto
+import com.example.lospibes.features.auth.data.dto.body.CreateVerifyAccountDto
 import com.example.lospibes.features.auth.domain.use_case.AuthUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,59 +14,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(
-    private val authUseCase: AuthUseCase
+class OtpViewModel @Inject constructor(
+    private val authUseCase: AuthUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _state = MutableStateFlow(RegisterState())
+    private val _state = MutableStateFlow(OtpState())
     val state = _state.asStateFlow()
 
-    fun onEvent(event: RegisterEvent) {
+    private val _email: String = savedStateHandle["email"] ?: ""
+
+    fun onEvent(event: OtpEvent) {
         when (event) {
-            is RegisterEvent.EnteredUsername -> {
+            is OtpEvent.EnteredOtp -> {
                 _state.update {
                     it.copy(
-                        username = event.value
+                        otp = event.value
                     )
                 }
             }
 
-            is RegisterEvent.EnteredEmail -> {
-                _state.update {
-                    it.copy(
-                        email = event.value
-                    )
-                }
-            }
-
-            is RegisterEvent.EnteredTelephone -> {
-                _state.update {
-                    it.copy(
-                        telephone = event.value
-                    )
-                }
-            }
-
-            is RegisterEvent.EnteredPassword -> {
-                _state.update {
-                    it.copy(
-                        password = event.value
-                    )
-                }
-            }
-
-            is RegisterEvent.OnRegisterClick -> {
-                register()
+            is OtpEvent.OnSendOtp -> {
+                verifyEmail()
             }
         }
     }
 
-    private fun register() {
+    private fun verifyEmail() {
         viewModelScope.launch {
-            authUseCase.register(
-                createRegisterDto = CreateRegisterDto(
-                    username = state.value.username,
-                    email = state.value.email,
-                    password = state.value.password
+            authUseCase.verifyAccount(
+                createVerifyAccountDto = CreateVerifyAccountDto(
+                    email = _email,
+                    otp = state.value.otp
                 )
             ).collect { res ->
                 when (res) {
@@ -82,7 +61,7 @@ class RegisterViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 status = true,
-                                userId = res.data?.data?.id,
+                                message = res.data?.message,
                                 isLoading = false
                             )
                         }

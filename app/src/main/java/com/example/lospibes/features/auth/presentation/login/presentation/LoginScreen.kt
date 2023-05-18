@@ -27,11 +27,18 @@ fun LoginScreen(
     authViewModel: AuthViewModel,
     loginViewModel: LoginViewModel = hiltViewModel(),
     onNavigateToRegister: () -> Unit,
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToOtp: (email: String) -> Unit
 ) {
     val loginState = loginViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = loginState.value.accessToken) {
+    LaunchedEffect(key1 = loginState.value.isActive) {
+        if (!loginState.value.isActive) {
+            onNavigateToOtp(loginState.value.email)
+        }
+    }
+
+    LaunchedEffect(key1 = loginState.value.status) {
         if (loginState.value.status) {
             onNavigateToHome()
 

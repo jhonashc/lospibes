@@ -7,6 +7,8 @@ import com.example.lospibes.features.auth.domain.use_case.AuthUseCase
 import com.example.lospibes.features.auth.domain.use_case.Login
 import com.example.lospibes.features.auth.domain.use_case.RefreshToken
 import com.example.lospibes.features.auth.domain.use_case.Register
+import com.example.lospibes.features.auth.domain.use_case.ResendEmail
+import com.example.lospibes.features.auth.domain.use_case.VerifyAccount
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,7 +43,9 @@ object AuthModule {
         return AuthUseCase(
             login = Login(authRepository),
             register = Register(authRepository),
-            refreshToken = RefreshToken(authRepository)
+            refreshToken = RefreshToken(authRepository),
+            verifyAccount = VerifyAccount(authRepository),
+            resendEmail = ResendEmail(authRepository)
         )
     }
 }

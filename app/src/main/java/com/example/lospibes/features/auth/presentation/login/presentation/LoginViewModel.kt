@@ -65,10 +65,10 @@ class LoginViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 status = true,
+                                isLoading = false,
                                 userId = res.data?.userId,
                                 accessToken = res.data?.accessToken,
-                                refreshToken = res.data?.refreshToken,
-                                isLoading = false
+                                refreshToken = res.data?.refreshToken
                             )
                         }
                     }
@@ -77,8 +77,9 @@ class LoginViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 status = false,
-                                message = res.message,
-                                isLoading = false
+                                isLoading = false,
+                                isActive = !res.message.orEmpty().contains("verificado"),
+                                message = res.message
                             )
                         }
                     }

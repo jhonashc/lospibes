@@ -17,9 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardTopBar
-import com.example.lospibes.core.domain.model.Auth
-import com.example.lospibes.core.view_model.auth.AuthEvent
-import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.auth.presentation.register.component.EmailTextField
 import com.example.lospibes.features.auth.presentation.register.component.PasswordTextField
 import com.example.lospibes.features.auth.presentation.register.component.TelephoneTextField
@@ -27,26 +24,16 @@ import com.example.lospibes.features.auth.presentation.register.component.Userna
 
 @Composable
 fun RegisterScreen(
-    authViewModel: AuthViewModel,
     registerViewModel: RegisterViewModel = hiltViewModel(),
     onNavigateToLogin: () -> Unit,
-    onNavigateToHome: () -> Unit
+    onNavigateToOtp: (email: String) -> Unit
 ) {
     val registerState = registerViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = registerState.value.accessToken) {
+    LaunchedEffect(key1 = registerState.value.userId) {
         if (registerState.value.status) {
-            onNavigateToHome()
-
-            authViewModel.onEvent(
-                AuthEvent.SetAuthState(
-                    Auth(
-                        accessToken = registerState.value.accessToken ?: "",
-                        refreshToken = registerState.value.refreshToken ?: "",
-                        userId = registerState.value.userId ?: ""
-                    )
-                )
-            )
+            /* Success register */
+            onNavigateToOtp(registerState.value.email)
         }
     }
 
