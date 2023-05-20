@@ -107,7 +107,7 @@ private fun Header() {
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(
-            text = "Sign In",
+            text = "Los Pibes",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -158,8 +158,10 @@ private fun Body(
 
         /* Sign In button */
         Button(
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background
@@ -168,17 +170,22 @@ private fun Body(
                 loginViewModel.onEvent(LoginEvent.OnLoginClick)
             }
         ) {
-            if (loginState.value.isLoading) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.background
-                )
-            } else {
-                Text(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    text = "Sign In",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (loginState.value.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(25.dp),
+                        color = MaterialTheme.colorScheme.background
+                    )
+                } else {
+                    Text(
+                        text = "Iniciar sesión",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
@@ -200,7 +207,7 @@ private fun Footer(
 
         Text(
             modifier = Modifier.clickable(onClick = onNavigateToRegister),
-            text = "Sign Up",
+            text = "Registrate",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary

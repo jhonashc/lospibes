@@ -21,7 +21,7 @@ class OtpViewModel @Inject constructor(
     private val _state = MutableStateFlow(OtpState())
     val state = _state.asStateFlow()
 
-    private val _email: String = savedStateHandle["email"] ?: ""
+    val email: String = savedStateHandle["email"] ?: ""
 
     fun onEvent(event: OtpEvent) {
         when (event) {
@@ -33,17 +33,17 @@ class OtpViewModel @Inject constructor(
                 }
             }
 
-            is OtpEvent.OnSendOtp -> {
-                verifyEmail()
+            is OtpEvent.OnSubmit -> {
+                verifyAccount()
             }
         }
     }
 
-    private fun verifyEmail() {
+    private fun verifyAccount() {
         viewModelScope.launch {
             authUseCase.verifyAccount(
                 createVerifyAccountDto = CreateVerifyAccountDto(
-                    email = _email,
+                    email = email,
                     otp = state.value.otp
                 )
             ).collect { res ->

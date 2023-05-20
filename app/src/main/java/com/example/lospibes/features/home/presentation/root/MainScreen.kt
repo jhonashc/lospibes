@@ -1,7 +1,11 @@
 package com.example.lospibes.features.home.presentation.root
 
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -13,6 +17,7 @@ import com.example.lospibes.core.component.StandardBottomBar
 import com.example.lospibes.features.home.domain.model.NavItem
 import com.example.lospibes.R
 import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.core.view_model.snackbar.SnackBarViewModel
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
 
@@ -20,11 +25,13 @@ import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
 fun MainScreen(
     authViewModel: AuthViewModel,
     cartViewModel: CartViewModel,
-    scaffoldViewModel: ScaffoldViewModel
+    scaffoldViewModel: ScaffoldViewModel,
+    snackBarViewModel: SnackBarViewModel
 ) {
     val navController: NavHostController = rememberNavController()
 
     val scaffoldState = scaffoldViewModel.state.collectAsState()
+    val snackBarState = snackBarViewModel.state.collectAsState()
 
     val homeNavItems: List<NavItem> = listOf(
         NavItem(
@@ -64,7 +71,18 @@ fun MainScreen(
         )
     )
 
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = snackBarState.value) {
+        if (snackBarState.value.message.isNotEmpty()) {
+            snackBarHostState.showSnackbar(
+                message = snackBarState.value.message
+            )
+        }
+    }
+
     StandardScaffold(
+        snackBarHost = { SnackbarHost(snackBarHostState) },
         bottomAppBar = {
             StandardBottomBar(
                 cartViewModel = cartViewModel,

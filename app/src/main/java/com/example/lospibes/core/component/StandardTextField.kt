@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
@@ -17,6 +18,7 @@ fun StandardTextField(
     isEnable: Boolean = true,
     singleLine: Boolean = false,
     readOnly: Boolean = false,
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(0.dp),
@@ -43,6 +45,7 @@ fun StandardTextField(
         enabled = isEnable,
         singleLine = singleLine,
         readOnly = readOnly,
+        textStyle = textStyle,
         colors = colors,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
@@ -61,6 +64,7 @@ fun StandardOutlinedTextField(
     isEnable: Boolean = true,
     singleLine: Boolean = false,
     readOnly: Boolean = false,
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -89,6 +93,7 @@ fun StandardOutlinedTextField(
         enabled = isEnable,
         singleLine = singleLine,
         readOnly = readOnly,
+        textStyle = textStyle,
         colors = colors,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,

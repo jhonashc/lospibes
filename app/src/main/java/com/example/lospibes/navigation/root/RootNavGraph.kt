@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.core.view_model.snackbar.SnackBarViewModel
 import com.example.lospibes.features.home.presentation.root.MainScreen
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
@@ -22,6 +23,7 @@ fun RootNavGraph(
     val authViewModel: AuthViewModel = hiltViewModel()
     val cartViewModel: CartViewModel = hiltViewModel()
     val scaffoldViewModel: ScaffoldViewModel = hiltViewModel()
+    val snackBarViewModel: SnackBarViewModel = hiltViewModel()
 
     val authState = authViewModel.state.collectAsState()
 
@@ -44,7 +46,8 @@ fun RootNavGraph(
                 MainScreen(
                     authViewModel = authViewModel,
                     cartViewModel = cartViewModel,
-                    scaffoldViewModel = scaffoldViewModel
+                    scaffoldViewModel = scaffoldViewModel,
+                    snackBarViewModel = snackBarViewModel
                 )
             }
         }

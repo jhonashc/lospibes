@@ -2,5 +2,5 @@ package com.example.lospibes.features.auth.presentation.otp.presentation
 
 sealed class OtpEvent {
     data class EnteredOtp(val value: String): OtpEvent()
-    object OnSendOtp : OtpEvent()
+    object OnSubmit : OtpEvent()
 }

@@ -10,15 +10,15 @@ import androidx.compose.ui.Modifier
 @Composable
 fun StandardScaffold(
     showBottomBar: Boolean = true,
+    snackBarHost: @Composable () -> Unit = {},
     topAppBar: @Composable () -> Unit = {},
     bottomAppBar: @Composable () -> Unit = {},
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
-        topBar = {
-            topAppBar()
-        },
+        snackbarHost = snackBarHost,
+        topBar = topAppBar,
         bottomBar = {
             if (showBottomBar) {
                 bottomAppBar()

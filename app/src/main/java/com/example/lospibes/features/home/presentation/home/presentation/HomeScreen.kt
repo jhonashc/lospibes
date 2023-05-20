@@ -63,9 +63,9 @@ private fun Body(
             categoryList = categoryList,
             onNavigateToExplore = onNavigateToExplore
         )
-    }
 
-    Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(26.dp))
+    }
 
     if (promotionList.isNotEmpty()) {
         PromotionSection(
@@ -73,9 +73,9 @@ private fun Body(
             homeState = homeState,
             onNavigateToDetails = onNavigateToDetails
         )
-    }
 
-    Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(26.dp))
+    }
 
     if (popularList.isNotEmpty()) {
         ProductSection(
