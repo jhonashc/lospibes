@@ -1,28 +1,22 @@
 package com.example.lospibes.features.home.presentation.favorite.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.lospibes.core.component.SearchTopBar
 import com.example.lospibes.core.component.StandardCardListGrid
 import com.example.lospibes.core.component.StandardColumnContainer
 import com.example.lospibes.core.component.StandardNotAuthenticated
-import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.toCardItem
 import com.example.lospibes.features.home.domain.model.toCartItem
+import com.example.lospibes.features.home.presentation.favorite.component.FavoriteTopBar
 import com.example.lospibes.features.home.view_model.cart.CartEvent
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
@@ -56,6 +50,7 @@ fun FavoriteScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Header(
+                    favoriteViewModel = favoriteViewModel,
                     onNavigateToHome = onNavigateToHome
                 )
 
@@ -71,46 +66,32 @@ fun FavoriteScreen(
 
 @Composable
 private fun Header(
+    favoriteViewModel: FavoriteViewModel,
     onNavigateToHome: () -> Unit
 ) {
-    var value by remember { mutableStateOf("") }
-    val onValueChange = { newValue: String -> value = newValue }
+    val favoriteState = favoriteViewModel.state.collectAsState()
 
-    var isVisibleSearchBar by remember { mutableStateOf(false) }
+    /* Temporal */
+    val context = LocalContext.current
 
-    if (!isVisibleSearchBar) {
-        StandardTopBar(
-            title = "Favoritos",
-            navigationIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.ArrowBack,
-                    contentDescription = "Back Icon"
-                )
-            },
-            actions = {
-                IconButton(
-                    modifier = Modifier.padding(end = 5.dp),
-                    onClick = { isVisibleSearchBar = true }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = "Search Icon"
-                    )
-                }
-            },
-            onBackTo = onNavigateToHome
-        )
-    } else {
-        SearchTopBar(
-            value = value,
-            onSubmit = {},
-            onClose = {
-                value = ""
-                isVisibleSearchBar = false
-            },
-            onValueChange = onValueChange
-        )
-    }
+    FavoriteTopBar(
+        searchText = favoriteState.value.searchText,
+        searchResultList = emptyList(),
+        searchWidgetState = favoriteState.value.searchWidgetState,
+        onNavigateToHome = onNavigateToHome,
+        onSearchClick = {
+            favoriteViewModel.onEvent(FavoriteEvent.OnSearchBarClick)
+        },
+        onClose = {
+            favoriteViewModel.onEvent(FavoriteEvent.OnSearchBarClose)
+        },
+        onSubmit = {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        },
+        onValueChange = {
+            favoriteViewModel.onEvent(FavoriteEvent.EnteredSearchBarText(it))
+        },
+    )
 }
 
 @Composable

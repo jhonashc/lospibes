@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
+import com.example.lospibes.features.home.domain.model.SearchWidgetState
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +35,37 @@ class ExploreViewModel @Inject constructor(
             )
         )
     )
+
     val queryState = _queryState.asStateFlow()
+
+    fun onEvent(event: ExploreEvent) {
+        when (event) {
+            is ExploreEvent.EnteredSearchBarText -> {
+                _state.update {
+                    it.copy(
+                        searchText = event.value
+                    )
+                }
+            }
+
+            is ExploreEvent.OnSearchBarClick -> {
+                _state.update {
+                    it.copy(
+                       searchWidgetState = SearchWidgetState.OPENED
+                    )
+                }
+            }
+
+            is ExploreEvent.OnSearchBarClose -> {
+                _state.update {
+                    it.copy(
+                        searchText = "",
+                        searchWidgetState = SearchWidgetState.CLOSED
+                    )
+                }
+            }
+        }
+    }
 
     fun getProducts(
         getProductsQueryDto: GetProductsQueryDto

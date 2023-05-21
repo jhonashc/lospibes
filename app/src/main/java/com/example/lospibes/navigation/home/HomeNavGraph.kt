@@ -74,9 +74,6 @@ fun HomeNavGraph(
                 onNavigateToHome = {
                     navController.navigate(HomeDestinations.HomeScreen.route)
                 },
-                onNavigateToFilter = {
-                    navController.navigate(DetailsDestinations.ExploreFilterScreen.route)
-                },
                 onNavigateToDetails = { productId ->
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
                 }
