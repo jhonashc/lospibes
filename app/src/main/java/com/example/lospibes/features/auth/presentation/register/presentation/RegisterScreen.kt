@@ -1,5 +1,6 @@
 package com.example.lospibes.features.auth.presentation.register.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,6 +31,16 @@ fun RegisterScreen(
     onNavigateToOtp: (email: String) -> Unit
 ) {
     val registerState = registerViewModel.state.collectAsState()
+
+    /* Temporal */
+    val context = LocalContext.current
+
+    /* Temporal */
+    LaunchedEffect(key1 = registerState.value.isLoading) {
+        if (registerState.value.message != null) {
+            Toast.makeText(context, registerState.value.message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     LaunchedEffect(key1 = registerState.value.userId) {
         if (registerState.value.status) {
@@ -157,6 +169,7 @@ private fun Body(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
+            enabled = !registerState.value.isLoading,
             shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,

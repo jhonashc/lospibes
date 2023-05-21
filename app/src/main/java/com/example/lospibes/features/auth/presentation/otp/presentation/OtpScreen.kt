@@ -1,5 +1,6 @@
 package com.example.lospibes.features.auth.presentation.otp.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,7 +42,14 @@ fun OtpScreen(
 ) {
     val otpState = otpViewModel.state.collectAsState()
 
+    /* Temporal */
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = otpState.value.message) {
+        if (otpState.value.message != null) {
+            Toast.makeText(context, otpState.value.message, Toast.LENGTH_SHORT).show()
+        }
+
         if (otpState.value.status) {
             onNavigateToLogin()
         }
@@ -148,6 +157,12 @@ private fun Footer(
 ) {
     val otpState = otpViewModel.state.collectAsState()
 
+    val textColor = if (otpState.value.isLoading) {
+        MaterialTheme.colorScheme.outline
+    } else {
+        MaterialTheme.colorScheme.primary
+    }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(26.dp)
@@ -156,6 +171,7 @@ private fun Footer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
+            enabled = !otpState.value.isLoading,
             shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -196,11 +212,17 @@ private fun Footer(
             )
 
             Text(
-                modifier = Modifier.clickable(onClick = {}),
+                modifier = Modifier.clickable(
+                    onClick = {
+                        if (!otpState.value.isLoading) {
+                            otpViewModel.onEvent(OtpEvent.OnResend)
+                        }
+                    }
+                ),
                 text = "Reenviar",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = textColor
             )
         }
     }

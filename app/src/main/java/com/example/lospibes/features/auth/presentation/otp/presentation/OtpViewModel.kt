@@ -3,6 +3,7 @@ package com.example.lospibes.features.auth.presentation.otp.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.lospibes.features.auth.data.dto.body.CreateResendEmailVerificationDto
 import com.example.lospibes.features.auth.data.dto.body.CreateVerifyAccountDto
 import com.example.lospibes.features.auth.domain.use_case.AuthUseCase
 import com.example.lospibes.utils.NetworkResult
@@ -36,6 +37,10 @@ class OtpViewModel @Inject constructor(
             is OtpEvent.OnSubmit -> {
                 verifyAccount()
             }
+
+            is OtpEvent.OnResend -> {
+                resendEmail()
+            }
         }
     }
 
@@ -61,8 +66,8 @@ class OtpViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 status = true,
-                                message = res.data?.message,
-                                isLoading = false
+                                isLoading = false,
+                                message = res.data?.message
                             )
                         }
                     }
@@ -71,8 +76,48 @@ class OtpViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 status = false,
-                                message = res.message,
-                                isLoading = false
+                                isLoading = false,
+                                message = res.message
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun resendEmail() {
+        viewModelScope.launch {
+            authUseCase.resendEmail(
+                createResendEmailVerificationDto = CreateResendEmailVerificationDto(
+                    email = email
+                )
+            ).collect { res ->
+                when (res) {
+                    is NetworkResult.Loading -> {
+                        _state.update {
+                            it.copy(
+                                status = false,
+                                isLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                message = res.data?.message
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        _state.update {
+                            it.copy(
+                                status = false,
+                                isLoading = false,
+                                message = res.message
                             )
                         }
                     }

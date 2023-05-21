@@ -7,7 +7,7 @@ data class LoginState(
     val email: String = "jhonhuiracocha123456789@gmail.com",
     val password: String = "password",
     val userId: String? = null,
-    val isActive: Boolean = false,
+    val isActive: Boolean = true,
     val accessToken: String? = null,
     val refreshToken: String? = null
 )

@@ -1,5 +1,6 @@
 package com.example.lospibes.features.auth.presentation.login.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,14 +34,25 @@ fun LoginScreen(
 ) {
     val loginState = loginViewModel.state.collectAsState()
 
+    /* Temporal */
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = loginState.value.isActive) {
         if (!loginState.value.isActive) {
             onNavigateToOtp(loginState.value.email)
         }
     }
 
+    /* Temporal */
+    LaunchedEffect(key1 = loginState.value.isLoading) {
+        if (loginState.value.message != null) {
+            Toast.makeText(context, loginState.value.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     LaunchedEffect(key1 = loginState.value.status) {
         if (loginState.value.status) {
+            /* Success login */
             onNavigateToHome()
 
             authViewModel.onEvent(
@@ -161,6 +174,7 @@ private fun Body(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
+            enabled = !loginState.value.isLoading,
             shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
