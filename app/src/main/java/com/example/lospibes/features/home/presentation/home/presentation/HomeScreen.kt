@@ -10,6 +10,7 @@ import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.component.StandardTabList
+import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.*
 import com.example.lospibes.features.home.presentation.home.component.HomeBottomSheet
 import com.example.lospibes.features.home.presentation.home.component.HomeTopBar
@@ -18,25 +19,29 @@ import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
 @Composable
 fun HomeScreen(
+    authViewModel: AuthViewModel,
     cartViewModel: CartViewModel,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onNavigateToExplore: (query: String) -> Unit,
     onNavigateToDetails: (productId: String) -> Unit
 ) {
+    val authState = authViewModel.state.collectAsState()
     val homeState = homeViewModel.state.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
+        if (authState.value.isAuthenticated) {
+            homeViewModel.getAddresses(
+                userId = authState.value.userId
+            )
+        }
+
         homeViewModel.getCategories()
         homeViewModel.getProducts()
     }
 
     if (homeState.value.isOpenBottomSheet) {
         HomeBottomSheet(
-            addressList = listOf(
-                "Av. 9 de Octubre",
-                "Av. Las Lomas",
-                "Av. Roca Fuerte"
-            ),
+            addressList = homeState.value.addressList.map { it.name },
             onDismissRequest = {
                 homeViewModel.onEvent(HomeEvent.OnHideBottomSheet)
             }
@@ -46,6 +51,7 @@ fun HomeScreen(
     StandardScaffold(
         topAppBar = {
             HomeTopBar(
+                currentAddress = "Address here!",
                 onOpenBottomSheet = {
                     homeViewModel.onEvent(HomeEvent.OnOpenBottomSheet)
                 }

@@ -26,7 +26,7 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.ExploreScreen.route,
+        startDestination = HomeDestinations.HomeScreen.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(
@@ -35,6 +35,7 @@ fun HomeNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
 
             HomeScreen(
+                authViewModel = authViewModel,
                 cartViewModel = cartViewModel,
                 onNavigateToExplore = { category ->
                     navController.navigate("explore_screen?category=${category}")

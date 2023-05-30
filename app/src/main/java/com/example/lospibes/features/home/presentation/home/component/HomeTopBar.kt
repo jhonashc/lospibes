@@ -29,11 +29,13 @@ import com.example.lospibes.core.component.StandardCenterTopBar
 
 @Composable
 fun HomeTopBar(
+    currentAddress: String,
     onOpenBottomSheet: () -> Unit
 ) {
     StandardCenterTopBar(
         title = {
             HomeTopBarTitle(
+                currentAddress = currentAddress,
                 onOpenBottomSheet = onOpenBottomSheet
             )
         }
@@ -42,6 +44,7 @@ fun HomeTopBar(
 
 @Composable
 private fun HomeTopBarTitle(
+    currentAddress: String,
     onOpenBottomSheet: () -> Unit
 ) {
     Column(
@@ -59,7 +62,7 @@ private fun HomeTopBarTitle(
             onClick = onOpenBottomSheet
         ) {
             Text(
-                text = "Av. 9 de Octubre",
+                text = currentAddress,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
