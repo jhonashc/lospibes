@@ -11,10 +11,6 @@ import retrofit2.http.Query
 interface ProductService {
     @GET(PRODUCTS)
     suspend fun getProducts(
-        @Query("name") name: String? = null,
-        @Query("category") category: String? = null,
-        @Query("min") min: Int? = null,
-        @Query("max") max: Int? = null,
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: Int? = null
     ): Response<ProductsResponse>
@@ -30,4 +26,14 @@ interface ProductService {
     suspend fun getProductById(
         @Path("id") id: String
     ): Response<ProductResponse>
+
+    @GET("${PRODUCTS}/search")
+    suspend fun searchProducts(
+        @Query("name") name: String? = null,
+        @Query("category") category: String? = null,
+        @Query("min") min: Int? = null,
+        @Query("max") max: Int? = null,
+        @Query("limit") limit: Int? = null,
+        @Query("offset") offset: Int? = null
+    ): Response<ProductsResponse>
 }

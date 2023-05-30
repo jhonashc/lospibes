@@ -1,44 +1,54 @@
 package com.example.lospibes.features.home.presentation.explore.component
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
+import com.example.lospibes.R
+import com.example.lospibes.core.component.StandardCenterTopBar
 import com.example.lospibes.core.component.StandardSearchTopBar
-import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.features.home.domain.model.SearchItem
 import com.example.lospibes.features.home.domain.model.SearchWidgetState
 
 @Composable
 fun ExploreTopBar(
-    searchText: String,
-    searchResultList: List<String>,
+    query: String,
+    isActive: Boolean,
+    searchResultList: List<SearchItem>,
     searchWidgetState: SearchWidgetState,
     onNavigateToHome: () -> Unit,
     onSearchClick: () -> Unit,
+    onFilterClick: () -> Unit,
     onClose: () -> Unit,
-    onSubmit: (value: String) -> Unit,
-    onValueChange: (newValue: String) -> Unit
+    onItemClick: (id: String) -> Unit,
+    onSearch: (newQuery: String) -> Unit,
+    onQueryChange: (newQuery: String) -> Unit,
+    onActiveChange: (newActive: Boolean) -> Unit
 ) {
     when (searchWidgetState) {
         SearchWidgetState.CLOSED -> {
             DefaultExploreTopBar(
                 onSearchClick = onSearchClick,
+                onFilterClick = onFilterClick,
                 onNavigateToHome = onNavigateToHome
             )
         }
 
         SearchWidgetState.OPENED -> {
             ExploreSearchTopBar(
-                value = searchText,
+                query = query,
+                isActive = isActive,
                 searchResultList = searchResultList,
                 onClose = onClose,
-                onSubmit = onSubmit,
-                onValueChange = onValueChange
+                onItemClick = onItemClick,
+                onSearch = onSearch,
+                onQueryChange = onQueryChange,
+                onActiveChange = onActiveChange
             )
         }
     }
@@ -47,19 +57,39 @@ fun ExploreTopBar(
 @Composable
 private fun DefaultExploreTopBar(
     onSearchClick: () -> Unit,
+    onFilterClick: () -> Unit,
     onNavigateToHome: () -> Unit
 ) {
-    StandardTopBar(
-        title = "Explorar",
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
+    StandardCenterTopBar(
+        title = {
+            Text(
+                text = "Explorar",
+                style = MaterialTheme.typography.titleMedium
             )
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = onNavigateToHome
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.ArrowBack,
+                    contentDescription = "Back Icon"
+                )
+            }
         },
         actions = {
             IconButton(
-                modifier = Modifier.padding(end = 5.dp),
+                onClick = onFilterClick
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = R.drawable.baseline_filter_alt_24
+                    ),
+                    contentDescription = "Filter Icon"
+                )
+            }
+
+            IconButton(
                 onClick = onSearchClick
             ) {
                 Icon(
@@ -67,24 +97,29 @@ private fun DefaultExploreTopBar(
                     contentDescription = "Search Icon"
                 )
             }
-        },
-        onBackTo = onNavigateToHome
+        }
     )
 }
 
 @Composable
 private fun ExploreSearchTopBar(
-    value: String,
-    searchResultList: List<String>,
+    query: String,
+    isActive: Boolean,
+    searchResultList: List<SearchItem>,
     onClose: () -> Unit,
-    onSubmit: (value: String) -> Unit,
-    onValueChange: (newValue: String) -> Unit
+    onItemClick: (id: String) -> Unit,
+    onSearch: (newQuery: String) -> Unit,
+    onQueryChange: (newQuery: String) -> Unit,
+    onActiveChange: (newActive: Boolean) -> Unit
 ) {
     StandardSearchTopBar(
-        value = value,
+        query = query,
+        isActive = isActive,
         searchResultList = searchResultList,
-        onSubmit = onSubmit,
         onClose = onClose,
-        onValueChange = onValueChange
+        onItemClick = onItemClick,
+        onSearch = onSearch,
+        onQueryChange = onQueryChange,
+        onActiveChange = onActiveChange
     )
 }

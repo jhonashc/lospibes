@@ -1,6 +1,6 @@
-package com.example.lospibes.features.home.domain.repository
+package com.example.lospibes.core.domain.repository
 
-import com.example.lospibes.features.home.data.dto.response.UserResponse
+import com.example.lospibes.core.data.dto.response.UserResponse
 import com.example.lospibes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
 

@@ -2,7 +2,7 @@ package com.example.lospibes.features.home.presentation.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.features.home.domain.use_case.user.UserUseCase
+import com.example.lospibes.core.domain.use_case.user.UserUseCase
 import com.example.lospibes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -6,7 +6,9 @@ import com.example.lospibes.features.home.data.source.remote.CategoryService
 import com.example.lospibes.features.home.domain.repository.CategoryRepository
 import com.example.lospibes.utils.BaseApiResponse
 import com.example.lospibes.utils.NetworkResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
@@ -21,6 +23,6 @@ class CategoryRepositoryImpl @Inject constructor(
                 limit = getCategoriesQueryDto?.limit,
                 offset = getCategoriesQueryDto?.offset
             )
-        }
+        }.flowOn(Dispatchers.IO)
     }
 }

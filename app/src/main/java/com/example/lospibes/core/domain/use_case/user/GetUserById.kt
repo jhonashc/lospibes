@@ -1,7 +1,7 @@
-package com.example.lospibes.features.home.domain.use_case.user
+package com.example.lospibes.core.domain.use_case.user
 
-import com.example.lospibes.features.home.data.dto.response.UserResponse
-import com.example.lospibes.features.home.domain.repository.UserRepository
+import com.example.lospibes.core.data.dto.response.UserResponse
+import com.example.lospibes.core.domain.repository.UserRepository
 import com.example.lospibes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
 

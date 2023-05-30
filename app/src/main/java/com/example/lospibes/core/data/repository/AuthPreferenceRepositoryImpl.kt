@@ -7,8 +7,10 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.lospibes.core.domain.model.Auth
 import com.example.lospibes.core.domain.repository.AuthPreferenceRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -32,7 +34,7 @@ class AuthPreferenceRepositoryImpl @Inject constructor(
                     refreshToken = preferences[PreferencesKeys.AUTH_REFRESH_TOKEN_KEY] ?: "",
                     userId = preferences[PreferencesKeys.AUTH_USER_ID_KEY] ?: ""
                 )
-            }
+            }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun setAuthPreference(auth: Auth) {

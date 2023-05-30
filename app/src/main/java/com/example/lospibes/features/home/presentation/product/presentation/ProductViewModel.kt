@@ -42,6 +42,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -50,6 +51,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 product = res.data?.data
                             )
@@ -59,6 +61,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = false,
                                 message = res.message
                             )
@@ -121,6 +124,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -129,6 +133,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 similarProductList = res.data?.data ?: emptyList()
                             )
@@ -138,6 +143,7 @@ class ProductViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = false
                             )
                         }

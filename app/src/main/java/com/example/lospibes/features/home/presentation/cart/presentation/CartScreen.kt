@@ -4,17 +4,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.features.home.domain.model.CartItem
 import com.example.lospibes.features.home.presentation.cart.component.CartList
+import com.example.lospibes.features.home.presentation.cart.component.CartTopBar
 import com.example.lospibes.features.home.presentation.cart.component.EmptyCart
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
@@ -27,37 +26,41 @@ fun CartScreen(
 
     val cartListItem: List<CartItem> = cartState.value.cartItemList
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
+    StandardScaffold(
+        topAppBar = {
             Header(
                 onNavigateToHome = onNavigateToHome
             )
-
-            if (cartListItem.isEmpty()) {
-                EmptyCart()
-            } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Body(
-                        cartViewModel = cartViewModel
-                    )
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                if (cartListItem.isEmpty()) {
+                    EmptyCart()
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        Body(
+                            cartViewModel = cartViewModel
+                        )
+                    }
                 }
             }
-        }
 
-        if (cartListItem.isNotEmpty()) {
-            Footer(
-                cartViewModel = cartViewModel
-            )
+            if (cartListItem.isNotEmpty()) {
+                Footer(
+                    cartViewModel = cartViewModel
+                )
+            }
         }
     }
 }
@@ -66,15 +69,8 @@ fun CartScreen(
 private fun Header(
     onNavigateToHome: () -> Unit
 ) {
-    StandardTopBar(
-        title = "Cart",
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
-            )
-        },
-        onBackTo = onNavigateToHome
+    CartTopBar(
+        onNavigateToHome = onNavigateToHome
     )
 }
 
@@ -117,7 +113,7 @@ private fun TotalSection(
 ) {
     val cartState = cartViewModel.state.collectAsState()
 
-    val total: Number = 10
+    val total: Number = cartState.value.cartItemList.size
 
     Card(
         modifier = Modifier.fillMaxSize(),

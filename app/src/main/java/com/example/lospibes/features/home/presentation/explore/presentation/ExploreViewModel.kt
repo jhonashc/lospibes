@@ -1,9 +1,10 @@
 package com.example.lospibes.features.home.presentation.explore.presentation
 
-import androidx.lifecycle.SavedStateHandle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
+import com.example.lospibes.features.home.data.dto.query.SearchProductsQueryDto
 import com.example.lospibes.features.home.domain.model.SearchWidgetState
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
@@ -16,42 +17,57 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
-    private val productUseCase: ProductUseCase,
-    savedStateHandle: SavedStateHandle
+    private val productUseCase: ProductUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(ExploreState())
     val state = _state.asStateFlow()
 
-    private val _min = savedStateHandle.get<Int>("min")
-    private val _max = savedStateHandle.get<Int>("max")
-
-    private val _queryState = MutableStateFlow(
-        QueryState(
-            getProductsQueryDto = GetProductsQueryDto(
-                name = savedStateHandle["name"],
-                category = savedStateHandle["category"],
-                min = if (_min != 0) _min else null,
-                max = if (_max != 0) _max else null
-            )
-        )
-    )
-
-    val queryState = _queryState.asStateFlow()
-
     fun onEvent(event: ExploreEvent) {
         when (event) {
-            is ExploreEvent.EnteredSearchBarText -> {
+            is ExploreEvent.EnteredActive -> {
                 _state.update {
                     it.copy(
-                        searchText = event.value
+                        isActive = event.value
                     )
                 }
             }
 
-            is ExploreEvent.OnSearchBarClick -> {
+            is ExploreEvent.EnteredQueryName -> {
                 _state.update {
                     it.copy(
-                       searchWidgetState = SearchWidgetState.OPENED
+                        query = event.value
+                    )
+                }
+            }
+
+            is ExploreEvent.EnteredQuery -> {
+                _state.update {
+                    it.copy(
+                        searchProductsQueryDto = event.value
+                    )
+                }
+            }
+
+            is ExploreEvent.OnOpenBottomSheet -> {
+                _state.update {
+                    it.copy(
+                        isOpenBottomSheet = true
+                    )
+                }
+            }
+
+            is ExploreEvent.OnHideBottomSheet -> {
+                _state.update {
+                    it.copy(
+                        isOpenBottomSheet = false
+                    )
+                }
+            }
+
+            is ExploreEvent.OnSearchBarOpen -> {
+                _state.update {
+                    it.copy(
+                        searchWidgetState = SearchWidgetState.OPENED
                     )
                 }
             }
@@ -59,7 +75,8 @@ class ExploreViewModel @Inject constructor(
             is ExploreEvent.OnSearchBarClose -> {
                 _state.update {
                     it.copy(
-                        searchText = "",
+                        query = "",
+                        searchProductList = emptyList(),
                         searchWidgetState = SearchWidgetState.CLOSED
                     )
                 }
@@ -68,7 +85,7 @@ class ExploreViewModel @Inject constructor(
     }
 
     fun getProducts(
-        getProductsQueryDto: GetProductsQueryDto
+        getProductsQueryDto: GetProductsQueryDto? = null
     ) {
         viewModelScope.launch {
             productUseCase.getProducts(
@@ -78,6 +95,7 @@ class ExploreViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -86,6 +104,7 @@ class ExploreViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 productList = res.data?.data ?: emptyList()
                             )
@@ -95,6 +114,49 @@ class ExploreViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
+                                isLoading = false,
+                                message = res.message
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun searchProducts(
+        searchProductsQueryDto: SearchProductsQueryDto? = null
+    ) {
+        viewModelScope.launch {
+            productUseCase.searchProducts(
+                searchProductsQueryDto = searchProductsQueryDto
+            ).collect { res ->
+                when (res) {
+                    is NetworkResult.Loading -> {
+                        _state.update {
+                            it.copy(
+                                status = false,
+                                isLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        Log.e("SEARCH: ", "${res.data?.data?.map { it.name }}")
+                        _state.update {
+                            it.copy(
+                                status = true,
+                                isLoading = false,
+                                searchProductList = res.data?.data ?: emptyList()
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        _state.update {
+                            it.copy(
+                                status = false,
                                 isLoading = false,
                                 message = res.message
                             )

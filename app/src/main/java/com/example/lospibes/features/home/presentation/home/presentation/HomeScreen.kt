@@ -7,9 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardCardListRow
+import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.component.StandardTabList
 import com.example.lospibes.features.home.domain.model.*
+import com.example.lospibes.features.home.presentation.home.component.HomeBottomSheet
+import com.example.lospibes.features.home.presentation.home.component.HomeTopBar
 import com.example.lospibes.features.home.view_model.cart.CartEvent
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 
@@ -25,24 +28,46 @@ fun HomeScreen(
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getCategories()
         homeViewModel.getProducts()
-        homeViewModel.getPromotionWithProducts()
     }
 
-    StandardScrollableColumnContainer(
-        isLoading = homeState.value.isLoading,
-        message = homeState.value.message
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 20.dp)
-        ) {
-            Body(
-                cartViewModel = cartViewModel,
-                homeState = homeState,
-                onNavigateToExplore = onNavigateToExplore,
-                onNavigateToDetails = onNavigateToDetails
+    if (homeState.value.isOpenBottomSheet) {
+        HomeBottomSheet(
+            addressList = listOf(
+                "Av. 9 de Octubre",
+                "Av. Las Lomas",
+                "Av. Roca Fuerte"
+            ),
+            onDismissRequest = {
+                homeViewModel.onEvent(HomeEvent.OnHideBottomSheet)
+            }
+        )
+    }
+
+    StandardScaffold(
+        topAppBar = {
+            HomeTopBar(
+                onOpenBottomSheet = {
+                    homeViewModel.onEvent(HomeEvent.OnOpenBottomSheet)
+                }
             )
+        }
+    ) {
+        StandardScrollableColumnContainer(
+            isLoading = homeState.value.isLoading,
+            message = homeState.value.message
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 20.dp)
+            ) {
+                Body(
+                    cartViewModel = cartViewModel,
+                    homeState = homeState,
+                    onNavigateToExplore = onNavigateToExplore,
+                    onNavigateToDetails = onNavigateToDetails
+                )
+            }
         }
     }
 }
@@ -56,22 +81,11 @@ private fun Body(
 ) {
     val categoryList: List<Category> = homeState.value.categoryList
     val popularList: List<Product> = homeState.value.productList
-    val promotionList: List<PromotionWithProducts> = homeState.value.promotionList
 
     if (categoryList.isNotEmpty()) {
         CategorySection(
             categoryList = categoryList,
             onNavigateToExplore = onNavigateToExplore
-        )
-
-        Spacer(modifier = Modifier.height(26.dp))
-    }
-
-    if (promotionList.isNotEmpty()) {
-        PromotionSection(
-            cartViewModel = cartViewModel,
-            homeState = homeState,
-            onNavigateToDetails = onNavigateToDetails
         )
 
         Spacer(modifier = Modifier.height(26.dp))
@@ -129,63 +143,6 @@ private fun CategorySection(
             }
         )
     }
-}
-
-@Composable
-private fun PromotionSection(
-    cartViewModel: CartViewModel,
-    homeState: State<HomeState>,
-    onNavigateToDetails: (productId: String) -> Unit
-) {
-    val cartState = cartViewModel.state.collectAsState()
-
-    val cartItemList: List<CartItem> = cartState.value.cartItemList
-    val promotionList: List<PromotionWithProducts> = homeState.value.promotionList
-
-    val promotionProductList: List<Product> = promotionList.flatMap { it.products }
-
-    val productCardList: List<CardItem> = promotionProductList.map { it.toCardItem() }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = "Promociones \uD83D\uDD25",
-            style = MaterialTheme.typography.titleMedium,
-        )
-
-        Text(
-            text = "Ver todos",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
-
-    Spacer(modifier = Modifier.height(22.dp))
-
-    StandardCardListRow(
-        cardItemList = productCardList,
-        cartItemList = cartItemList,
-        onCardItemSelected = { selectedCardItem ->
-            onNavigateToDetails(selectedCardItem.id)
-        },
-        onAddOrRemoveClick = { selectedCardItem ->
-            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
-
-            if (isOnTheCart != -1) {
-                cartViewModel.onEvent(
-                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
-                )
-            } else {
-                cartViewModel.onEvent(
-                    CartEvent.AddToCart(selectedCardItem.toCartItem())
-                )
-            }
-        }
-    )
 }
 
 @Composable

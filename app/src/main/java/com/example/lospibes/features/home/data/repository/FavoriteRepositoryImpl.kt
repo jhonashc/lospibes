@@ -6,7 +6,9 @@ import com.example.lospibes.features.home.data.source.remote.FavoriteService
 import com.example.lospibes.features.home.domain.repository.FavoriteRepository
 import com.example.lospibes.utils.BaseApiResponse
 import com.example.lospibes.utils.NetworkResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class FavoriteRepositoryImpl @Inject constructor(
@@ -19,7 +21,7 @@ class FavoriteRepositoryImpl @Inject constructor(
             favoriteService.getFavoriteProducts(
                 userId = userId
             )
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     override fun getFavoriteProduct(
@@ -31,6 +33,6 @@ class FavoriteRepositoryImpl @Inject constructor(
                 userId = userId,
                 productId = productId
             )
-        }
+        }.flowOn(Dispatchers.IO)
     }
 }

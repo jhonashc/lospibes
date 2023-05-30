@@ -1,10 +1,10 @@
-package com.example.lospibes.features.home.di
+package com.example.lospibes.core.di
 
-import com.example.lospibes.features.home.data.repository.UserRepositoryImpl
-import com.example.lospibes.features.home.data.source.remote.UserService
-import com.example.lospibes.features.home.domain.repository.UserRepository
-import com.example.lospibes.features.home.domain.use_case.user.GetUserById
-import com.example.lospibes.features.home.domain.use_case.user.UserUseCase
+import com.example.lospibes.core.data.repository.UserRepositoryImpl
+import com.example.lospibes.core.data.source.remote.UserService
+import com.example.lospibes.core.domain.repository.UserRepository
+import com.example.lospibes.core.domain.use_case.user.GetUserById
+import com.example.lospibes.core.domain.use_case.user.UserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -2,9 +2,6 @@ package com.example.lospibes.features.home.presentation.profile.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,15 +17,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.lospibes.core.component.StandardTopBar
 import com.example.lospibes.features.home.domain.model.SectionItem
 import com.example.lospibes.features.home.presentation.profile.component.SectionList
 import com.example.lospibes.R
 import com.example.lospibes.core.component.StandardNotAuthenticated
-import com.example.lospibes.core.component.StandardScrollableColumnContainer
+import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.core.domain.model.User
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.features.home.presentation.profile.component.ProfileTopBar
 import com.example.lospibes.utils.capitalizeText
 
 @Composable
@@ -51,28 +48,28 @@ fun ProfileScreen(
     if (!authState.value.isAuthenticated) {
         StandardNotAuthenticated()
     } else {
-        StandardScrollableColumnContainer(
-            isLoading = profileState.value.isLoading,
-            message = profileState.value.message
+        StandardScaffold(
+            topAppBar = {
+                Header(
+                    onNavigateToHome = onNavigateToHome
+                )
+            }
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            if (!profileState.value.isLoading) {
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Header(
-                        onNavigateToHome = onNavigateToHome
-                    )
-
                     Body(
                         profileViewModel = profileViewModel
                     )
-                }
 
-                Footer(
-                    authViewModel = authViewModel
-                )
+                    Footer(
+                        authViewModel = authViewModel
+                    )
+                }
             }
         }
     }
@@ -82,26 +79,8 @@ fun ProfileScreen(
 private fun Header(
     onNavigateToHome: () -> Unit
 ) {
-    StandardTopBar(
-        title = "Perfil",
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
-            )
-        },
-        actions = {
-            IconButton(
-                modifier = Modifier.padding(end = 5.dp),
-                onClick = { /* TODO */ }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = "Edit Icon"
-                )
-            }
-        },
-        onBackTo = onNavigateToHome
+    ProfileTopBar(
+        onNavigateToHome = onNavigateToHome
     )
 }
 
@@ -112,9 +91,7 @@ private fun Body(
     val profileState = profileViewModel.state.collectAsState()
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         DetailSection(
             user = profileState.value.user!!
@@ -132,6 +109,12 @@ private fun Body(
 fun DetailSection(
     user: User
 ) {
+    val profileImage = if (user.avatarUrl.isNullOrEmpty()) {
+        R.drawable.ic_launcher_background
+    } else {
+        user.avatarUrl
+    }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -140,7 +123,7 @@ fun DetailSection(
             modifier = Modifier
                 .size(140.dp)
                 .clip(CircleShape),
-            model = user.avatarUrl,
+            model = profileImage,
             contentDescription = user.username,
             contentScale = ContentScale.Crop,
         )
@@ -218,13 +201,13 @@ private fun Footer(
     authViewModel: AuthViewModel
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Button(
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.extraLarge,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background
@@ -234,7 +217,6 @@ private fun Footer(
             }
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 8.dp),
                 text = "Cerrar sesión",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold

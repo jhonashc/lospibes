@@ -51,7 +51,7 @@ fun CartListItem(
             )
 
             Row(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -67,30 +67,16 @@ fun CartListItem(
                         maxLines = 2
                     )
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text(
-                            text = "$",
-                            fontWeight = FontWeight.SemiBold,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            maxLines = 1
-                        )
-
-                        Text(
-                            text = formatNumber(cartItem.price),
-                            fontWeight = FontWeight.SemiBold,
-                            style = MaterialTheme.typography.titleMedium,
-                            maxLines = 1
-                        )
-                    }
+                    Text(
+                        text = "$ ${formatNumber(cartItem.price)}",
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1
+                    )
                 }
 
                 /* Button section */
                 Row(
-                    modifier = Modifier.weight(1f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedIconButton(

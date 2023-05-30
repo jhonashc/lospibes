@@ -2,6 +2,7 @@ package com.example.lospibes.features.home.data.repository
 
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
 import com.example.lospibes.features.home.data.dto.query.GetSimilarProductsQueryDto
+import com.example.lospibes.features.home.data.dto.query.SearchProductsQueryDto
 import com.example.lospibes.features.home.data.dto.response.ProductResponse
 import com.example.lospibes.features.home.data.dto.response.ProductsResponse
 import com.example.lospibes.features.home.data.source.remote.ProductService
@@ -21,10 +22,6 @@ class ProductRepositoryImpl @Inject constructor(
     ): Flow<NetworkResult<ProductsResponse>> {
         return safeApiCall {
             productService.getProducts(
-                name = getProductsQueryDto?.name,
-                category = getProductsQueryDto?.category,
-                min = getProductsQueryDto?.min,
-                max = getProductsQueryDto?.max,
                 limit = getProductsQueryDto?.limit,
                 offset = getProductsQueryDto?.offset
             )
@@ -50,6 +47,21 @@ class ProductRepositoryImpl @Inject constructor(
         return safeApiCall {
             productService.getProductById(
                 id = id
+            )
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun searchProducts(
+        searchProductsQueryDto: SearchProductsQueryDto?
+    ): Flow<NetworkResult<ProductsResponse>> {
+        return safeApiCall {
+            productService.searchProducts(
+                name = searchProductsQueryDto?.name,
+                category = searchProductsQueryDto?.category,
+                min = searchProductsQueryDto?.min,
+                max = searchProductsQueryDto?.max,
+                limit = searchProductsQueryDto?.limit,
+                offset = searchProductsQueryDto?.offset
             )
         }.flowOn(Dispatchers.IO)
     }

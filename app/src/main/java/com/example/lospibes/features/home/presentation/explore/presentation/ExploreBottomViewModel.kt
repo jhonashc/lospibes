@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.presentation.filter.presentation
+package com.example.lospibes.features.home.presentation.explore.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,11 +13,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilterViewModel @Inject constructor(
+class ExploreBottomViewModel @Inject constructor(
     private val categoryUseCase: CategoryUseCase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(FilterState())
+    private val _state = MutableStateFlow(ExploreBottomState())
     val state = _state.asStateFlow()
+
+    init {
+        getCategories()
+    }
+
+    fun onEvent(event: ExploreBottomEvent) {
+        when (event) {
+            is ExploreBottomEvent.EnteredCategory -> {
+                _state.update {
+                    it.copy(
+                        category = event.value
+                    )
+                }
+            }
+
+            is ExploreBottomEvent.EnteredRange -> {
+                _state.update {
+                    it.copy(
+                        range = event.value
+                    )
+                }
+            }
+        }
+    }
 
     fun getCategories(
         getCategoriesQueryDto: GetCategoriesQueryDto? = null
@@ -30,6 +54,7 @@ class FilterViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -38,6 +63,7 @@ class FilterViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = false,
                                 categoryList = res.data?.data ?: emptyList()
                             )
@@ -47,6 +73,7 @@ class FilterViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 message = res.message
                             )

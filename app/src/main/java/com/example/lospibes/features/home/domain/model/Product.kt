@@ -25,3 +25,8 @@ fun Product.toCartItem() = CartItem(
     price = price,
     quantity = 1
 )
+
+fun Product.toSearchItem() = SearchItem(
+    id = id,
+    name = name
+)

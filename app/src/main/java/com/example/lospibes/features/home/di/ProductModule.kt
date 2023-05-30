@@ -7,6 +7,7 @@ import com.example.lospibes.features.home.domain.use_case.product.GetProductById
 import com.example.lospibes.features.home.domain.use_case.product.GetProducts
 import com.example.lospibes.features.home.domain.use_case.product.GetSimilarProducts
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
+import com.example.lospibes.features.home.domain.use_case.product.SearchProducts
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,7 +42,8 @@ object ProductModule {
         return ProductUseCase(
             getProducts = GetProducts(productRepository),
             getSimilarProducts = GetSimilarProducts(productRepository),
-            getProductById = GetProductById(productRepository)
+            getProductById = GetProductById(productRepository),
+            searchProducts = SearchProducts(productRepository)
         )
     }
 }

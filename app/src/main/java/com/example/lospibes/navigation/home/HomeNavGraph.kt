@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.presentation.cart.presentation.CartScreen
-import com.example.lospibes.features.home.presentation.filter.presentation.FilterScreen
 import com.example.lospibes.features.home.presentation.product.presentation.ProductScreen
 import com.example.lospibes.features.home.presentation.explore.presentation.ExploreScreen
 import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
@@ -161,18 +160,6 @@ fun NavGraphBuilder.detailsNavGraph(
                 },
                 onNavigateToDetails = { productId ->
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
-                }
-            )
-        }
-
-        composable(
-            route = DetailsDestinations.ExploreFilterScreen.route
-        ) {
-            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
-
-            FilterScreen(
-                onNavigateToExplore = {
-                    navController.popBackStack()
                 }
             )
         }

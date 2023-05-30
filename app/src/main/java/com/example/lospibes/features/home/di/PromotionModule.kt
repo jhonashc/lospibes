@@ -3,7 +3,7 @@ package com.example.lospibes.features.home.di
 import com.example.lospibes.features.home.data.repository.PromotionRepositoryImpl
 import com.example.lospibes.features.home.data.source.remote.PromotionService
 import com.example.lospibes.features.home.domain.repository.PromotionRepository
-import com.example.lospibes.features.home.domain.use_case.promotion.GetPromotionsWithProducts
+import com.example.lospibes.features.home.domain.use_case.promotion.GetPromotions
 import com.example.lospibes.features.home.domain.use_case.promotion.PromotionUseCase
 import dagger.Module
 import dagger.Provides
@@ -37,7 +37,7 @@ object PromotionModule {
         promotionRepository: PromotionRepository
     ): PromotionUseCase {
         return PromotionUseCase(
-            getPromotionsWithProducts = GetPromotionsWithProducts(promotionRepository)
+            getPromotions = GetPromotions(promotionRepository)
         )
     }
 }

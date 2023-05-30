@@ -1,10 +1,8 @@
 package com.example.lospibes.features.home.presentation.product.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,8 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.lospibes.core.component.StandardCardListRow
 import com.example.lospibes.core.component.StandardFlowRow
-import com.example.lospibes.core.component.StandardScrollableColumnContainer
-import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
@@ -28,6 +25,7 @@ import com.example.lospibes.features.home.domain.model.Category
 import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.toCardItem
 import com.example.lospibes.features.home.domain.model.toCartItem
+import com.example.lospibes.features.home.presentation.product.component.ProductTopBar
 import com.example.lospibes.features.home.view_model.cart.CartEvent
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 import com.example.lospibes.utils.capitalizeText
@@ -61,30 +59,32 @@ fun ProductScreen(
         }
     }
 
-    StandardScrollableColumnContainer(
-        isLoading = productState.value.isLoading,
-        message = productState.value.message
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+    if (productState.value.status) {
+        StandardScaffold(
+            topAppBar = {
+                Header(
+                    isFavorite = productState.value.favoriteProduct != null,
+                    onNavigateToHome = onNavigateToHome
+                )
+            }
         ) {
-            Header(
-                isFavorite = productState.value.favoriteProduct != null,
-                onNavigateToHome = onNavigateToHome
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Body(
+                    cartViewModel = cartViewModel,
+                    productState = productState,
+                    onNavigateToDetails = onNavigateToDetails
+                )
 
-            Body(
-                cartViewModel = cartViewModel,
-                productState = productState,
-                onNavigateToDetails = onNavigateToDetails
-            )
-
-            FooterSection(
-                productState = productState,
-                cartViewModel = cartViewModel
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
+                FooterSection(
+                    productState = productState,
+                    cartViewModel = cartViewModel
+                )
+            }
         }
     }
 }
@@ -94,35 +94,9 @@ private fun Header(
     isFavorite: Boolean,
     onNavigateToHome: () -> Unit
 ) {
-    val favoriteIcon = if (isFavorite)
-        Icons.Filled.Favorite else
-        Icons.Filled.FavoriteBorder
-
-    val favoriteContentButtonColor = if (isFavorite)
-        MaterialTheme.colorScheme.error else
-        MaterialTheme.colorScheme.onBackground
-
-    StandardTopBar(
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
-            )
-        },
-        actions = {
-            IconButton(
-                colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = favoriteContentButtonColor
-                ),
-                onClick = { /* TODO */ }
-            ) {
-                Icon(
-                    imageVector = favoriteIcon,
-                    contentDescription = "Favorite Icon"
-                )
-            }
-        },
-        onBackTo = onNavigateToHome
+    ProductTopBar(
+        isFavorite = isFavorite,
+        onNavigateToHome = onNavigateToHome
     )
 }
 
@@ -335,10 +309,12 @@ private fun FooterSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
     ) {
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
             shape = MaterialTheme.shapes.extraSmall,
             colors = ButtonDefaults.buttonColors(
                 containerColor = buttonContainerColor,

@@ -1,7 +1,6 @@
 package com.example.lospibes.core.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -9,6 +8,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun StandardScaffold(
+    modifier: Modifier = Modifier,
     showBottomBar: Boolean = true,
     snackBarHost: @Composable () -> Unit = {},
     topAppBar: @Composable () -> Unit = {},
@@ -16,7 +16,7 @@ fun StandardScaffold(
     content: @Composable () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         snackbarHost = snackBarHost,
         topBar = topAppBar,
         bottomBar = {

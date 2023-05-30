@@ -1,11 +1,9 @@
 package com.example.lospibes.features.home.presentation.favorite.presentation
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardCardListGrid
 import com.example.lospibes.core.component.StandardColumnContainer
@@ -50,7 +48,6 @@ fun FavoriteScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Header(
-                    favoriteViewModel = favoriteViewModel,
                     onNavigateToHome = onNavigateToHome
                 )
 
@@ -66,31 +63,10 @@ fun FavoriteScreen(
 
 @Composable
 private fun Header(
-    favoriteViewModel: FavoriteViewModel,
     onNavigateToHome: () -> Unit
 ) {
-    val favoriteState = favoriteViewModel.state.collectAsState()
-
-    /* Temporal */
-    val context = LocalContext.current
-
     FavoriteTopBar(
-        searchText = favoriteState.value.searchText,
-        searchResultList = emptyList(),
-        searchWidgetState = favoriteState.value.searchWidgetState,
-        onNavigateToHome = onNavigateToHome,
-        onSearchClick = {
-            favoriteViewModel.onEvent(FavoriteEvent.OnSearchBarClick)
-        },
-        onClose = {
-            favoriteViewModel.onEvent(FavoriteEvent.OnSearchBarClose)
-        },
-        onSubmit = {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        },
-        onValueChange = {
-            favoriteViewModel.onEvent(FavoriteEvent.EnteredSearchBarText(it))
-        },
+        onNavigateToHome = onNavigateToHome
     )
 }
 
