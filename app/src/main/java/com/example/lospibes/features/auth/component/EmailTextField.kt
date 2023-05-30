@@ -1,9 +1,9 @@
-package com.example.lospibes.features.auth.presentation.register.component
+package com.example.lospibes.features.auth.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.lospibes.core.component.StandardOutlinedTextField
 
 @Composable
-fun UsernameTextField(
+fun EmailTextField(
     value: String = "",
     onValueChange: (newValue: String) -> Unit
 ) {
@@ -24,19 +24,19 @@ fun UsernameTextField(
         singleLine = true,
         shape = MaterialTheme.shapes.extraSmall,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
         ),
         placeholder = {
             Text(
-                text = "Nombre de usuario",
+                text = "Email",
                 style = MaterialTheme.typography.titleMedium
             )
         },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "Person Icon"
+                imageVector = Icons.Filled.Email,
+                contentDescription = "Email Icon"
             )
         },
         onValueChange = onValueChange

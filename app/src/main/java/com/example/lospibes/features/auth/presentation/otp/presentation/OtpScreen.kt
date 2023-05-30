@@ -14,12 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,8 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.lospibes.core.component.StandardTopBar
+import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.features.auth.presentation.otp.component.OtpTextField
+import com.example.lospibes.features.auth.presentation.otp.component.OtpTopBar
 
 @Composable
 fun OtpScreen(
@@ -55,32 +53,36 @@ fun OtpScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+    StandardScaffold(
+        topAppBar = {
             Header(
                 onNavigateToLogin = onNavigateToLogin
             )
-
-            Body(
-                otpViewModel = otpViewModel
-            )
         }
-
+    ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Footer(
-                otpViewModel = otpViewModel
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Body(
+                    otpViewModel = otpViewModel
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+            ) {
+                Footer(
+                    otpViewModel = otpViewModel
+                )
+            }
         }
     }
 }
@@ -89,14 +91,8 @@ fun OtpScreen(
 private fun Header(
     onNavigateToLogin: () -> Unit
 ) {
-    StandardTopBar(
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
-            )
-        },
-        onBackTo = onNavigateToLogin
+    OtpTopBar(
+        onNavigateToLogin = onNavigateToLogin
     )
 }
 

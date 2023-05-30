@@ -19,50 +19,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.lospibes.features.home.domain.model.SearchItem
 
-@Composable
-fun StandardTopBar(
-    title: String? = null,
-    navigationIcon: (@Composable () -> Unit)? = null,
-    actions: @Composable () -> Unit = {},
-    onBackTo: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-    ) {
-        if (navigationIcon != null) {
-            IconButton(
-                modifier = Modifier.align(Alignment.CenterStart),
-                onClick = onBackTo
-            ) {
-                navigationIcon()
-            }
-        }
-
-        if (title != null) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = title,
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
-
-        Row(
-            modifier = Modifier.align(Alignment.CenterEnd)
-        ) {
-            actions()
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardCenterTopBar(
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = {},
     navigationIcon: @Composable () -> Unit = {},
-    actions: @Composable() (RowScope.() -> Unit) = {}
+    actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,

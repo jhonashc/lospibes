@@ -5,8 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,11 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.lospibes.core.component.StandardTopBar
-import com.example.lospibes.features.auth.presentation.register.component.EmailTextField
-import com.example.lospibes.features.auth.presentation.register.component.PasswordTextField
-import com.example.lospibes.features.auth.presentation.register.component.TelephoneTextField
-import com.example.lospibes.features.auth.presentation.register.component.UsernameTextField
+import com.example.lospibes.core.component.StandardScaffold
+import com.example.lospibes.features.auth.component.EmailTextField
+import com.example.lospibes.features.auth.component.PasswordTextField
+import com.example.lospibes.features.auth.component.TelephoneTextField
+import com.example.lospibes.features.auth.component.UsernameTextField
+import com.example.lospibes.features.auth.presentation.register.component.RegisterTopBar
 
 @Composable
 fun RegisterScreen(
@@ -49,38 +48,36 @@ fun RegisterScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        contentAlignment = Alignment.Center
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopStart)
-        ) {
+    StandardScaffold(
+        topAppBar = {
             Header(
                 onNavigateToLogin = onNavigateToLogin
             )
         }
-
-        Column(
-            modifier = Modifier.padding(20.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = Alignment.Center
         ) {
-            Banner()
+            Column(
+                modifier = Modifier.padding(20.dp)
+            ) {
+                Banner()
 
-            Spacer(modifier = Modifier.height(35.dp))
+                Spacer(modifier = Modifier.height(35.dp))
 
-            Body(
-                registerViewModel = registerViewModel
-            )
+                Body(
+                    registerViewModel = registerViewModel
+                )
 
-            Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(30.dp))
 
-            Footer(
-                onNavigateToLogin = onNavigateToLogin
-            )
+                Footer(
+                    onNavigateToLogin = onNavigateToLogin
+                )
+            }
         }
     }
 }
@@ -89,14 +86,8 @@ fun RegisterScreen(
 private fun Header(
     onNavigateToLogin: () -> Unit
 ) {
-    StandardTopBar(
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Outlined.ArrowBack,
-                contentDescription = "Back Icon"
-            )
-        },
-        onBackTo = onNavigateToLogin
+    RegisterTopBar(
+        onNavigateToLogin = onNavigateToLogin
     )
 }
 
@@ -114,7 +105,7 @@ fun Banner() {
         )
 
         Text(
-            text = "Se necesitan unos pocos toques para registrarte y comenzar a ordenar.",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas rhoncus feugiat. Ut eu viverra augue, non posuere erat. Aliquam at eleifend urna, quis mattis elit.",
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.outline

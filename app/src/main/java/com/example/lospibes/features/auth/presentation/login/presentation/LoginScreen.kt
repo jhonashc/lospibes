@@ -21,8 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.domain.model.Auth
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
-import com.example.lospibes.features.auth.presentation.login.component.EmailTextField
-import com.example.lospibes.features.auth.presentation.login.component.PasswordTextField
+import com.example.lospibes.features.auth.component.EmailTextField
+import com.example.lospibes.features.auth.component.PasswordTextField
 
 @Composable
 fun LoginScreen(
@@ -126,7 +126,7 @@ private fun Header() {
         )
 
         Text(
-            text = "Se necesitan unos pocos toques para comenzar a ordenar.",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum egestas rhoncus feugiat. Ut eu viverra augue, non posuere erat. Aliquam at eleifend urna, quis mattis elit.",
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.outline

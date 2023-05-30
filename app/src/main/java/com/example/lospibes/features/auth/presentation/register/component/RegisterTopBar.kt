@@ -1,28 +1,20 @@
-package com.example.lospibes.features.home.presentation.favorite.component
+package com.example.lospibes.features.auth.presentation.register.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.lospibes.core.component.StandardCenterTopBar
 
 @Composable
-fun FavoriteTopBar(
-    onNavigateToHome: () -> Unit
+fun RegisterTopBar(
+    onNavigateToLogin: () -> Unit
 ) {
     StandardCenterTopBar(
-        title = {
-            Text(
-                text = "Favoritos",
-                style = MaterialTheme.typography.titleMedium
-            )
-        },
         navigationIcon = {
             IconButton(
-                onClick = onNavigateToHome
+                onClick = onNavigateToLogin
             ) {
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,

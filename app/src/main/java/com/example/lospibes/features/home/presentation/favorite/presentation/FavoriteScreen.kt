@@ -1,13 +1,11 @@
 package com.example.lospibes.features.home.presentation.favorite.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.lospibes.core.component.StandardCardListGrid
 import com.example.lospibes.core.component.StandardColumnContainer
 import com.example.lospibes.core.component.StandardNotAuthenticated
+import com.example.lospibes.core.component.StandardScaffold
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.domain.model.CardItem
 import com.example.lospibes.features.home.domain.model.CartItem
@@ -40,17 +38,17 @@ fun FavoriteScreen(
     if (!authState.value.isAuthenticated) {
         StandardNotAuthenticated()
     } else {
-        StandardColumnContainer(
-            isLoading = favoriteState.value.isLoading,
-            message = favoriteState.value.message
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
+        StandardScaffold(
+            topAppBar = {
                 Header(
                     onNavigateToHome = onNavigateToHome
                 )
-
+            }
+        ) {
+            StandardColumnContainer(
+                isLoading = favoriteState.value.isLoading,
+                message = favoriteState.value.message
+            ) {
                 Body(
                     cartViewModel = cartViewModel,
                     favoriteViewModel = favoriteViewModel,

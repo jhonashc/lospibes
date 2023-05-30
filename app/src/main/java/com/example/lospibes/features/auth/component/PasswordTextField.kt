@@ -1,4 +1,4 @@
-package com.example.lospibes.features.auth.presentation.register.component
+package com.example.lospibes.features.auth.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions

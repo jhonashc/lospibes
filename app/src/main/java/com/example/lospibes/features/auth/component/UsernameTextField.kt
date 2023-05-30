@@ -1,9 +1,9 @@
-package com.example.lospibes.features.auth.presentation.register.component
+package com.example.lospibes.features.auth.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.lospibes.core.component.StandardOutlinedTextField
 
 @Composable
-fun TelephoneTextField(
+fun UsernameTextField(
     value: String = "",
     onValueChange: (newValue: String) -> Unit
 ) {
@@ -24,19 +24,19 @@ fun TelephoneTextField(
         singleLine = true,
         shape = MaterialTheme.shapes.extraSmall,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Phone,
+            keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next
         ),
         placeholder = {
             Text(
-                text = "Teléfono",
+                text = "Nombre de usuario",
                 style = MaterialTheme.typography.titleMedium
             )
         },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Phone,
-                contentDescription = "Phone Icon"
+                imageVector = Icons.Filled.Person,
+                contentDescription = "Person Icon"
             )
         },
         onValueChange = onValueChange
