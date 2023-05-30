@@ -7,7 +7,7 @@ data class ExploreBottomState(
     val message: String? = null,
     val isLoading: Boolean = true,
     val category: String = "",
-    val range: ClosedFloatingPointRange<Float> = 1f..20f,
-    val valueRange: ClosedFloatingPointRange<Float> = 1f..20f,
+    val range: ClosedFloatingPointRange<Float> = 1f..25f,
+    val valueRange: ClosedFloatingPointRange<Float> = 1f..25f,
     val categoryList: List<Category> = emptyList()
 )

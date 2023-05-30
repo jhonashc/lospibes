@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -42,7 +39,16 @@ fun ExploreBottomSheet(
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp),
-        onDismissRequest = onDismissRequest
+        onDismissRequest = {
+            onDismissRequest()
+
+//            if (exploreBottomSheetState.value.category.isNotEmpty() &&
+//                exploreBottomSheetState.value.range != exploreBottomSheetState.value.valueRange
+//            ) {
+//                exploreViewModel.onEvent(ExploreEvent.OnResetQuery)
+//                exploreBottomViewModel.onEvent(ExploreBottomEvent.OnResetQuery)
+//            }
+        }
     ) {
         Box(
             modifier = Modifier.fillMaxWidth()
@@ -58,7 +64,8 @@ fun ExploreBottomSheet(
                         .fillMaxWidth()
                 ) {
                     Header(
-                        exploreViewModel = exploreViewModel
+                        exploreViewModel = exploreViewModel,
+                        exploreBottomViewModel = exploreBottomViewModel
                     )
 
                     Spacer(modifier = Modifier.height(14.dp))
@@ -82,9 +89,13 @@ fun ExploreBottomSheet(
 
 @Composable
 private fun Header(
-    exploreViewModel: ExploreViewModel
+    exploreViewModel: ExploreViewModel,
+    exploreBottomViewModel: ExploreBottomViewModel
 ) {
-    val exploreState = exploreViewModel.state.collectAsState()
+    val exploreBottomState = exploreBottomViewModel.state.collectAsState()
+
+    val isEnable = exploreBottomState.value.category.isNotEmpty() ||
+            exploreBottomState.value.range != exploreBottomState.value.valueRange
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -97,18 +108,19 @@ private fun Header(
             textAlign = TextAlign.Center
         )
 
-        if (exploreState.value.searchProductsQueryDto != null) {
-            IconButton(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = "Delete Icon"
-                )
+        TextButton(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            enabled = isEnable,
+            onClick = {
+                exploreViewModel.onEvent(ExploreEvent.OnResetQuery)
+                exploreBottomViewModel.onEvent(ExploreBottomEvent.OnResetQuery)
             }
+        ) {
+            Text(
+                text = "Reset",
+                style = MaterialTheme.typography.titleMedium
+            )
         }
-
     }
 }
 
@@ -205,13 +217,14 @@ private fun Footer(
             onClick = {
                 onDismissRequest()
 
+                val category = exploreBottomSheetState.value.category.ifEmpty { null }
                 val min = exploreBottomSheetState.value.range.start.toInt()
                 val max = exploreBottomSheetState.value.range.endInclusive.toInt()
 
                 exploreViewModel.onEvent(
                     ExploreEvent.EnteredQuery(
                         SearchProductsQueryDto(
-                            category = exploreBottomSheetState.value.category,
+                            category = category,
                             min = min,
                             max = max
                         )

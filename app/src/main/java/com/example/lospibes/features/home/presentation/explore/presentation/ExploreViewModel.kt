@@ -1,6 +1,5 @@
 package com.example.lospibes.features.home.presentation.explore.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
@@ -35,7 +34,8 @@ class ExploreViewModel @Inject constructor(
             is ExploreEvent.EnteredQueryName -> {
                 _state.update {
                     it.copy(
-                        query = event.value
+                        query = event.value,
+                        searchProductList = emptyList()
                     )
                 }
             }
@@ -44,6 +44,14 @@ class ExploreViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         searchProductsQueryDto = event.value
+                    )
+                }
+            }
+
+            is ExploreEvent.OnResetQuery -> {
+                _state.update {
+                    it.copy(
+                        searchProductsQueryDto = null
                     )
                 }
             }
@@ -143,7 +151,6 @@ class ExploreViewModel @Inject constructor(
                     }
 
                     is NetworkResult.Success -> {
-                        Log.e("SEARCH: ", "${res.data?.data?.map { it.name }}")
                         _state.update {
                             it.copy(
                                 status = true,

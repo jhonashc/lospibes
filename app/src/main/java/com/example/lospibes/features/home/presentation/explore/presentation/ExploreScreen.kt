@@ -1,7 +1,6 @@
 package com.example.lospibes.features.home.presentation.explore.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +17,7 @@ import com.example.lospibes.features.home.presentation.explore.component.Explore
 import com.example.lospibes.features.home.presentation.explore.component.ExploreTopBar
 import com.example.lospibes.features.home.view_model.cart.CartEvent
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun ExploreScreen(
@@ -33,6 +33,8 @@ fun ExploreScreen(
     }
 
     LaunchedEffect(key1 = exploreState.value.query) {
+        delay(300L)
+
         if (exploreState.value.query.isNotEmpty()) {
             exploreViewModel.onEvent(
                 ExploreEvent.EnteredQuery(
@@ -94,9 +96,7 @@ private fun Header(
 ) {
     val exploreState = exploreViewModel.state.collectAsState()
 
-    val searchResultList: List<SearchItem> = if (
-        exploreState.value.query.isEmpty()
-    ) {
+    val searchResultList: List<SearchItem> = if (exploreState.value.query.isEmpty()) {
         emptyList()
     } else {
         exploreState.value.searchProductList.map { it.toSearchItem() }
@@ -167,28 +167,24 @@ private fun ResultSection(
         productList.map { it.toCardItem() }
     }
 
-    if (productCardList.isEmpty()) {
-        Text(text = "Empty")
-    } else {
-        StandardCardListGrid(
-            cardItemList = productCardList,
-            cartItemList = cartItemList,
-            onCardItemSelected = { selectedCardItem ->
-                onNavigateToDetails(selectedCardItem.id)
-            },
-            onAddOrRemoveClick = { selectedCardItem ->
-                val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
+    StandardCardListGrid(
+        cardItemList = productCardList,
+        cartItemList = cartItemList,
+        onCardItemSelected = { selectedCardItem ->
+            onNavigateToDetails(selectedCardItem.id)
+        },
+        onAddOrRemoveClick = { selectedCardItem ->
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == selectedCardItem.id }
 
-                if (isOnTheCart != -1) {
-                    cartViewModel.onEvent(
-                        CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
-                    )
-                } else {
-                    cartViewModel.onEvent(
-                        CartEvent.AddToCart(selectedCardItem.toCartItem())
-                    )
-                }
+            if (isOnTheCart != -1) {
+                cartViewModel.onEvent(
+                    CartEvent.RemoveFromCart(selectedCardItem.toCartItem())
+                )
+            } else {
+                cartViewModel.onEvent(
+                    CartEvent.AddToCart(selectedCardItem.toCartItem())
+                )
             }
-        )
-    }
+        }
+    )
 }

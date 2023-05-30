@@ -26,7 +26,7 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.HomeScreen.route,
+        startDestination = HomeDestinations.ExploreScreen.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(

@@ -40,6 +40,15 @@ class ExploreBottomViewModel @Inject constructor(
                     )
                 }
             }
+
+            is ExploreBottomEvent.OnResetQuery -> {
+                _state.update {
+                    it.copy(
+                        category = "",
+                        range = 1f..25f
+                    )
+                }
+            }
         }
     }
 
