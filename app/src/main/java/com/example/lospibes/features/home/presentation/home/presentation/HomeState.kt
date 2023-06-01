@@ -6,6 +6,7 @@ import com.example.lospibes.features.home.domain.model.Product
 import com.example.lospibes.features.home.domain.model.TabItem
 
 data class HomeState(
+    val status: Boolean = true,
     val message: String? = null,
     val isLoading: Boolean = true,
     val isOpenBottomSheet: Boolean = false,

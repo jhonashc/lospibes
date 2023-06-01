@@ -13,6 +13,7 @@ import com.example.lospibes.core.component.StandardTextField
 @Composable
 fun AddressReferenceTextField(
     value: String = "",
+    isError: Boolean = false,
     onValueChange: (newValue: String) -> Unit
 ) {
     StandardTextField(
@@ -20,13 +21,14 @@ fun AddressReferenceTextField(
         value = value,
         singleLine = true,
         shape = MaterialTheme.shapes.extraSmall,
+        isError = isError,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Next
+            imeAction = ImeAction.Go
         ),
-        placeholder = {
+        label = {
             Text(
-                text = "Calle de referencia",
+                text = "Indicaciones para la entrega*",
                 style = MaterialTheme.typography.titleMedium
             )
         },

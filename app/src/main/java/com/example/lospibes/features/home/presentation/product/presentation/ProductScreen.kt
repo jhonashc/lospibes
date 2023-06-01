@@ -315,7 +315,7 @@ private fun FooterSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
-            shape = MaterialTheme.shapes.extraSmall,
+            shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
                 containerColor = buttonContainerColor,
                 contentColor = MaterialTheme.colorScheme.background

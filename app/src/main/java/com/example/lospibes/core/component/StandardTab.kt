@@ -28,7 +28,7 @@ fun StandardTab(
 
     Tab(
         modifier = Modifier
-            .clip(MaterialTheme.shapes.extraSmall)
+            .clip(MaterialTheme.shapes.extraLarge)
             .background(tabColor),
         selected = isSelected,
         onClick = onClick,

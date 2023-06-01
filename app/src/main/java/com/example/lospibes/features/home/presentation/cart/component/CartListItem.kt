@@ -81,7 +81,7 @@ fun CartListItem(
                 ) {
                     OutlinedIconButton(
                         modifier = Modifier.size(40.dp),
-                        shape = MaterialTheme.shapes.extraSmall,
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.background
@@ -108,7 +108,7 @@ fun CartListItem(
 
                     OutlinedIconButton(
                         modifier = Modifier.size(40.dp),
-                        shape = MaterialTheme.shapes.extraSmall,
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.background

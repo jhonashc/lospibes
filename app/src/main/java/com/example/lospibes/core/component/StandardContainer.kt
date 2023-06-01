@@ -1,11 +1,8 @@
 package com.example.lospibes.core.component
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun StandardColumnContainer(
+    status: Boolean,
     isLoading: Boolean,
     message: String?,
     content: @Composable () -> Unit
@@ -31,16 +29,16 @@ fun StandardColumnContainer(
             )
         }
 
-        if (!isLoading && message != null) {
+        if (!status && !isLoading) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = message,
+                text = message ?: "",
                 style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center
             )
         }
 
-        if (!isLoading && message.isNullOrBlank()) {
+        if (!isLoading) {
             Column(
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -54,40 +52,38 @@ fun StandardColumnContainer(
 
 @Composable
 fun StandardScrollableColumnContainer(
+    status: Boolean,
     isLoading: Boolean,
     message: String?,
     content: @Composable () -> Unit
 ) {
-    BoxWithConstraints {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
 
-            if (!isLoading && message != null) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = message,
-                    style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center
-                )
-            }
+        if (!status && !isLoading) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = message ?: "",
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center
+            )
+        }
 
-            if (!isLoading && message.isNullOrBlank()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(this@BoxWithConstraints.maxHeight)
-                        .align(Alignment.TopStart)
-                ) {
-                    content()
-                }
+        if (!isLoading) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.TopStart)
+            ) {
+                content()
             }
         }
     }

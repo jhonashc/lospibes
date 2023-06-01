@@ -61,6 +61,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -69,6 +70,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 categoryList = res.data?.data ?: emptyList()
                             )
@@ -78,6 +80,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = false,
                                 message = res.message
                             )
@@ -99,6 +102,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -107,6 +111,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 productList = res.data?.data ?: emptyList(),
                                 popularProductList = res.data?.data?.shuffled() ?: emptyList()
@@ -117,6 +122,7 @@ class HomeViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = false,
                                 message = res.message
                             )

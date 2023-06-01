@@ -1,6 +1,7 @@
 package com.example.lospibes.features.home.presentation.address.component
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -11,7 +12,8 @@ import com.example.lospibes.core.component.StandardCenterTopBar
 
 @Composable
 fun AddressTopBar(
-    onNavigateToProfile: () -> Unit
+    onNavigateToProfile: () -> Unit,
+    onNavigateToNewAddress: () -> Unit
 ) {
     StandardCenterTopBar(
         title = {
@@ -27,6 +29,16 @@ fun AddressTopBar(
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,
                     contentDescription = "Back Icon"
+                )
+            }
+        },
+        actions = {
+            IconButton(
+                onClick = onNavigateToNewAddress
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Add Icon"
                 )
             }
         }

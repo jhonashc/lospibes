@@ -29,6 +29,7 @@ class FavoriteViewModel @Inject constructor(
                     is NetworkResult.Loading -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = true
                             )
                         }
@@ -37,6 +38,7 @@ class FavoriteViewModel @Inject constructor(
                     is NetworkResult.Success -> {
                         _state.update {
                             it.copy(
+                                status = true,
                                 isLoading = false,
                                 favoriteProductList = res.data?.data ?: emptyList()
                             )
@@ -46,6 +48,7 @@ class FavoriteViewModel @Inject constructor(
                     is NetworkResult.Error -> {
                         _state.update {
                             it.copy(
+                                status = false,
                                 isLoading = false,
                                 message = res.message
                             )

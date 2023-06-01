@@ -28,7 +28,7 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.ProfileScreen.route,
+        startDestination = HomeDestinations.HomeScreen.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(
@@ -179,7 +179,7 @@ fun NavGraphBuilder.detailsNavGraph(
                 onNavigateToProfile = {
                     navController.popBackStack()
                 },
-                onNavigateToNew = {
+                onNavigateToNewAddress = {
                     navController.navigate(DetailsDestinations.NewAddressScreen.route)
                 },
                 onNavigateToDetails = { addressId ->
@@ -194,6 +194,7 @@ fun NavGraphBuilder.detailsNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
 
             AddressDetailScreen(
+                authViewModel = authViewModel,
                 onNavigateToAddresses = {
                     navController.popBackStack()
                 }
@@ -212,6 +213,7 @@ fun NavGraphBuilder.detailsNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
 
             AddressDetailScreen(
+                authViewModel = authViewModel,
                 onNavigateToAddresses = {
                     navController.popBackStack()
                 }

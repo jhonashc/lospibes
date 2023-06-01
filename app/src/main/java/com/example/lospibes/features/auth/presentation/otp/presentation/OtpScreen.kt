@@ -168,7 +168,7 @@ private fun Footer(
                 .fillMaxWidth()
                 .height(60.dp),
             enabled = !otpState.value.isLoading,
-            shape = MaterialTheme.shapes.extraSmall,
+            shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background

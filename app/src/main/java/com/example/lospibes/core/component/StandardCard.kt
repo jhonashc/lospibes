@@ -55,9 +55,8 @@ fun StandardCard(
         modifier = Modifier
             .width(180.dp)
             .height(265.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(MaterialTheme.shapes.medium)
             .clickable(onClick = onCardClick),
-        shape = MaterialTheme.shapes.small,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
@@ -145,7 +144,7 @@ fun StandardCard(
                     )
 
                     OutlinedIconButton(
-                        shape = MaterialTheme.shapes.extraSmall,
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = containerButtonColor,
                             contentColor = MaterialTheme.colorScheme.background
@@ -259,7 +258,7 @@ fun StandardColumCard(
                     )
 
                     OutlinedIconButton(
-                        shape = MaterialTheme.shapes.extraSmall,
+                        shape = MaterialTheme.shapes.extraLarge,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = containerButtonColor,
                             contentColor = MaterialTheme.colorScheme.background

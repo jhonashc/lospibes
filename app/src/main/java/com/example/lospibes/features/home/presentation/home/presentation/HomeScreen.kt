@@ -52,6 +52,7 @@ fun HomeScreen(
         }
     ) {
         StandardScrollableColumnContainer(
+            status = homeState.value.status,
             isLoading = homeState.value.isLoading,
             message = homeState.value.message
         ) {

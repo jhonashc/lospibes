@@ -13,6 +13,7 @@ import com.example.lospibes.core.component.StandardTextField
 @Composable
 fun NameTextField(
     value: String = "",
+    isError: Boolean = false,
     onValueChange: (newValue: String) -> Unit
 ) {
     StandardTextField(
@@ -20,11 +21,12 @@ fun NameTextField(
         value = value,
         singleLine = true,
         shape = MaterialTheme.shapes.extraSmall,
+        isError = isError,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next
         ),
-        placeholder = {
+        label = {
             Text(
                 text = "Dirección*",
                 style = MaterialTheme.typography.titleMedium

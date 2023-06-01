@@ -161,7 +161,7 @@ private fun Body(
                 .fillMaxWidth()
                 .height(60.dp),
             enabled = !registerState.value.isLoading,
-            shape = MaterialTheme.shapes.extraSmall,
+            shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.background
