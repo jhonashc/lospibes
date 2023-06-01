@@ -38,8 +38,8 @@ fun CartListItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             /* Image section */
@@ -52,7 +52,7 @@ fun CartListItem(
 
             Row(
                 modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 /* Info section */
@@ -69,8 +69,8 @@ fun CartListItem(
 
                     Text(
                         text = "$ ${formatNumber(cartItem.price)}",
-                        fontWeight = FontWeight.SemiBold,
-                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleSmall,
                         maxLines = 1
                     )
                 }
@@ -80,7 +80,8 @@ fun CartListItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedIconButton(
-                        shape = MaterialTheme.shapes.extraLarge,
+                        modifier = Modifier.size(40.dp),
+                        shape = MaterialTheme.shapes.extraSmall,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.background
@@ -92,7 +93,6 @@ fun CartListItem(
                         onClick = onSubtractQuantityClick
                     ) {
                         Icon(
-                            modifier = Modifier.size(20.dp),
                             painter = painterResource(
                                 id = R.drawable.baseline_remove_24
                             ),
@@ -101,13 +101,14 @@ fun CartListItem(
                     }
 
                     Text(
-                        modifier = Modifier.padding(horizontal = 7.dp),
+                        modifier = Modifier.padding(horizontal = 20.dp),
                         text = "${cartItem.quantity}",
                         style = MaterialTheme.typography.titleMedium
                     )
 
                     OutlinedIconButton(
-                        shape = MaterialTheme.shapes.extraLarge,
+                        modifier = Modifier.size(40.dp),
+                        shape = MaterialTheme.shapes.extraSmall,
                         colors = IconButtonDefaults.outlinedIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.background
@@ -119,7 +120,6 @@ fun CartListItem(
                         onClick = onAddQuantityClick
                     ) {
                         Icon(
-                            modifier = Modifier.size(20.dp),
                             painter = painterResource(
                                 id = R.drawable.baseline_add_24
                             ),

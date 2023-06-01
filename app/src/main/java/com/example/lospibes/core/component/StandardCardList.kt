@@ -50,6 +50,30 @@ fun StandardCardListRow(
 }
 
 @Composable
+fun StandardCardListColumn(
+    cardItemList: List<CardItem>,
+    cartItemList: List<CartItem> = listOf(),
+    onCardItemSelected: (selectedCardItem: CardItem) -> Unit,
+    onAddOrRemoveClick: (selectedCardItem: CardItem) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        cardItemList.subList(0, 5).forEach { cardItem ->
+            val isOnTheCart = cartItemList.indexOfFirst { it.id == cardItem.id }
+
+            StandardColumCard(
+                cardItem = cardItem,
+                isOnTheCart = isOnTheCart != -1,
+                onCardClick = { onCardItemSelected(cardItem) },
+                onAddOrRemoveClick = onAddOrRemoveClick
+            )
+        }
+    }
+}
+
+@Composable
 fun StandardCardListGrid(
     columns: Int = 2,
     cardItemList: List<CardItem>,

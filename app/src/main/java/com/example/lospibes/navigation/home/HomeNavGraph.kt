@@ -35,7 +35,6 @@ fun HomeNavGraph(
             scaffoldViewModel.onEvent(ScaffoldEvent.ShowBottomBar)
 
             HomeScreen(
-                authViewModel = authViewModel,
                 cartViewModel = cartViewModel,
                 onNavigateToExplore = { category ->
                     navController.navigate("explore_screen?category=${category}")

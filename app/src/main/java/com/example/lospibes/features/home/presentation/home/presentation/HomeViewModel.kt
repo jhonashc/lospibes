@@ -2,10 +2,8 @@ package com.example.lospibes.features.home.presentation.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.features.home.data.dto.query.GetAddressQueryDto
 import com.example.lospibes.features.home.data.dto.query.GetCategoriesQueryDto
 import com.example.lospibes.features.home.data.dto.query.GetProductsQueryDto
-import com.example.lospibes.features.home.domain.use_case.address.AddressUseCase
 import com.example.lospibes.features.home.domain.use_case.category.CategoryUseCase
 import com.example.lospibes.features.home.domain.use_case.product.ProductUseCase
 import com.example.lospibes.utils.NetworkResult
@@ -18,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val addressUseCase: AddressUseCase,
     private val categoryUseCase: CategoryUseCase,
     private val productUseCase: ProductUseCase
 ) : ViewModel() {
@@ -27,6 +24,14 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: HomeEvent) {
         when (event) {
+            is HomeEvent.EnteredCategory -> {
+                _state.update {
+                    it.copy(
+                        selectedTab = event.value
+                    )
+                }
+            }
+
             is HomeEvent.OnOpenBottomSheet -> {
                 _state.update {
                     it.copy(
@@ -40,46 +45,6 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         isOpenBottomSheet = false
                     )
-                }
-            }
-        }
-    }
-
-    fun getAddresses(
-        userId: String,
-        getAddressQueryDto: GetAddressQueryDto? = null
-    ) {
-        viewModelScope.launch {
-            addressUseCase.getAddresses(
-                userId = userId,
-                getAddressQueryDto = getAddressQueryDto
-            ).collect { res ->
-                when (res) {
-                    is NetworkResult.Loading -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = true
-                            )
-                        }
-                    }
-
-                    is NetworkResult.Success -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = false,
-                                addressList = res.data?.data ?: emptyList()
-                            )
-                        }
-                    }
-
-                    is NetworkResult.Error -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = false,
-                                message = res.message
-                            )
-                        }
-                    }
                 }
             }
         }
@@ -143,7 +108,8 @@ class HomeViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                productList = res.data?.data ?: emptyList()
+                                productList = res.data?.data ?: emptyList(),
+                                popularProductList = res.data?.data?.shuffled() ?: emptyList()
                             )
                         }
                     }

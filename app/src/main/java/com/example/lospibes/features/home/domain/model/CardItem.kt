@@ -5,7 +5,7 @@ data class CardItem(
     val name: String,
     val description: String? = null,
     val imageUrl: String? = null,
-    val price: Number
+    val price: Double
 )
 
 fun CardItem.toCartItem() = CartItem(

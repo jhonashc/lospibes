@@ -1,6 +1,5 @@
 package com.example.lospibes.core.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,17 +19,18 @@ fun StandardColumnContainer(
     message: String?,
     content: @Composable () -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
         if (isLoading) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
         }
 
         if (!isLoading && message != null) {
             Text(
+                modifier = Modifier.align(Alignment.Center),
                 text = message,
                 style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center
@@ -38,7 +38,13 @@ fun StandardColumnContainer(
         }
 
         if (!isLoading && message.isNullOrBlank()) {
-            content()
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .fillMaxSize()
+            ) {
+                content()
+            }
         }
     }
 }

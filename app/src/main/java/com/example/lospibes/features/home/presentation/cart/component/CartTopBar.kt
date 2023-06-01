@@ -16,7 +16,7 @@ fun CartTopBar(
     StandardCenterTopBar(
         title = {
             Text(
-                text = "Carrito",
+                text = "Cart",
                 style = MaterialTheme.typography.titleMedium
             )
         },
