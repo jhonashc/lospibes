@@ -23,10 +23,10 @@ fun StandardTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(0.dp),
-    label: @Composable() (() -> Unit)? = null,
-    placeholder: @Composable() (() -> Unit)? = null,
-    leadingIcon: @Composable() (() -> Unit)? = null,
-    trailingIcon: @Composable() (() -> Unit)? = null,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onValueChange: (newValue: String) -> Unit
 ) {
     val colors = TextFieldDefaults.colors(
@@ -39,6 +39,7 @@ fun StandardTextField(
         unfocusedLeadingIconColor = MaterialTheme.colorScheme.outline,
         focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
         unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline,
+        unfocusedIndicatorColor = MaterialTheme.colorScheme.outline
     )
 
     TextField(
@@ -74,10 +75,10 @@ fun StandardOutlinedTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     shape: Shape = RoundedCornerShape(0.dp),
-    label: @Composable() (() -> Unit)? = null,
-    placeholder: @Composable() (() -> Unit)? = null,
-    leadingIcon: @Composable() (() -> Unit)? = null,
-    trailingIcon: @Composable() (() -> Unit)? = null,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onValueChange: (newValue: String) -> Unit
 ) {
     val colors = TextFieldDefaults.colors(
@@ -90,6 +91,7 @@ fun StandardOutlinedTextField(
         unfocusedLeadingIconColor = MaterialTheme.colorScheme.outline,
         focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
         unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline,
+        unfocusedIndicatorColor = MaterialTheme.colorScheme.outline
     )
 
     OutlinedTextField(

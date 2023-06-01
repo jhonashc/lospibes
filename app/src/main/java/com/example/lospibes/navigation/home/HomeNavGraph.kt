@@ -13,6 +13,7 @@ import com.example.lospibes.features.home.presentation.explore.presentation.Expl
 import com.example.lospibes.features.home.presentation.favorite.presentation.FavoriteScreen
 import com.example.lospibes.features.home.presentation.home.presentation.HomeScreen
 import com.example.lospibes.features.home.presentation.profile.presentation.ProfileScreen
+import com.example.lospibes.features.home.presentation.profile_detail.presentation.ProfileDetailScreen
 import com.example.lospibes.features.home.view_model.cart.CartViewModel
 import com.example.lospibes.features.home.view_model.scaffold.ScaffoldEvent
 import com.example.lospibes.features.home.view_model.scaffold.ScaffoldViewModel
@@ -28,7 +29,7 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.HomeScreen.route,
+        startDestination = HomeDestinations.ProfileScreen.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(
@@ -121,8 +122,11 @@ fun HomeNavGraph(
                 onNavigateToHome = {
                     navController.navigate(HomeDestinations.HomeScreen.route)
                 },
-                onNavigateTo = { route ->
+                onNavigateToSection = { route ->
                     navController.navigate(route)
+                },
+                onNavigateToProfileDetails = {
+                    navController.navigate(DetailsDestinations.ProfileDetailsScreen.route)
                 }
             )
         }
@@ -165,6 +169,19 @@ fun NavGraphBuilder.detailsNavGraph(
                 },
                 onNavigateToDetails = { productId ->
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
+                }
+            )
+        }
+
+        composable(
+            route = DetailsDestinations.ProfileDetailsScreen.route
+        ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
+
+            ProfileDetailScreen(
+                authViewModel = authViewModel,
+                onNavigateToProfile = {
+                    navController.popBackStack()
                 }
             )
         }

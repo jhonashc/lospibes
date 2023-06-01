@@ -1,4 +1,4 @@
-package com.example.lospibes.features.home.presentation.address_detail.component
+package com.example.lospibes.features.home.presentation.profile_detail.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,7 +11,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.lospibes.core.component.StandardTextField
 
 @Composable
-fun DeliveryInstructionTextField(
+fun UsernameTextField(
     value: String = "",
     isError: Boolean = false,
     onValueChange: (newValue: String) -> Unit
@@ -24,11 +24,11 @@ fun DeliveryInstructionTextField(
         isError = isError,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Next
         ),
         label = {
             Text(
-                text = "Indicaciones para la entrega*",
+                text = "Nombre de usuario*",
                 style = MaterialTheme.typography.titleMedium
             )
         },

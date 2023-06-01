@@ -1,7 +1,6 @@
-package com.example.lospibes.features.home.presentation.profile.component
+package com.example.lospibes.features.home.presentation.profile_detail.component
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -11,34 +10,23 @@ import androidx.compose.runtime.Composable
 import com.example.lospibes.core.component.StandardCenterTopBar
 
 @Composable
-fun ProfileTopBar(
-    onNavigateToHome: () -> Unit,
-    onNavigateToProfileDetails: () -> Unit
+fun ProfileDetailTopBar(
+    onNavigateToProfile: () -> Unit
 ) {
     StandardCenterTopBar(
         title = {
             Text(
-                text = "Perfil",
+                text = "Editar perfil",
                 style = MaterialTheme.typography.titleMedium
             )
         },
         navigationIcon = {
             IconButton(
-                onClick = onNavigateToHome
+                onClick = onNavigateToProfile
             ) {
                 Icon(
                     imageVector = Icons.Outlined.ArrowBack,
                     contentDescription = "Back Icon"
-                )
-            }
-        },
-        actions = {
-            IconButton(
-                onClick = onNavigateToProfileDetails
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = "Edit Icon"
                 )
             }
         }

@@ -34,7 +34,8 @@ fun ProfileScreen(
     authViewModel: AuthViewModel,
     profileViewModel: ProfileViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
-    onNavigateTo: (route: String) -> Unit
+    onNavigateToProfileDetails: () -> Unit,
+    onNavigateToSection: (route: String) -> Unit
 ) {
     val authState = authViewModel.state.collectAsState()
     val profileState = profileViewModel.state.collectAsState()
@@ -53,7 +54,8 @@ fun ProfileScreen(
         StandardScaffold(
             topAppBar = {
                 Header(
-                    onNavigateToHome = onNavigateToHome
+                    onNavigateToHome = onNavigateToHome,
+                    onNavigateToProfileDetails = onNavigateToProfileDetails
                 )
             }
         ) {
@@ -66,7 +68,7 @@ fun ProfileScreen(
                 ) {
                     Body(
                         profileViewModel = profileViewModel,
-                        onNavigateTo = onNavigateTo
+                        onNavigateToSection = onNavigateToSection
                     )
 
                     Footer(
@@ -80,17 +82,19 @@ fun ProfileScreen(
 
 @Composable
 private fun Header(
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToProfileDetails: () -> Unit
 ) {
     ProfileTopBar(
-        onNavigateToHome = onNavigateToHome
+        onNavigateToHome = onNavigateToHome,
+        onNavigateToProfileDetails = onNavigateToProfileDetails
     )
 }
 
 @Composable
 private fun Body(
     profileViewModel: ProfileViewModel,
-    onNavigateTo: (route: String) -> Unit
+    onNavigateToSection: (route: String) -> Unit
 ) {
     val profileState = profileViewModel.state.collectAsState()
 
@@ -104,7 +108,7 @@ private fun Body(
         Spacer(modifier = Modifier.height(26.dp))
 
         SettingSection(
-            onNavigateTo = onNavigateTo
+            onNavigateToSection = onNavigateToSection
         )
 
         Spacer(modifier = Modifier.height(26.dp))
@@ -144,9 +148,11 @@ fun DetailSection(
             maxLines = 1
         )
 
+        Spacer(modifier = Modifier.height(4.dp))
+
         Text(
             text = user.email,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.outline,
@@ -157,20 +163,11 @@ fun DetailSection(
 
 @Composable
 private fun SettingSection(
-    onNavigateTo: (route: String) -> Unit
+    onNavigateToSection: (route: String) -> Unit
 ) {
     val sectionList: List<SectionItem> = listOf(
         SectionItem(
-            name = "Mis órdenes",
-            description = "Información sobre las órdenes",
-            route = DetailsDestinations.OrdersScreen.route,
-            icon = painterResource(
-                id = R.drawable.baseline_article_24
-            )
-        ),
-        SectionItem(
             name = "Mis direcciones",
-            description = "Current address here!",
             route = DetailsDestinations.AddressesScreen.route,
             icon = painterResource(
                 id = R.drawable.baseline_location_on_24
@@ -184,7 +181,7 @@ private fun SettingSection(
         SectionList(
             sectionList = sectionList,
             onSectionSelected = { selectedSectionItem ->
-                onNavigateTo(selectedSectionItem.route)
+                onNavigateToSection(selectedSectionItem.route)
             }
         )
     }

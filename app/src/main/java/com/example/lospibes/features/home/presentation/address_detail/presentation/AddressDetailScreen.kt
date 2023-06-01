@@ -3,13 +3,14 @@ package com.example.lospibes.features.home.presentation.address_detail.presentat
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,11 +21,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.lospibes.core.component.StandardColumnContainer
 import com.example.lospibes.core.component.StandardScaffold
-import com.example.lospibes.core.component.StandardScrollableColumnContainer
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.presentation.address_detail.component.AddressDetailTopBar
-import com.example.lospibes.features.home.presentation.address_detail.component.AddressReferenceTextField
+import com.example.lospibes.features.home.presentation.address_detail.component.DeliveryInstructionTextField
 import com.example.lospibes.features.home.presentation.address_detail.component.NameTextField
 import com.example.lospibes.features.home.presentation.address_detail.component.SideStreetTextField
 
@@ -71,7 +72,7 @@ fun AddressDetailScreen(
             )
         }
     ) {
-        StandardScrollableColumnContainer(
+        StandardColumnContainer(
             status = addressDetailState.value.status,
             isLoading = addressDetailState.value.isLoading,
             message = addressDetailState.value.message
@@ -85,8 +86,6 @@ fun AddressDetailScreen(
                 Body(
                     addressDetailViewModel = addressDetailViewModel
                 )
-
-                Spacer(modifier = Modifier.height(35.dp))
 
                 Footer(
                     authViewModel = authViewModel,
@@ -141,13 +140,10 @@ private fun Body(
 }
 
 @Composable
-fun DetailSection(
+private fun DetailSection(
     addressDetailViewModel: AddressDetailViewModel
 ) {
     val addressDetailState = addressDetailViewModel.state.collectAsState()
-
-    val isError = !addressDetailState.value.status &&
-            addressDetailState.value.message != null
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -155,7 +151,6 @@ fun DetailSection(
     ) {
         NameTextField(
             value = addressDetailState.value.name,
-            isError = isError,
             onValueChange = {
                 addressDetailViewModel.onEvent(AddressDetailEvent.EnteredName(it))
             }
@@ -163,15 +158,13 @@ fun DetailSection(
 
         SideStreetTextField(
             value = addressDetailState.value.sideStreet,
-            isError = isError,
             onValueChange = {
                 addressDetailViewModel.onEvent(AddressDetailEvent.EnteredSideStreet(it))
             }
         )
 
-        AddressReferenceTextField(
+        DeliveryInstructionTextField(
             value = addressDetailState.value.deliveryInstruction,
-            isError = isError,
             onValueChange = {
                 addressDetailViewModel.onEvent(AddressDetailEvent.EnteredDeliveryInstruction(it))
             }
@@ -194,6 +187,7 @@ private fun Footer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
+            enabled = !addressDetailState.value.isLoading,
             shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -212,11 +206,20 @@ private fun Footer(
                 }
             }
         ) {
-            Text(
-                text = "Guardar",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
+            if (addressDetailState.value.isLoading) {
+                if (addressDetailState.value.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(25.dp),
+                        color = MaterialTheme.colorScheme.background
+                    )
+                }
+            } else {
+                Text(
+                    text = "Guardar",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
