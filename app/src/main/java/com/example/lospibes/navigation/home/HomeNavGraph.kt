@@ -5,6 +5,8 @@ import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.lospibes.core.view_model.auth.AuthViewModel
+import com.example.lospibes.features.home.presentation.address.presentation.AddressScreen
+import com.example.lospibes.features.home.presentation.address_detail.presentation.AddressDetailScreen
 import com.example.lospibes.features.home.presentation.cart.presentation.CartScreen
 import com.example.lospibes.features.home.presentation.product.presentation.ProductScreen
 import com.example.lospibes.features.home.presentation.explore.presentation.ExploreScreen
@@ -26,7 +28,7 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.HomeScreen.route,
+        startDestination = HomeDestinations.ProfileScreen.route,
         route = HOME_GRAPH_ROUTE
     ) {
         composable(
@@ -118,6 +120,9 @@ fun HomeNavGraph(
                 authViewModel = authViewModel,
                 onNavigateToHome = {
                     navController.navigate(HomeDestinations.HomeScreen.route)
+                },
+                onNavigateTo = { route ->
+                    navController.navigate(route)
                 }
             )
         }
@@ -160,6 +165,55 @@ fun NavGraphBuilder.detailsNavGraph(
                 },
                 onNavigateToDetails = { productId ->
                     navController.navigate("${DetailsDestinations.ProductDetailsScreen.route}/${productId}")
+                }
+            )
+        }
+
+        composable(
+            route = DetailsDestinations.AddressesScreen.route
+        ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
+
+            AddressScreen(
+                authViewModel = authViewModel,
+                onNavigateToProfile = {
+                    navController.popBackStack()
+                },
+                onNavigateToNew = {
+                    navController.navigate(DetailsDestinations.NewAddressScreen.route)
+                },
+                onNavigateToDetails = { addressId ->
+                    navController.navigate("${DetailsDestinations.AddressDetailsScreen.route}/${addressId}")
+                }
+            )
+        }
+
+        composable(
+            route = DetailsDestinations.NewAddressScreen.route
+        ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
+
+            AddressDetailScreen(
+                onNavigateToAddresses = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = "${DetailsDestinations.AddressDetailsScreen.route}/{addressId}",
+            arguments = listOf(
+                navArgument("addressId") {
+                    defaultValue = ""
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            scaffoldViewModel.onEvent(ScaffoldEvent.HideBottomBar)
+
+            AddressDetailScreen(
+                onNavigateToAddresses = {
+                    navController.popBackStack()
                 }
             )
         }

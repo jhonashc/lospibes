@@ -23,8 +23,8 @@ fun StandardTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(0.dp),
     placeholder: @Composable () -> Unit = {},
-    leadingIcon: @Composable () -> Unit = {},
-    trailingIcon: @Composable () -> Unit = {},
+    leadingIcon: @Composable() (() -> Unit)? = null,
+    trailingIcon: @Composable() (() -> Unit)? = null,
     onValueChange: (newValue: String) -> Unit
 ) {
     val colors = TextFieldDefaults.colors(
@@ -70,8 +70,8 @@ fun StandardOutlinedTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     shape: Shape = RoundedCornerShape(0.dp),
     placeholder: @Composable () -> Unit = {},
-    leadingIcon: @Composable () -> Unit = {},
-    trailingIcon: @Composable () -> Unit = {},
+    leadingIcon: @Composable() (() -> Unit)? = null,
+    trailingIcon: @Composable() (() -> Unit)? = null,
     onValueChange: (newValue: String) -> Unit
 ) {
     val colors = TextFieldDefaults.colors(
@@ -84,8 +84,7 @@ fun StandardOutlinedTextField(
         unfocusedLeadingIconColor = MaterialTheme.colorScheme.outline,
         focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
         unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline,
-
-        )
+    )
 
     OutlinedTextField(
         modifier = modifier,

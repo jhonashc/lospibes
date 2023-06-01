@@ -44,6 +44,8 @@ fun SectionItem(
                     maxLines = 1
                 )
 
+                Spacer(modifier = Modifier.height(6.dp))
+
                 Text(
                     text = sectionItem.description,
                     style = MaterialTheme.typography.titleSmall,

@@ -26,13 +26,15 @@ import com.example.lospibes.core.domain.model.User
 import com.example.lospibes.core.view_model.auth.AuthEvent
 import com.example.lospibes.core.view_model.auth.AuthViewModel
 import com.example.lospibes.features.home.presentation.profile.component.ProfileTopBar
+import com.example.lospibes.navigation.home.DetailsDestinations
 import com.example.lospibes.utils.capitalizeText
 
 @Composable
 fun ProfileScreen(
     authViewModel: AuthViewModel,
     profileViewModel: ProfileViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateTo: (route: String) -> Unit
 ) {
     val authState = authViewModel.state.collectAsState()
     val profileState = profileViewModel.state.collectAsState()
@@ -63,7 +65,8 @@ fun ProfileScreen(
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Body(
-                        profileViewModel = profileViewModel
+                        profileViewModel = profileViewModel,
+                        onNavigateTo = onNavigateTo
                     )
 
                     Footer(
@@ -86,7 +89,8 @@ private fun Header(
 
 @Composable
 private fun Body(
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    onNavigateTo: (route: String) -> Unit
 ) {
     val profileState = profileViewModel.state.collectAsState()
 
@@ -99,7 +103,9 @@ private fun Body(
 
         Spacer(modifier = Modifier.height(26.dp))
 
-        SettingSection()
+        SettingSection(
+            onNavigateTo = onNavigateTo
+        )
 
         Spacer(modifier = Modifier.height(26.dp))
     }
@@ -150,38 +156,24 @@ fun DetailSection(
 }
 
 @Composable
-private fun SettingSection() {
+private fun SettingSection(
+    onNavigateTo: (route: String) -> Unit
+) {
     val sectionList: List<SectionItem> = listOf(
         SectionItem(
             name = "Mis órdenes",
             description = "Información sobre las órdenes",
-            route = "",
+            route = DetailsDestinations.OrdersScreen.route,
             icon = painterResource(
                 id = R.drawable.baseline_article_24
             )
         ),
         SectionItem(
-            name = "Métodos de pago",
-            description = "Efectivo",
-            route = "",
-            icon = painterResource(
-                id = R.drawable.baseline_payment_24
-            )
-        ),
-        SectionItem(
-            name = "Direcciones de envío",
-            description = "2009, Robert Browning St, Mosaic at Monastery",
-            route = "",
+            name = "Mis direcciones",
+            description = "Current address here!",
+            route = DetailsDestinations.AddressesScreen.route,
             icon = painterResource(
                 id = R.drawable.baseline_location_on_24
-            )
-        ),
-        SectionItem(
-            name = "Notificaciones",
-            description = "Order #3 Pending",
-            route = "",
-            icon = painterResource(
-                id = R.drawable.baseline_notifications_24
             )
         )
     )
@@ -191,7 +183,9 @@ private fun SettingSection() {
     ) {
         SectionList(
             sectionList = sectionList,
-            onSectionSelected = {}
+            onSectionSelected = { selectedSectionItem ->
+                onNavigateTo(selectedSectionItem.route)
+            }
         )
     }
 }

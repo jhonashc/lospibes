@@ -30,7 +30,9 @@ class AddressManagerRepositoryImpl @Inject constructor(
             .map { preferences ->
                 Address(
                     id = preferences[PreferencesKeys.ADDRESS_ID_KEY] ?: "",
-                    name = preferences[PreferencesKeys.ADDRESS_NAME_KEY] ?: ""
+                    name = preferences[PreferencesKeys.ADDRESS_NAME_KEY] ?: "",
+                    sideStreet = "",
+                    deliveryInstruction = ""
                 )
             }.flowOn(Dispatchers.IO)
     }

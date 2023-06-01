@@ -1,8 +1,11 @@
 package com.example.lospibes.core.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -55,33 +58,36 @@ fun StandardScrollableColumnContainer(
     message: String?,
     content: @Composable () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
+    BoxWithConstraints {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
 
-        if (!isLoading && message != null) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = message,
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center
-            )
-        }
+            if (!isLoading && message != null) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = message,
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center
+                )
+            }
 
-        if (!isLoading && message.isNullOrBlank()) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .fillMaxSize()
-            ) {
-                content()
+            if (!isLoading && message.isNullOrBlank()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(this@BoxWithConstraints.maxHeight)
+                        .align(Alignment.TopStart)
+                ) {
+                    content()
+                }
             }
         }
     }
