@@ -16,5 +16,6 @@ object Constants {
     const val USERS = "users"
 
     /* DataStore */
+    const val ADDRESS_PREFERENCES = "ADDRESS_PREFERENCES"
     const val AUTH_PREFERENCES = "AUTH_PREFERENCES"
 }

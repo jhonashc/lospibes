@@ -2,7 +2,7 @@ package com.example.lospibes.core.view_model.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lospibes.core.domain.use_case.auth_preference.AuthPreferenceUseCase
+import com.example.lospibes.core.domain.use_case.preference.auth.AuthManagerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authPreferenceUseCase: AuthPreferenceUseCase
+    private val authManagerUseCase: AuthManagerUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
@@ -27,7 +27,7 @@ class AuthViewModel @Inject constructor(
         when (event) {
             is AuthEvent.GetAuthState -> {
                 viewModelScope.launch {
-                    authPreferenceUseCase.getAuthPreferenceUseCase()
+                    authManagerUseCase.getAuthManager()
                         .onStart {
                             _state.update {
                                 it.copy(
@@ -66,7 +66,7 @@ class AuthViewModel @Inject constructor(
                         )
                     }
 
-                    authPreferenceUseCase.setAuthPreference(
+                    authManagerUseCase.setAuthManager(
                         auth = event.value
                     )
                 }
@@ -80,7 +80,7 @@ class AuthViewModel @Inject constructor(
                         )
                     }
 
-                    authPreferenceUseCase.deleteAuthPreference()
+                    authManagerUseCase.deleteAuthManager()
                 }
             }
         }
